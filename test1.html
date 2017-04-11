@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"
+  />
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <script src="node_modules/tween.js/src/Tween.js"></script>
+</head>
+
+<body>
+		<div id="app">
+			<input type="number" v-model.number="num" step="10" class="form-control">
+            <p class="text-success">{{animatedNumber}}</p>
+		</div>
+
+		<script>
+			var demo = new Vue({
+				el: '#app',
+				data: {
+					num:0,
+                    animatedNumber:0
+				},
+				watch: {
+                    num:function(newValue,oldValue){
+                        var vm = this;
+                        function animate(time){
+                            requestAnimationFrame(animate);
+                            TWEEN.update(time);
+                        }
+                        new TWEEN.Tween({tweeningNumber:oldValue})
+                        .easing(TWEEN.Easing.Quadratic.Out)
+                        .to({tweeningNumber:newValue},500)
+                        .onUpdate(function(){
+                            vm.animatedNumber = this.tweeningNumber.toFixed(0)
+                        })
+                        .start();
+                        animate();
+                    }
+				}
+			})
+		</script>
+	</body>
+</html>

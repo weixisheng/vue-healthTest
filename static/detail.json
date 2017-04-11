@@ -1,0 +1,226 @@
+{
+  "data": {
+    "paperCode": "JKCSPFCS",
+    "paperName": "皮肤测试",
+    "desc": "通过回答这部分的问题可以准确分析皮肤的含水状况和出油程度。别让自己的那些成见或其他的想法影响你的回答，只要根据实际情况来选择就对了。",
+    "submitMsg": "问卷提交成功！",
+    "paperItems": [{
+      "id": 253,
+      "question": "睡觉醒来，皮肤出油多吗？",
+      "questionType": "single",
+      "questionImg": "https://dn-infinitus-mln-test.qbox.me/FrVomi0CdRmQoa1MKl_eQvfuP5SA?e=1491560145&token=suo1ukbAmDT0jfrqSXixa7-kj1zagHn9OOUc9JDE:3UtbSxFjzyPnq-8o3b5IgPPO70E=",
+      "illustrate": "皮肤测试",
+      "fill": false,
+      "items": [{
+        "option": "A",
+        "img": null,
+        "content": "油挺多，满脸都有出油 ",
+        "chooseTime": null
+      }, {
+        "option": "B",
+        "img": null,
+        "content": "额头、鼻子出油多，脸颊不油 ",
+        "chooseTime": null
+      }, {
+        "option": "C",
+        "img": null,
+        "content": "有些油，但不算很多 ",
+        "chooseTime": null
+      }, {
+        "option": "D",
+        "img": null,
+        "content": "没什么油",
+        "chooseTime": null
+      }],
+      "answer": null,
+      "custom": null,
+      "totalChoose": null
+    }, {
+      "id": 254,
+      "question": "洗完脸一个小时左右，在不用护肤品的情况下，你的脸部肌肤会？",
+      "questionType": "single",
+      "questionImg": "https://dn-infinitus-mln-test.qbox.me/FoDb2LzRYiqzYg2EerTnYG2gsgW3?e=1491560145&token=suo1ukbAmDT0jfrqSXixa7-kj1zagHn9OOUc9JDE:aUWBtyDD_-pdCSXJZl2SmaJCtmw=",
+      "illustrate": "皮肤测试",
+      "fill": false,
+      "items": [{
+        "option": "A",
+        "img": null,
+        "content": "用手触摸全脸油腻",
+        "chooseTime": null
+      }, {
+        "option": "B",
+        "img": null,
+        "content": "脸颊有点紧绷，鼻子、额头有些油腻 ",
+        "chooseTime": null
+      }, {
+        "option": "C",
+        "img": null,
+        "content": "用手触摸湿润有弹性 ",
+        "chooseTime": null
+      }, {
+        "option": "D",
+        "img": null,
+        "content": "肌肤紧绷，甚至出现脱皮现象 ",
+        "chooseTime": null
+      }],
+      "answer": null,
+      "custom": null,
+      "totalChoose": null
+    }, {
+      "id": 255,
+      "question": "如何形容你脸部的毛孔状况？",
+      "questionType": "single",
+      "questionImg": "https://dn-infinitus-mln-test.qbox.me/FiZvHzSOg22msr5HiE1yX9B1iAAN?e=1491560145&token=suo1ukbAmDT0jfrqSXixa7-kj1zagHn9OOUc9JDE:O2jiRMKpLoGfF5B-0G5vbcauQFU=",
+      "illustrate": "皮肤测试",
+      "fill": false,
+      "items": [{
+        "option": "A",
+        "img": null,
+        "content": "大部分区域都很明显 ",
+        "chooseTime": null
+      }, {
+        "option": "B",
+        "img": null,
+        "content": "脸部的额头、鼻子、下巴特别明显",
+        "chooseTime": null
+      }, {
+        "option": "C",
+        "img": null,
+        "content": "肌肤细腻，有光泽",
+        "chooseTime": null
+      }, {
+        "option": "D",
+        "img": null,
+        "content": "肌肤细腻，无光泽",
+        "chooseTime": null
+      }],
+      "answer": null,
+      "custom": null,
+      "totalChoose": null
+    }, {
+      "id": 256,
+      "question": "我的肌肤是属于什么年龄阶段？",
+      "questionType": "single",
+      "questionImg": "https://dn-infinitus-mln-test.qbox.me/FuYzIU0d-ILKDjygie3fRo9HOAjP?e=1491560145&token=suo1ukbAmDT0jfrqSXixa7-kj1zagHn9OOUc9JDE:5-tNiTuF0iRZHMqPYVZH77Ew1mo=",
+      "illustrate": "皮肤测试",
+      "fill": false,
+      "items": [{
+        "option": "A",
+        "img": null,
+        "content": "皱纹不易察觉，但是肌肤粗糙",
+        "chooseTime": null
+      }, {
+        "option": "B",
+        "img": null,
+        "content": "微笑时会出现细纹",
+        "chooseTime": null
+      }, {
+        "option": "C",
+        "img": null,
+        "content": "皱纹不易察觉",
+        "chooseTime": null
+      }, {
+        "option": "D",
+        "img": null,
+        "content": "即使面无表情，也有明显的皱纹 ",
+        "chooseTime": null
+      }],
+      "answer": null,
+      "custom": null,
+      "totalChoose": null
+    }, {
+      "id": 257,
+      "question": "是否受到痘痘或者粉刺的困扰？",
+      "questionType": "single",
+      "questionImg": "https://dn-infinitus-mln-test.qbox.me/Foah5MjcfzOm37sOQjzWyDkPWWdX?e=1491560145&token=suo1ukbAmDT0jfrqSXixa7-kj1zagHn9OOUc9JDE:RRWQ1CkKnsQvr7zfS0i7uORjAgg=",
+      "illustrate": "皮肤测试",
+      "fill": false,
+      "items": [{
+        "option": "A",
+        "img": null,
+        "content": "满脸经常长痘痘",
+        "chooseTime": null
+      }, {
+        "option": "B",
+        "img": null,
+        "content": "痘痘长在额头、鼻子、下巴、嘴角周围 ",
+        "chooseTime": null
+      }, {
+        "option": "C",
+        "img": null,
+        "content": "偶尔长痘痘",
+        "chooseTime": null
+      }, {
+        "option": "D",
+        "img": null,
+        "content": "不长痘痘 ",
+        "chooseTime": null
+      }],
+      "answer": null,
+      "custom": null,
+      "totalChoose": null
+    }, {
+      "id": 258,
+      "question": "T区（前额和鼻子一带）出油吗？",
+      "questionType": "single",
+      "questionImg": "https://dn-infinitus-mln-test.qbox.me/FkYXGrLO7sdC7T7tjPjuI_J8jPpr?e=1491560145&token=suo1ukbAmDT0jfrqSXixa7-kj1zagHn9OOUc9JDE:gKF36-Ij_sITbzrgr_YYUUi2Umc=",
+      "illustrate": "皮肤测试",
+      "fill": false,
+      "items": [{
+        "option": "A",
+        "img": null,
+        "content": "总是油油的 ",
+        "chooseTime": null
+      }, {
+        "option": "B",
+        "img": null,
+        "content": "经常有出油现象 ",
+        "chooseTime": null
+      }, {
+        "option": "C",
+        "img": null,
+        "content": "有时有出油现象 ",
+        "chooseTime": null
+      }, {
+        "option": "D",
+        "img": null,
+        "content": "从来没有有光 ",
+        "chooseTime": null
+      }],
+      "answer": null,
+      "custom": null,
+      "totalChoose": null
+    }, {
+      "id": 259,
+      "question": "上妆或者使用粉底，但是不涂散粉，2-3小时后，你的妆容看起来？",
+      "questionType": "single",
+      "questionImg": "https://dn-infinitus-mln-test.qbox.me/FtPFUvq3ayPTyY6LhHOi6RM7ZEFW?e=1491560145&token=suo1ukbAmDT0jfrqSXixa7-kj1zagHn9OOUc9JDE:FiPY0yx3r_BDVu7XUyo2YnN98Os=",
+      "illustrate": "皮肤测试",
+      "fill": false,
+      "items": [{
+        "option": "A",
+        "img": null,
+        "content": "出现条纹并且油亮 ",
+        "chooseTime": null
+      }, {
+        "option": "B",
+        "img": null,
+        "content": "额头、鼻子和下巴出现油亮",
+        "chooseTime": null
+      }, {
+        "option": "C",
+        "img": null,
+        "content": "光滑",
+        "chooseTime": null
+      }, {
+        "option": "D",
+        "img": null,
+        "content": "出现皮屑，有的粉底在皱纹里结成小块",
+        "chooseTime": null
+      }],
+      "answer": null,
+      "custom": null,
+      "totalChoose": null
+    }]
+  }
+}
