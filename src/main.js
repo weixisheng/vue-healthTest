@@ -4,29 +4,9 @@ import Vue from 'vue'
 import FastClick from 'fastclick'
 import VueRouter from 'vue-router'
 import App from './App'
-// import main from './components/main'
-// import start from './components/start'
-// import result from './components/result'
+
 import router from "./router/"
 Vue.use(VueRouter)
-
-// const routes = [{
-//   path: '/',
-//   component: main
-// },
-// {
-//   path: '/start',
-//   component: start
-// },
-// {
-//   path: '/result',
-//   component: result
-// }
-// ]
-
-// const router = new VueRouter({
-//   routes
-// })
 
 FastClick.attach(document.body)
 

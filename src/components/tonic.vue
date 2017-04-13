@@ -11,14 +11,21 @@
                 <span :class="[new1?newClass:'hidden']">新</span>
                 <span>{{productFullName}}</span>
             </div>
-            <p class="product-price">
-                <span class="v-red">优￥{{productPrice}}</span>
-                <span class="fr v-blue">零￥{{productRetailPrice}}</span>
-            </p>
+            <div class="product-price clearfix">
+                <div class="fl v-red">
+                <animated-integer :value="productPrice"></animated-integer>
+                </div>
+                <div class="fr v-blue">
+                <animated-integer :value="productRetailPrice"></animated-integer>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 <script>
+
+import animatedInteger from './animatedInteger'
+
 export default {
     props: {
         src: {
@@ -41,6 +48,7 @@ export default {
         productPrice:Number,
         productRetailPrice:Number
     },
+    components:{animatedInteger},
     data() {
         return {
             hotClass: 'v-product-tag  v-bg-red',

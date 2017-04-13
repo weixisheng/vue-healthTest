@@ -1,25 +1,32 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import main from 'components/main'
-import start from 'components/start'
-import result from 'components/result'
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [{
-      path: '/',
-      component: main
+  routes: [
+    {
+      path:'/index',
+      component:require('../components/index')
+    },
+    {
+      path: '/main',
+      name:'main',
+      component: require('../components/main')
     },
     {
       path: '/start',
       name: 'start',
-      component: start
+      component: require('../components/start')
     },
     {
       path: '/result',
       name: 'result',
-      component: result
+      component: require('../components/result')
+    },{
+        path: '*',
+        redirect: '/index'
     }
+
   ]
 })

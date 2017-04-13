@@ -72,6 +72,7 @@
     "vue-resource": "^1.2.1",
     "vue-style-loader": "^2.0.0",
     "vue-template-compiler": "^2.1.10",
+    "vux": "^2.2.0",
     "vux-loader": "^1.0.24",
     "webpack": "^2.2.1",
     "webpack-bundle-analyzer": "^2.2.1",

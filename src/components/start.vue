@@ -19,8 +19,8 @@
          v-for="(paperItem,index) in paperItems"
          :class="[{hidden:hidden}]">
       <h3 class="quest-title v-gray v-fz-16">
-                    {{index + 1}}.{{paperItem.question}}
-              </h3>
+                      {{index + 1}}.{{paperItem.question}}
+                </h3>
       <div v-for="ele in paperItem.items"
            class="quest-answer radio radio-primary clearfix">
         <input type="radio"
@@ -92,8 +92,8 @@ export default {
       }
       tick(0, (percent) => {
         if (percent === 100) {
-          this.showLoading = false
-      this.hidden = false;          
+          this.showLoading = false;
+          this.hidden = false;
           return
         }
         this.loadingText = `${percent}%`
@@ -121,7 +121,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang = "less" scoped>
-@import '~vux/src/styles/common.less';
+
 .test-home {
   padding: 0 4% 4%;
 }
