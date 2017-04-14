@@ -28,3 +28,14 @@ npm test
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+> webpack.config.dev.js
+```
+new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
+      favicon: 'favicon.ico',//网页添加小图标
+      inject: true
+    })
+```
