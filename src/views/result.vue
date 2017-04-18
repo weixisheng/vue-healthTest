@@ -5,8 +5,8 @@
                 <div class="v-cen">
                     <p class="v-fz-11">您的肤质为</p>
                     <h1 class="v-fz-18">
-                                                    {{testResult}}
-                                                </h1>
+                                                                            {{testResult}}
+                                                                        </h1>
                 </div>
             </div>
         </div>
@@ -31,7 +31,8 @@
                            :new1="w.new"
                            :product-full-name="w.productFullName"
                            :product-price="w.productPrice"
-                           :product-retail-price="w.productRetailPrice"></tonic>
+                           :product-retail-price="w.productRetailPrice"
+                           @cart-num='cartNum'></tonic>
                 </div>
                 <div class="dry hidden">
                     <tonic v-for="d in dryProduct"
@@ -41,19 +42,30 @@
                            :new1="d.new"
                            :product-full-name="d.productFullName"
                            :product-price="d.productPrice"
-                           :product-retail-price="d.productRetailPrice"></tonic>
+                           :product-retail-price="d.productRetailPrice"
+                           @cart-num='cartNum'></tonic>
                 </div>
             </div>
+        </div>
+        <div class="shopping-cart-right">
+            <i class="fa fa-cart-arrow-down"></i>
+            <span class="cart-count"
+                  v-show="cartCount">{{cartCount}}</span>
         </div>
     </div>
 </template>
 <script>
 import axios from 'axios'
-import tonic from './tonic'
+import tonic from '../components/tonic'
+import { mapState, mapMutations } from 'vuex'
 export default {
     name: "result",
     components: {
         tonic
+    },
+    computed: {
+        ...mapState(['cartCount']),
+        ...mapMutations(['setCartCount', 'setPageTitle'])
     },
     data() {
         return {
@@ -64,6 +76,7 @@ export default {
         }
     },
     created: function () {
+        this.$store.commit('setPageTitle', '测试结果')
         let self = this;
         axios.get('./static/recommend.json')
             .then((response) => {
@@ -119,18 +132,20 @@ export default {
                 "-webkit-transform": "translateX(" + l + "px)",
                 "transform": "translateX(" + l + "px)"
             });
-
+        },
+        cartNum() {
+            var c = document.querySelector('.cart-count');
+            
+                c.classList.add('bounce');
+                setTimeout(()=>{
+                    c.classList.remove('bounce');
+                },1500);
         }
     }
-
 }
 </script>
 
 <style lang="less" scoped>
-.container {
-    padding: 10px;
-}
-
 .result-container {
     margin: 10px;
     padding: 4% 0;
@@ -190,5 +205,49 @@ export default {
     transition: all .5s;
     border-radius: 1px;
     background: #e4bb91;
+}
+
+.shopping-cart-right {
+    position: fixed;
+    right: .4rem;
+    bottom: 2rem;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    border-radius: 50%;
+    background: rgba(31, 25, 25, 0.7);
+    color: #fff;
+    font-size: 1rem;
+    span {
+        position: absolute;
+        top: -4px;
+        right: 1px;
+        width: 22px;
+        height: 22px;
+        line-height: 20px;
+        text-align: center;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        font-size: 8px;
+        color: #fff;
+        background: rgba(31, 25, 25, 0.7);
+    }
+}
+
+.bounce {
+    animation: bounce 0.5s 3;
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(.8);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 </style>

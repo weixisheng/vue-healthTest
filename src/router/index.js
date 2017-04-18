@@ -7,22 +7,28 @@ export default new Router({
   routes: [
     {
       path:'/index',
-      component:require('../components/index')
+      name:'index',
+      component:require('../views/index')
     },
     {
       path: '/main',
       name:'main',
-      component: require('../components/main')
+      component: require('../views/main')
     },
     {
       path: '/start',
       name: 'start',
-      component: require('../components/start')
+      component: require('../views/start')
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: require('../views/history')
     },
     {
       path: '/result',
       name: 'result',
-      component: require('../components/result')
+      component: require('../views/result')
     },{
         path: '*',
         redirect: '/index'

@@ -1,59 +1,65 @@
 <template>
   <div id="app">
-    <transition mode="out-in"
-                name="bounce">
-      <keep-alive>
+    <x-header>{{pageTitle}}</x-header>
+    <div class="main">
+      <transition mode="out-in"
+                  name="fade">
         <router-view></router-view>
-      </keep-alive>
-    </transition>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
 import zepto from "zepto/src/zepto"
-
+import {XHeader} from 'vux'
+import {mapGetters} from 'vuex'
 export default {
-  name: 'app'
+  name: 'app',
+  components:{XHeader},
+  computed:{
+    ...mapGetters(['pageTitle'])
+  },
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    }
+  }
 }
 </script>
 
 <style lang="less">
 @import '~vux/src/styles/reset.less';
 @import './assets/less/common.less';
+@import './assets/font-awesome-4.7.0/less/font-awesome.less';
 
 body {
   background-color: #fff;
 }
 
-.bounce-enter-active {
-  animation: bounce-in .5s;
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 
-.bounce-leave-active {
-  animation: bounce-out .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
 }
 
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
+.vux-header {
+  position: fixed!important;
+  height: 44px;
+  line-height: 44px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+.main{
+  position: absolute;
+  top: 44px;
+  left: 0;
+  right: 0;
 }
 
-@keyframes bounce-out {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(0);
-  }
-}
 </style>

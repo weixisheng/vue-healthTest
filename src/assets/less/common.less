@@ -23,7 +23,17 @@ input,button{
     .generate-fz(@n,(@i + 1));
 }
 .generate-fz(20);
-
+/*列布局*/
+.generate-col(@n,@i:1) when (@i<=@n){
+    .v-col-@{i}{
+        width:100% * (@i / @n);
+    }
+    .generate-col(@n,(@i + 1));
+}
+.generate-col(12);
+[class*="v-col-"]{
+    float: left;    
+}
 .v-white{
     color:@white!important;
 }

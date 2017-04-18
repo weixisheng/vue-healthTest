@@ -8,8 +8,22 @@
     <p class="test-description v-fz-15 v-gray">
       {{illustrate}}
     </p>
-    <button class="v-bg-yellow v-white v-fz-15 start"
-            @click="start">开始测试</button>
+    <div class="btn-group flex">
+      <button class="v-bg-yellow v-white v-fz-15 start"
+              @click="history">查看历史</button>
+      <button class="v-bg-yellow v-white v-fz-15 start"
+              @click="start">开始测试</button>
+    </div>
+    <div class="share-test v-yellow"
+         @click="showSheet">
+      <span class="fa fa-paper-plane-o"></span>
+    </div>
+    <Actionsheet v-model='action'
+                 :show-cancel="showCancel"
+                 cancel-text="取消"
+                 :menus='menus'
+                 v-on:on-click-menu='onClickMenu'
+                 class="hidden"></Actionsheet>
     <loading :value="showLoading"
              :text="loadingText"></loading>
   
@@ -19,20 +33,21 @@
          v-for="(paperItem,index) in paperItems"
          :class="[{hidden:hidden}]">
       <h3 class="quest-title v-gray v-fz-16">
-                      {{index + 1}}.{{paperItem.question}}
-                </h3>
+                            {{index + 1}}.{{paperItem.question}}
+                      </h3>
       <div v-for="ele in paperItem.items"
            class="quest-answer radio radio-primary clearfix">
         <input type="radio"
                :name="index"
                :data-code="ele.option"
-               :id="index + ele.option">
-        <label :for="index + ele.option">
+               :id="'ques-'+index + ele.option">
+        <label :for="'ques-'+index + ele.option">
           {{ele.content}}
         </label>
       </div>
       <img :src="paperItem.questionImg"
-           alt="">
+           alt=""
+           onerror="src='/static/logo.jpg'">
     </div>
     <button class="v-bg-yellow v-white v-fz-15 submit"
             @click="submit"
@@ -45,14 +60,15 @@
 
 <script>
 import axios from 'axios';
-import { Toast, Loading } from 'vux';
+import { Toast, Loading, Actionsheet } from 'vux';
 import { go } from '../../node_modules/vux/src/libs/router'
 
 export default {
   name: 'start',
   components: {
-    Toast, Loading
+    Toast, Loading, Actionsheet
   },
+
   data() {
     return {
       illustrate: '',
@@ -60,12 +76,30 @@ export default {
       hidden: true,
       showToast: false,
       showLoading: false,
-      loadingText: '加载中...'
+      loadingText: '加载中...',
+      action: false,
+      showCancel: true,
+      menus: [{
+        type: 'disabled',
+        label: '分享链接到'
+      }, {
+        type: '',
+        label: "<span class='fa fa-wechat v-green'></span>微信好友",
+        value: 'wechat'
+      }, {
+        type: '',
+        label: "<span class='fa fa-qq v-blue'></span>QQ好友",
+        value: 'qq'
+      }]
     }
   },
+  mounted: function () {
+    document.querySelector('.vux-actionsheet').classList.remove('hidden');
+  },
   created: function () {
+    this.$store.commit('setPageTitle', '开始测试')
     var self = this;
-    axios.get('./static/detail.json')
+    axios.get('/static/detail.json')
       .then((response) => {
         var result = response.data.data
         self.illustrate = result.desc;
@@ -73,13 +107,18 @@ export default {
       });
   },
   methods: {
+    history: function () {
+      this.$router.push({ name: 'history' });
+    },
     start: function () {
       let a = document.querySelector(".test-title"),
         b = document.querySelector(".test-description"),
-        c = document.querySelector(".start");
+        c = document.querySelector(".btn-group"),
+        d = document.querySelector(".share-test");
       a.classList.add("hidden");
       b.classList.add("hidden");
       c.classList.add("hidden");
+      d.classList.add("hidden");
       this.showLoading = true;
       function tick(i, cb) {
         setTimeout(function () {
@@ -99,6 +138,12 @@ export default {
         this.loadingText = `${percent}%`
       })
     },
+    showSheet: function () {
+      this.action = true;
+    },
+    onClickMenu: function (event) {
+      console.log(event)
+    },
     submit: function () {
       let a = Array.from(document.querySelectorAll("input"));
       let c = 0;
@@ -112,7 +157,8 @@ export default {
         }, 2000);
       }
       else {
-        go('result', this.$router);
+        // go('result', this.$router);
+        this.$router.push({ name: 'result' });
       }
     }
   }
@@ -121,7 +167,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang = "less" scoped>
-
 .test-home {
   padding: 0 4% 4%;
 }
@@ -137,6 +182,33 @@ export default {
 .test-description {
   letter-spacing: 3px;
   line-height: 24px;
+}
+
+.share-test {
+  position: fixed;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  left: 0;
+  bottom: 5%;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  text-align: center;
+  background: #fff;
+  animation: c 1.5s infinite linear;
+  z-index: 50;
+}
+
+@keyframes c {
+  0% {
+    box-shadow: 0 0 5px #23dfe0;
+  }
+  50% {
+    box-shadow: 0 0 5px #31d41f;
+  }
+  100% {
+    box-shadow: 0 0 15px #101ed8;
+  }
 }
 
 .start,
