@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+
 import { Toast, Loading, Actionsheet } from 'vux';
 import { go } from '../../node_modules/vux/src/libs/router'
 
@@ -99,7 +99,7 @@ export default {
   created: function () {
     this.$store.commit('setPageTitle', '开始测试')
     var self = this;
-    axios.get('/static/detail.json')
+    this.axios.get('/static/detail.json')
       .then((response) => {
         var result = response.data.data
         self.illustrate = result.desc;
@@ -135,7 +135,7 @@ export default {
           this.hidden = false;
           return
         }
-        this.loadingText = `${percent}%`
+        this.loadingText = `加载进度${percent}%`
       })
     },
     showSheet: function () {

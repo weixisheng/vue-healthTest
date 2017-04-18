@@ -7,10 +7,11 @@ import App from './App'
 import './config/rem.js'
 import router from "./router/"
 import store from './store'
-
+import axios from 'axios'
 Vue.use(VueRouter)
 
 FastClick.attach(document.body)
+Vue.prototype.axios = axios;
 
 /* eslint-disable no-new */
 new Vue({

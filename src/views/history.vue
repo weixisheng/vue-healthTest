@@ -13,7 +13,6 @@
 <script>
 import { Timeline, TimelineItem } from 'vux'
 import { mapMutations } from 'vuex'
-import axios from 'axios';
 
 export default {
     name: 'history',
@@ -43,7 +42,7 @@ export default {
     created() {
         this.$store.commit('setPageTitle', '测试历史');
         var vm = this;
-        axios.get('/static/history.json')
+        this.axios.get('/static/history.json')
             .then(function (response) {
                 vm.historyList = response.data.returnObject.result;
             })

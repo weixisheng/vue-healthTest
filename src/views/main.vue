@@ -1,8 +1,10 @@
 <template>
   <div>
     <!--['android', 'ios', 'ios-small', 'bubbles', 'circles', 'crescent', 'dots', 'lines', 'ripple', 'spiral']-->
-    <spinner class="hv-cen"
-             type='lines'></spinner>
+    <div class="weui-mask_transparent layer">
+      <spinner class="hv-cen"
+               type='bubbles'></spinner>
+    </div>
     <div class="test-container">
       <circle-box v-for="(item,index) in questions"
                   :state='item.state'
@@ -10,15 +12,14 @@
                   :paper-name="item.paperName"
                   @click.native="goTest"></circle-box>
     </div>
-  
   </div>
 </template>
 
 <script>
 import { Group, Cell, Spinner } from 'vux'
-import axios from 'axios'
+
 import circleBox from '../components/circleBox'
-import {mapMutations} from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     Group,
@@ -31,21 +32,22 @@ export default {
       questions: [],
     }
   },
-  computed:{
-    ...mapMutations(['setPageTitle'])
+  computed: {
+    ...mapMutations(['setPageTitle', 'showRight'])
   },
   created: function () {
-            this.$store.commit('setPageTitle','健康测试')
+    this.$store.commit('setPageTitle', '健康测试')
+
     if (window.sessionStorage.getItem('username') !== 'admin') {
       this.$router.push({ name: 'index' })
       return
     }
     var self = this;
     setTimeout(() => {
-      axios.get('./static/question.json')
+      this.axios.get('./static/question.json')
         .then((response) => {
           self.questions = response.data
-          document.querySelector('.vux-spinner').style.visibility = 'hidden'
+          document.querySelector('.layer').style.display = 'none'
         });
     }, 1000)
 
@@ -55,7 +57,14 @@ export default {
       if (event.currentTarget.classList.contains('open'))
         this.$router.push({ name: 'start' });
     }
-  }
+  },
+  beforeRouteEnter: (to, from, next) => {
+    // ...
+    next(vm => {
+      vm.$store.commit('showRight', true);
+    })
+  },
+
 }
 </script>
 
@@ -67,4 +76,5 @@ export default {
   flex-wrap: wrap;
   padding: 0 12px;
 }
+
 </style>

@@ -55,7 +55,6 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
 import tonic from '../components/tonic'
 import { mapState, mapMutations } from 'vuex'
 export default {
@@ -78,7 +77,7 @@ export default {
     created: function () {
         this.$store.commit('setPageTitle', '测试结果')
         let self = this;
-        axios.get('./static/recommend.json')
+        this.axios.get('./static/recommend.json')
             .then((response) => {
                 let result = response.data
                 self.tonicList = result.data;

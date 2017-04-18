@@ -1,28 +1,45 @@
 <template>
   <div id="app">
-    <x-header>{{pageTitle}}</x-header>
+    <x-header :right-options="{showMore:showMore}"
+              @on-click-more="clickMore">{{pageTitle}}</x-header>
     <div class="main">
       <transition mode="out-in"
                   name="fade">
         <router-view></router-view>
       </transition>
     </div>
+    <modal v-model="showModal" @modal-hide="onHide">
+      <h1 slot="header">扫一扫</h1>
+      <div class="qr-box text-center" slot="main" style="padding:10px;">
+        <qrcode value="https://emcs-test.infinitus.com.cn/h5/www/product/pages/module_healthTestBf/index.html"
+                type='canvas'></qrcode>
+      </div>
+  
+    </modal>
   </div>
 </template>
 
 <script>
 import zepto from "zepto/src/zepto"
-import {XHeader} from 'vux'
-import {mapGetters} from 'vuex'
+import { XHeader, Qrcode } from 'vux'
+import { mapGetters, mapMutations } from 'vuex'
+import Modal from './components/modal'
 export default {
   name: 'app',
-  components:{XHeader},
-  computed:{
-    ...mapGetters(['pageTitle'])
+  components: { XHeader, Qrcode, Modal },
+  computed: {
+    ...mapGetters(['pageTitle', 'showMore','showModal'])
   },
   methods: {
     goBack() {
       this.$router.go(-1);
+    },
+    clickMore() {
+      this.$store.commit('showModal',true)
+    },
+    onHide(){
+      this.$store.commit('showModal',false)
+      
     }
   }
 }
@@ -55,11 +72,11 @@ body {
   right: 0;
   z-index: 100;
 }
-.main{
+
+.main {
   position: absolute;
   top: 44px;
   left: 0;
   right: 0;
 }
-
 </style>

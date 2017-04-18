@@ -135,6 +135,11 @@ export default {
             }
            
         }
+    },
+    beforeRouteEnter: (to, from, next) => {
+        next(vm=>{
+            vm.$store.commit('showRight',false)
+        })
     }
 }
 </script>

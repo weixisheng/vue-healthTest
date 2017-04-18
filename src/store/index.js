@@ -4,11 +4,16 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state:{
         pageTitle:'',
-        cartCount:0
+        cartCount:0,
+        showMore:false,
+        showModal:false
+        
     },
     getters:{
         pageTitle:state=>state.pageTitle,
-        cartCount:state=>state.cartCount
+        cartCount:state=>state.cartCount,
+        showMore:state=>state.showMore,
+        showModal:state=>state.showModal
     },
     mutations: {
        setPageTitle(state,title){
@@ -19,6 +24,12 @@ const store = new Vuex.Store({
        },
        addCartCount(state){
         state.cartCount++;
+       },
+       showRight(state,a){
+           state.showMore = a;
+       },
+       showModal(state,m){
+           state.showModal =m;
        }
     }
 });
