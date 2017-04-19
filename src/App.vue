@@ -3,10 +3,12 @@
     <x-header :right-options="{showMore:showMore}"
               @on-click-more="clickMore">{{pageTitle}}</x-header>
     <div class="main">
+    <div>
       <transition mode="out-in"
                   name="fade">
         <router-view></router-view>
       </transition>
+      </div>
     </div>
     <modal v-model="showModal" @modal-hide="onHide">
       <h1 slot="header">扫一扫</h1>
@@ -30,6 +32,12 @@ export default {
   computed: {
     ...mapGetters(['pageTitle', 'showMore','showModal'])
   },
+  data(){
+    return {
+     
+    }
+  },
+
   methods: {
     goBack() {
       this.$router.go(-1);
@@ -39,7 +47,6 @@ export default {
     },
     onHide(){
       this.$store.commit('showModal',false)
-      
     }
   }
 }
@@ -78,5 +85,6 @@ body {
   top: 44px;
   left: 0;
   right: 0;
+  bottom: 0;
 }
 </style>

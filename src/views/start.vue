@@ -105,6 +105,7 @@ export default {
         self.illustrate = result.desc;
         self.paperItems = result.paperItems;
       });
+      
   },
   methods: {
     history: function () {
@@ -137,6 +138,7 @@ export default {
         }
         this.loadingText = `加载进度${percent}%`
       })
+      
     },
     showSheet: function () {
       this.action = true;
