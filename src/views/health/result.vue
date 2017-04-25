@@ -32,6 +32,7 @@
                            :product-full-name="w.productFullName"
                            :product-price="w.productPrice"
                            :product-retail-price="w.productRetailPrice"
+                           :show-count='true'
                            @cart-num='cartNum'></tonic>
                 </div>
                 <div class="dry hidden">
@@ -43,6 +44,7 @@
                            :product-full-name="d.productFullName"
                            :product-price="d.productPrice"
                            :product-retail-price="d.productRetailPrice"
+                           :show-count='true'
                            @cart-num='cartNum'></tonic>
                 </div>
             </div>
@@ -55,7 +57,7 @@
     </div>
 </template>
 <script>
-import tonic from '../components/tonic'
+import tonic from '../../components/tonic'
 import { mapState, mapMutations } from 'vuex'
 export default {
     name: "result",
@@ -85,18 +87,19 @@ export default {
                     if (i.appPhotoUrl)
                         i.appPhotoUrl += "&imageView/2/2/h/250"
                 });
-                self.warmProduct = self.tonicList.slice(0, 8);
-                self.dryProduct = self.tonicList.slice(8);
+                self.warmProduct = self.tonicList.slice(0, 9);
+                self.dryProduct = self.tonicList.slice(9);
 
                 var tabCon = document.querySelector(".tab-content"),
                     tabItems = document.querySelectorAll(".tab-item");
                 var startX, moveX, differ;
                 tabCon.addEventListener('touchstart', function (e) {
-                    var touch = e.touches[0];
+                
+                    var touch = e.targetTouches[0];
                     startX = touch.pageX;
                 }, false);
                 tabCon.addEventListener('touchmove', function (e) {
-                    var touch = e.touches[0];
+                    var touch = e.targetTouches[0];
                     moveX = touch.pageX;
                     differ = moveX - startX;
                 }, false);
@@ -209,7 +212,7 @@ export default {
 .shopping-cart-right {
     position: fixed;
     right: .4rem;
-    bottom: 2rem;
+    bottom: 100px;
     width: 2rem;
     height: 2rem;
     line-height: 2rem;

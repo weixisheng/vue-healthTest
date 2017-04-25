@@ -1,24 +1,25 @@
 <template>
-        <div class="tonic-item">
-            <div class="product-img">
-                <img :src="src"
-                     class="hv-cen"
-                     onerror="src='/static/logo.jpg'">
+    <div class="tonic-item">
+        <div class="product-img">
+            <img :src="src"
+                 class="hv-cen"
+                 onerror="src='/static/logo.jpg'">
+        </div>
+        <div class="product-label">
+            <span :class="[hot?hotClass:'hidden']">热</span>
+            <span :class="[prom?promClass:'hidden']">促</span>
+            <span :class="[new1?newClass:'hidden']">新</span>
+            <span>{{productFullName}}</span>
+        </div>
+        <div class="product-price clearfix">
+            <div class="fl v-red">
+                <animated-integer :value="productPrice"></animated-integer>
             </div>
-            <div class="product-label">
-                <span :class="[hot?hotClass:'hidden']">热</span>
-                <span :class="[prom?promClass:'hidden']">促</span>
-                <span :class="[new1?newClass:'hidden']">新</span>
-                <span>{{productFullName}}</span>
+            <div class="fr v-blue">
+                <animated-integer :value="productRetailPrice"></animated-integer>
             </div>
-            <div class="product-price clearfix">
-                <div class="fl v-red">
-                    <animated-integer :value="productPrice"></animated-integer>
-                </div>
-                <div class="fr v-blue">
-                    <animated-integer :value="productRetailPrice"></animated-integer>
-                </div>
-            </div>
+        </div>
+        <div v-if="showCount">
             <count :min='1'
                    :max='300'></count>
             <div class="add2cart fr"
@@ -26,6 +27,7 @@
                 <i class="fa fa-shopping-cart"></i>
             </div>
         </div>
+    </div>
 </template>
 <script>
 
@@ -51,7 +53,11 @@ export default {
         },
         productFullName: String,
         productPrice: Number,
-        productRetailPrice: Number
+        productRetailPrice: Number,
+        showCount:{
+            type:Boolean,
+            default:false
+        }
     },
     components: { animatedInteger, count },
     data() {
@@ -64,12 +70,13 @@ export default {
     },
     methods: {
         add2cart(event) {
-            var ct = event.currentTarget;
-            var con = ct.parentNode;
-            var $img = $(con.querySelector('.product-img').querySelector('img'));
+            var ct = $(event.currentTarget);
+            var con = ct.parents('.tonic-item');
+            var $img = $(con.find('.product-img img'));
             var width = $img[0].width;
             var height = $img[0].height;
             var offset = $img.offset();
+            
             var bottom = $(window).height() - offset.top - height + $(window).scrollTop();
             var right = $(window).width() - offset.left - width;
             var src = $img.attr("src");
@@ -155,10 +162,10 @@ export default {
 }
 
 @keyframes end {
-    0%{
+    0% {
         border-radius: 50%;
     }
-    50%{
+    50% {
         width: 1rem;
         height: 1rem;
         border-radius: 50%;
@@ -166,7 +173,7 @@ export default {
     100% {
         position: fixed;
         right: .5rem;
-        bottom: 2.2rem;
+        bottom: 100px;
         width: 1rem;
         height: 1rem;
         border-radius: 50%;

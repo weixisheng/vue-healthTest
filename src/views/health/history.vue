@@ -16,36 +16,55 @@
 import Vue from 'vue'
 import { Timeline, TimelineItem } from 'vux'
 import { mapMutations } from 'vuex'
-import JRoll from '../../node_modules/jroll/jroll.min'
-import VueInfinite from '../../node_modules/jroll/jroll-vue-infinite'
+import JRoll from '../../../node_modules/jroll/jroll.min'
+import Pulldown from '../../../node_modules/jroll/jroll-pulldown.min'
+import VueInfinite from '../../../node_modules/jroll/jroll-vue-infinite'
 export default {
     name: 'history',
     components: {
         Timeline, TimelineItem,
         'jroll-infinite': JRoll.VueInfinite({
-            tip: "正在加载中...",
-            bottomed: function () {
+            tip: "loading...",
+            pulldown:{
+               
+            },
+            bottomed: function (complete) {
                 var me = this;
-                console.log(me.page)
                 if (me.page < 3) {
                     me.page++;
-
-                    setTimeout(() => {
-                        me.$parent.historyList.push({
-                            "paperCode": "JKCSPFCS",
-                            "paperName": "皮肤测试",
-                            "userName": "332168802",
-                            "levelCode": "A",
-                            "levelName": "xxxx性肌肤",
-                            "paperLevelCode": "JKCSPFCS_A",
-                            "levelDesc": "油性肌肤",
-                            "testTime": 1492151728000
-                        })
-                    }, 1500);
-                    if (me.page === 3) {
-                        me.tip = '加载完成'
+                    if (typeof complete == 'function') {
+                       setTimeout(() => {
+                            me.$parent.historyList.unshift({
+                                "paperCode": "JKCSPFCS",
+                                "paperName": "皮肤测试",
+                                "userName": "332168802",
+                                "levelCode": "A",
+                                "levelName": "yyyy性肌肤",
+                                "paperLevelCode": "JKCSPFCS_A",
+                                "levelDesc": "油性肌肤",
+                                "testTime": 1492151728000
+                            })
+                        }, 1500);
+                        complete();
+                       
                     }
+                    else {
+                        setTimeout(() => {
+                            me.$parent.historyList.push({
+                                "paperCode": "JKCSPFCS",
+                                "paperName": "皮肤测试",
+                                "userName": "332168802",
+                                "levelCode": "A",
+                                "levelName": "xxxx性肌肤",
+                                "paperLevelCode": "JKCSPFCS_A",
+                                "levelDesc": "油性肌肤",
+                                "testTime": 1492151728000
+                            })
+                        }, 1500);
+                    }
+
                 }
+                else me.tip = 'done~~'
             },
             updated: function () {
                 console.warn('updated~~')
@@ -85,7 +104,9 @@ export default {
             })
     }
 }
-
+function complete(){
+    console.log(11)
+}
 </script>
 <style lang="less">
 .history-container>div {

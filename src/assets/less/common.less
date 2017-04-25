@@ -10,6 +10,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{
+    line-height: 1.5;
+}
 input,button{
     border: none;
     outline: none;
@@ -18,7 +21,7 @@ input,button{
 }
 .generate-fz (@n,@i:10) when (@i<=@n){
     .v-fz-@{i}{
-        font-size: 1px * @i;
+        font-size: 1px * @i!important;
     }
     .generate-fz(@n,(@i + 1));
 }
@@ -122,4 +125,10 @@ input,button{
 }
 .space-between{
     justify-content: space-between;
+}
+.stretch{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
 }

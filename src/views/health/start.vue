@@ -61,7 +61,7 @@
 <script>
 
 import { Toast, Loading, Actionsheet } from 'vux';
-import { go } from '../../node_modules/vux/src/libs/router'
+import { go } from '../../../node_modules/vux/src/libs/router'
 
 export default {
   name: 'start',
@@ -95,6 +95,11 @@ export default {
   },
   mounted: function () {
     document.querySelector('.vux-actionsheet').classList.remove('hidden');
+  },
+  beforeRouteEnter: (to, from, next) => {
+    next(vm=>{
+      vm.$store.commit('showLeft',true)
+    })
   },
   created: function () {
     this.$store.commit('setPageTitle', '开始测试')
@@ -192,7 +197,7 @@ export default {
   height: 2rem;
   line-height: 2rem;
   left: 0;
-  bottom: 5%;
+  bottom: 50px;
   border-radius: 50%;
   border: 1px solid currentColor;
   text-align: center;
@@ -250,12 +255,12 @@ export default {
   margin-right: 10px;
   border: none;
   border-radius: 50%;
-  background: url(../assets/1.png);
+  background: url(../../assets/1.png);
   background-size: contain;
 }
 
 .quest-answer>input[type='radio']:checked {
-  content: url(../assets/2.png);
+  content: url(../../assets/2.png);
   background-color: #fff;
 }
 

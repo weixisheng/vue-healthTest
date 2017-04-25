@@ -5,7 +5,8 @@ import FastClick from 'fastclick'
 import VueRouter from 'vue-router'
 import App from './App'
 import './config/rem.js'
-import router from "./router/"
+
+import {router} from "./router"
 import store from './store'
 import axios from 'axios'
 Vue.use(VueRouter)

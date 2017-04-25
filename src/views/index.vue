@@ -94,7 +94,7 @@ export default {
     },
    
     created: function () {
-        this.$store.commit('setPageTitle','首页')
+        this.$store.commit('setPageTitle','登录')
     },
     watch: {
         username: function (val) {
@@ -112,7 +112,7 @@ export default {
         login: function () {
             if (this.username == 'admin' && this.password == '1') {
                 window.sessionStorage.setItem('username', this.username)
-                go('main', this.$router);
+                go('home', this.$router);
             }
             else {
                 this.alertCon='登录信息有误，请重试！';

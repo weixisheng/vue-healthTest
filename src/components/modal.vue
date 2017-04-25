@@ -93,10 +93,11 @@ export default {
     h3,
     h4,
     h5,
-    h6 {
+    h6 ,p{
         font-size: 18px;
         text-align: center;
         padding: 10px 0;
+        font-weight: normal;
     }
 }
 

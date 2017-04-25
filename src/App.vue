@@ -1,40 +1,67 @@
 <template>
   <div id="app">
-    <x-header :right-options="{showMore:showMore}"
-              @on-click-more="clickMore">{{pageTitle}}</x-header>
+    <x-header :left-options="{showBack:showBack}"
+    :right-options="{showMore:showMore}"
+              @on-click-more="clickMore">{{pageTitle}}
+    </x-header>
     <div class="main">
-    <div>
+   
       <transition mode="out-in"
                   name="fade">
         <router-view></router-view>
       </transition>
-      </div>
+      
     </div>
+     <tabbar class="fix-footer">
+            <tabbar-item selected link="/home">
+                 <i slot="icon"
+                      class="fa fa-home"></i>
+                <span slot="label">首页</span>
+            </tabbar-item>
+            <tabbar-item link="/health/main">
+                <i slot="icon"
+                      class="fa fa-thermometer"></i>
+                <span slot="label">健康测试</span>
+            </tabbar-item>
+            <tabbar-item link="/music">
+                <i slot="icon"
+                      class="fa fa-music"></i>
+                <span slot="label">音乐</span>
+            </tabbar-item>
+            <tabbar-item link="/me">
+                <i slot="icon"
+                      class="fa fa-user-o"></i>
+                <span slot="label">我的</span>
+            </tabbar-item>
+    
+        </tabbar>
     <modal v-model="showModal" @modal-hide="onHide">
-      <h1 slot="header">扫一扫</h1>
+      <h1 slot="header">扫一扫获取测试链接</h1>
       <div class="qr-box text-center" slot="main" style="padding:10px;">
         <qrcode value="https://emcs-test.infinitus.com.cn/h5/www/product/pages/module_healthTestBf/index.html"
                 type='canvas'></qrcode>
       </div>
-  
     </modal>
+   <loading v-model="isLoading"></loading> 
   </div>
 </template>
 
 <script>
 import zepto from "zepto/src/zepto"
-import { XHeader, Qrcode } from 'vux'
-import { mapGetters, mapMutations } from 'vuex'
+import {Loading, XHeader, Qrcode,Tabbar,TabbarItem } from 'vux'
+import { mapState,mapGetters, mapMutations } from 'vuex'
 import Modal from './components/modal'
 export default {
   name: 'app',
-  components: { XHeader, Qrcode, Modal },
+  components: {Loading, XHeader, Qrcode, Modal,Tabbar,TabbarItem },
   computed: {
-    ...mapGetters(['pageTitle', 'showMore','showModal'])
+    ...mapState({
+      isLoading:state=>state.ajaxLoading.isLoading
+    }),
+    ...mapGetters(['pageTitle', 'showMore','showBack','showModal'])
   },
   data(){
     return {
-     
     }
   },
 
@@ -85,6 +112,15 @@ body {
   top: 44px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 44px;
+  overflow: auto;
 }
+.fix-footer{
+  position: fixed!important;
+}
+::-webkit-scrollbar  
+{  
+    width: 0;  
+    background-color: #F5F5F5;  
+} 
 </style>
