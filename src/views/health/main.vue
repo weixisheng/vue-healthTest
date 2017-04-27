@@ -43,7 +43,7 @@ export default {
           self.questions = response.data
           self.$store.commit('updateLoading',{isLoading:false})
         });
-    }, 1000)
+    }, 500)
   },
   methods: {
     goTest(event) {

@@ -7,8 +7,10 @@
     <div class="main">
    
       <transition mode="out-in"
-                  name="fade">
+                  :name="transitionName">
+                  <!-- <keep-alive> -->
         <router-view></router-view>
+                  <!-- </keep-alive>   -->
       </transition>
       
     </div>
@@ -18,15 +20,15 @@
                       class="fa fa-home"></i>
                 <span slot="label">首页</span>
             </tabbar-item>
-            <tabbar-item link="/health/main">
-                <i slot="icon"
-                      class="fa fa-thermometer"></i>
-                <span slot="label">健康测试</span>
-            </tabbar-item>
             <tabbar-item link="/music">
                 <i slot="icon"
                       class="fa fa-music"></i>
                 <span slot="label">音乐</span>
+            </tabbar-item>
+            <tabbar-item link="/health/main">
+                <i slot="icon"
+                      class="fa fa-thermometer"></i>
+                <span slot="label">健康测试</span>
             </tabbar-item>
             <tabbar-item link="/me">
                 <i slot="icon"
@@ -62,9 +64,17 @@ export default {
   },
   data(){
     return {
+      transitionName:'fade'
     }
+    
   },
-
+watch:{
+      '$route' (to,from){
+        const toDepth = to.path.split('/').length;
+        const fromDepth = from.path.split('/').length;
+        this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left';
+      }
+    },
   methods: {
     goBack() {
       this.$router.go(-1);
@@ -98,6 +108,22 @@ body {
   transition: opacity .5s;
 }
 
+.slide-left-enter-active,
+.slide-right-enter-active{
+  transition:transform .5s;
+}
+.slide-left-enter{
+  transform: translateX(100%);
+}
+.slide-left-leave-active, .slide-right-enter {
+  transform: translateX(-100%);
+}
+.slide-right-leave-active{
+  transform: translateX(100%);
+}
+.slide-right-enter{
+  transform: translateX(-100%);
+}
 .vux-header {
   position: fixed!important;
   height: 44px;

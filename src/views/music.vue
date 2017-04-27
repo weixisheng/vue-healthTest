@@ -21,7 +21,7 @@
                 <p class='audio-progress'>
                     <span class="progress-ball"></span>
                 </p>
-               <span class="play-btn fa fa-pause v-fz-20" @click="togglePlay()" style="margin-left:10px;"></span>
+               <span class="play-btn fa fa-pause v-fz-20" @click="togglePlay()" style="margin-left:15px;"></span>
             </div>
             <div class="audio-lrc">
                 <div class="lrc-content" :style="{'margin-top':`${lrcOffset}px`}">
@@ -56,7 +56,7 @@ export default {
                 temp = temp.splice(0, temp.length - 1);
                 temp = temp.map((value)=> {
                 var time = value.substr(1, 5);
-                var seconds = parseInt(time.split(':')[0]) * 60 + parseInt(time.split(':')[1]);
+                var seconds = parseInt(time.split(':')[0]) * 60 + parseInt(time.split(':')[1])+1;
                 var lrcContent = value.substr(10);
                 return {
                     seconds,

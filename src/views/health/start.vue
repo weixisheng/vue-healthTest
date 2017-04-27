@@ -18,12 +18,11 @@
          @click="showSheet">
       <span class="fa fa-paper-plane-o"></span>
     </div>
-    <Actionsheet v-model='action'
+    <Actionsheet v-if="showAction" v-model='action'
                  :show-cancel="showCancel"
                  cancel-text="取消"
                  :menus='menus'
-                 v-on:on-click-menu='onClickMenu'
-                 class="hidden"></Actionsheet>
+                 v-on:on-click-menu='onClickMenu'></Actionsheet>
     <loading :value="showLoading"
              :text="loadingText"></loading>
   
@@ -78,6 +77,7 @@ export default {
       showLoading: false,
       loadingText: '加载中...',
       action: false,
+      showAction:false,
       showCancel: true,
       menus: [{
         type: 'disabled',
@@ -93,14 +93,12 @@ export default {
       }]
     }
   },
-  mounted: function () {
-    document.querySelector('.vux-actionsheet').classList.remove('hidden');
-  },
   beforeRouteEnter: (to, from, next) => {
     next(vm=>{
-      vm.$store.commit('showLeft',true)
+      vm.$store.commit('showLeft',true);
     })
   },
+
   created: function () {
     this.$store.commit('setPageTitle', '开始测试')
     var self = this;
@@ -110,7 +108,9 @@ export default {
         self.illustrate = result.desc;
         self.paperItems = result.paperItems;
       });
-      
+      setTimeout(function(){
+        self.showAction = true;
+      },800);
   },
   methods: {
     history: function () {

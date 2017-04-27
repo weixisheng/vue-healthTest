@@ -83,7 +83,7 @@ export default {
             var m = document.createElement('img');
             m.id = 'imgMoive';
             var tt = `width:${width}px;height:${height}px;bottom:${bottom}px;right:${right}px;`;
-            m.style = `position:fixed;z-index:1000;${tt}animation:end 1s ease-in-out`;
+            m.style = `position:fixed;z-index:1000;${tt}-webkit-animation:end 1s ease-in-out;animation:end 1s ease-in-out`;
             m.src = src;
             document.body.appendChild(m);
             setTimeout(() => {
