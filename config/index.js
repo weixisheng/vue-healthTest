@@ -32,10 +32,6 @@ module.exports = {
                 target: 'http://m.kugou.com',
                 changeOrigin: true
             },
-          "/app": {
-            target: 'http://m.kugou.com',
-            changeOrigin: true
-          },
             "/list": {
                 target: 'http://m.toutiao.com',
                 changeOrigin: true
