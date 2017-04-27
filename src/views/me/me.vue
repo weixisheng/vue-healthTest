@@ -6,12 +6,12 @@
                     <img src="/static/head.png">
                 </div>
                 <div class="me-info">
-                    <p>魏喜胜</p>
-                    <p class="v-fz-14">微信号:hishion_wax</p>
+                    <p>hishion</p>
+                    <p class="v-fz-14">微信号:wwwwwwwwwww</p>
                 </div>
                 <div class="me-qrcode"
                      @click="showQrBox">
-                    <qrcode value="hishion_wax"
+                    <qrcode value="wwwwwwwwwww"
                             type='canvas'
                             :size='30'
                             :fg-color="rdColor"></qrcode>
@@ -38,7 +38,7 @@
                          alt="">
                 </div>
                 <div class="me-info">
-                    <p class="user"> <span class="fa fa-male"></span><span>魏喜胜</span></p>
+                    <p class="user"> <span class="fa fa-male"></span><span>hision</span></p>
                     <p class="address"> <span class="fa fa-map-marker"></span><span>挪威</span></p>
                 </div>
             </div>
