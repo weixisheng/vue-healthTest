@@ -53,23 +53,23 @@ export default {
     },
     methods: {
         getNews() {
-            var vm = this;
-            this.axios.get('https://m.toutiao.com/list', {
-                params: {
-                    tag: '__all__',
-                    ac: 'wap',
-                    count: 10,
-                    format: 'json_raw',
-                    as: 'A175782F08D5D6C',
-                    cp: '58F8E55C17866E1',
-                    min_behot_time: '1492671593'
-                }
+          let vm = this;
+          this.axios.get('http://m.toutiao.com/list', {
+            params: {
+              tag: '__all__',
+              ac: 'wap',
+              count: 10,
+              format: 'json_raw',
+              as: 'A175782F08D5D6C',
+              cp: '58F8E55C17866E1',
+              min_behot_time: '1492671593'
+            }
+          })
+            .then((response) => {
+              let s = response.data.data;
+              s.pop();
+              vm.news = s;
             })
-                .then((response) => {
-                    var s = response.data.data;
-                    s.pop();
-                    vm.news=s;
-                })
         }
     }
 }

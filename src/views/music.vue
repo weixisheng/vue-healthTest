@@ -12,7 +12,7 @@
         <audio :src="audio.songUrl"
                autoplay  @timeupdate="change" @ended="endHandle" id="audio-play"></audio>
         <div class="audio-panel" v-if="audio.songUrl">
-            <img :src='audio.imgUrl'>
+            <img :src='audio.imgUrl' @click="showLrc">
             <div class="audio-status">
                 <span>{{audio.singer}}</span><span>{{audio.title}}</span>
             </div>
@@ -21,7 +21,17 @@
                 <p class='audio-progress'>
                     <span class="progress-ball"></span>
                 </p>
+               <span class="play-btn fa fa-pause v-fz-20" @click="togglePlay()" style="margin-left:10px;"></span>
             </div>
+            <div class="audio-lrc">
+                <div class="lrc-content" :style="{'margin-top':`${lrcOffset}px`}">
+                    <p v-for="(item,index) in songLrc" 
+                    :class="{'isCurrentLrc':item.seconds>=audio.currentLength,'disCurrentLrc':item.seconds<audio.currentLength}">
+                        {{item.lrcContent}}
+                    </p>
+                </div>
+            </div>
+            <div class="peaks-container" id="peaks-container"></div>
         </div>
     </div>
 </template>
@@ -29,15 +39,40 @@
 <script>
 import {mapGetters} from 'vuex'
 import SimpleCell from '../components/simpleCell'
+import Peaks from '../../node_modules/peaks.js/src/main'
 export default {
     name: 'music',
     data() {
         return {
-            
+            lrcing:false,
+            playing:true
         }
     },
     computed: {
-        ...mapGetters(['songList','audio'])
+        ...mapGetters(['songList','audio']),
+        songLrc(){
+            if(this.audio.lrc){
+                var temp = this.audio.lrc.split('\r\n');
+                temp = temp.splice(0, temp.length - 1);
+                temp = temp.map((value)=> {
+                var time = value.substr(1, 5);
+                var seconds = parseInt(time.split(':')[0]) * 60 + parseInt(time.split(':')[1]);
+                var lrcContent = value.substr(10);
+                return {
+                    seconds,
+                    lrcContent
+                }
+            })
+            return temp;
+            }
+        },
+        lrcOffset(){
+            if (this.songLrc) {
+                var offset = (this.songLrc.length - document.querySelectorAll('.isCurrentLrc').length - 2) * (-20);
+             //动态改变高度   
+            return this.audio.currentLength + offset - this.audio.currentLength;
+        }
+        }
         
     },
     components: {
@@ -61,13 +96,29 @@ export default {
             let s = (ft % 60).toString().replace(/^(\d)$/,'0$1');
             return `${m}:${s}`;
         },
+        showLrc(){
+            if(!this.lrcing){
+                $('.audio-lrc').css({'transform':'translateY(0)'})
+                this.lrcing = true;
+            }
+            else {
+                $('.audio-lrc').css({'transform':'translateY(200px)'})
+                this.lrcing = false;
+            }
+        },
         playSong(event) {
             var vm = this, target = event.currentTarget;
             var hash = target.dataset['hash'];
             window.sessionStorage.setItem('hash',hash);
             this.$store.dispatch('getSong',hash);
+            this.$store.dispatch('getLrc',hash);
             $(target).find('.play-status').removeClass('hidden').addClass('rotating');
             $(target).siblings().find('.play-status').addClass('hidden').removeClass('rotating');
+            /*const p = Peaks.init({
+                container:document.getElementById('peaks-container'),
+                mediaElement:document.querySelector('audio'),
+                audioContext: new AudioContext()
+            })*/
         },
         change(){
             var audioPlay = document.querySelector("#audio-play");
@@ -80,7 +131,20 @@ export default {
         },
         endHandle(){
             var h = window.sessionStorage.getItem('hash');
-            $(`[data-hash=${h}]`).find('.play-status').removeClass('rotating').addClass('hidden')
+            $(`[data-hash='${h}']`).find('.play-status').removeClass('rotating').addClass('hidden')
+        },
+        togglePlay(){
+            // debugger;
+            if(!this.playing){
+                document.getElementById("audio-play").play();
+               $('.play-btn').removeClass('fa-play').addClass('fa-pause');
+               this.playing = true;
+            }
+            else{
+               document.getElementById("audio-play").pause();
+                $('.play-btn').removeClass('fa-pause').addClass('fa-play');
+               this.playing = false;
+            }
         }
     },
     beforeRouteLeave: function (to, from, next) {
@@ -126,7 +190,7 @@ export default {
 
 @keyframes rotate {
     100% {
-        transform: rotate(360deg);
+        transform: rotate(1turn);
     }
 }
 .audio-panel{
@@ -144,11 +208,11 @@ export default {
     }
     .audio-status{
         float: left;
-        width:75%;
+        width:78%;
         margin-left: 1rem;
         font-size: 16px;
         span{
-            first-child{
+            &:first-child{
                 margin-right:5px;
             }
         }
@@ -167,7 +231,7 @@ export default {
         }
         .audio-progress{
             position:relative;
-            width:70%;
+            width:57%;
             background:#fff;
             height:2px;
             vertical-align:middle;
@@ -180,8 +244,35 @@ export default {
                 border-radius:50%;
                 background:#fff;
                 transition:all 0.5s;
+                transform: translateZ(0);
             }
         }
     }
 }
+.audio-lrc{
+    width: 100%;
+    height: 60px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    line-height: 20px;
+    color: #3fd497;
+    position: absolute;
+    bottom: 40px;
+    background: #fff;
+    z-index: 100;
+    font-size: 14px;
+    text-align: center;
+    transform:translateY(200px);
+    transition:all 0.5s;
+    .lrc-content{
+        transition:all .5s;
+    }
+}
+/* .peaks-container{
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    height: 100px;
+    background-color: #eee;
+} */
 </style>
