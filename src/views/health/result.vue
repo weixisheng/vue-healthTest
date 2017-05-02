@@ -58,15 +58,14 @@
 </template>
 <script>
 import tonic from '../../components/tonic'
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 export default {
     name: "result",
     components: {
         tonic
     },
     computed: {
-        ...mapState(['cartCount']),
-        ...mapMutations(['setCartCount', 'setPageTitle'])
+        ...mapState(['cartCount'])
     },
     data() {
         return {

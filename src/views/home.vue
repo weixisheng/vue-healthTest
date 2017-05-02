@@ -17,14 +17,12 @@
 </template>
 <script>
 import mediaCell from '../components/mediaCell'
-import { mapMutations } from 'vuex'
 export default {
     name: 'home',
     components: {
         mediaCell
     },
     computed: {
-        ...mapMutations(['setPageTitle', 'showLeft','showRight'])
     },
     created() {
         if (window.sessionStorage.getItem('username') !== 'admin') {

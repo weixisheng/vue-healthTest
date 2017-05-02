@@ -83,13 +83,17 @@ export default {
         formatTime(t) {
             var date, year, month, day, hour, minute;
             date = new Date(t);
+            /**
+             * es7 填充空位
+             * @param  {String} time 日期时间
+             * @return {String}      格式化日期时间
+             */
             var complete = function (time) {
                 // return time.toString().replace(/^(\d)$/, "0$1");
                 return time.toString().padStart(2,'0');
             };
             year = date.getFullYear();
             month = complete(date.getMonth() + 1);
-            // month = (date.getMonth() + 1).padStart(2,'0')
             day = complete(date.getDate());
             hour = complete(date.getHours());
             minute = complete(date.getMinutes());
@@ -104,9 +108,6 @@ export default {
                 vm.historyList = response.data.returnObject.result;
             })
     }
-}
-function complete(){
-    console.log(11)
 }
 </script>
 <style lang="less">

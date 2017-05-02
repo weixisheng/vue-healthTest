@@ -55,7 +55,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 import { Group, XSwitch } from 'vux'
 import SimpleCell from '../../components/simpleCell'
 export default {
@@ -70,7 +69,6 @@ export default {
         }
     },
     computed: {
-        ...mapMutations(['showLeft', 'setPageTitle'])
     },
     components: { Group, SimpleCell, XSwitch },
     created() {

@@ -17,7 +17,6 @@
 <script>
 import { Group, Cell} from 'vux'
 import circleBox from '../../components/circleBox'
-import { mapMutations } from 'vuex'
 import {config} from '../../config/service'
 export default {
   components: {
@@ -31,19 +30,20 @@ export default {
     }
   },
   computed: {
-    ...mapMutations(['setPageTitle', 'showRight'])
   },
   created: function () {
     this.$store.commit('setPageTitle', '健康测试')
     var self = this;
     this.$store.commit('updateLoading',{isLoading:true});
-    setTimeout(() => {
-      this.axios.get(config.question)
+    // setTimeout(() => {
+      // this.axios.get(config.question)
+      this.axios.get('/health/test/querstion')
         .then((response) => {
-          self.questions = response.data
+          // debugger
+          self.questions = response.data.returnObject
           self.$store.commit('updateLoading',{isLoading:false})
         });
-    }, 500)
+    // }, 500)
   },
   methods: {
     goTest(event) {

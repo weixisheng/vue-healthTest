@@ -56,7 +56,6 @@ import SimpleCell from '../../components/simpleCell'
 export default {
     name: "me",
     computed: {
-        ...mapMutations(['setPageTitle', 'showLeft', 'showRight'])
     },
     components: {
         Qrcode, XDialog, SimpleCell
