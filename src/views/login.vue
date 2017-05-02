@@ -79,7 +79,7 @@ import { go } from '../../node_modules/vux/src/libs/router'
 import { XDialog, Alert } from 'vux'
 import {mapMutations} from 'vuex'
 export default {
-    name: 'index',
+    name: 'login',
     data() {
         return {
             username: '',

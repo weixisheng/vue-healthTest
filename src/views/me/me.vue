@@ -67,14 +67,14 @@ export default {
             lists: [
                 [
                     { iconClass: 'fa fa-picture-o v-blue', label: '相册', link: '/me/pictures' },
-                    { iconClass: 'fa fa-star v-yellow v-fz-18', label: '收藏', link: '/me/collect' },
+                    { iconClass: 'fa fa-star v-yellow v-fz-18', label: '收藏' },
                 ],
                 [
                     { iconClass: 'fa fa-credit-card v-red', label: '钱包', link: '/me/money' },
                     { iconClass: 'fa fa-credit-card-alt v-green', label: '卡包' }
                 ],
                 [
-                    { iconClass: 'fa fa-smile-o v-yellow v-fz-18', label: '表情', link: '/me/emotion' }
+                    { iconClass: 'fa fa-smile-o v-yellow v-fz-18', label: '表情'}
                 ],
                 [
                     { iconClass: 'fa fa-cog', label: '设置', link: '/me/setting' }
@@ -97,6 +97,10 @@ export default {
         showQrBox() {
             this.showQr = true;
         }
+    },
+        beforeRouteLeave: function (to, from, next) {
+        this.$store.commit('showLeft',true)
+        next()
     }
 }
 </script>

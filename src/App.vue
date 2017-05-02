@@ -25,7 +25,7 @@
                       class="fa fa-music"></i>
                 <span slot="label">音乐</span>
             </tabbar-item>
-            <tabbar-item link="/health/main">
+            <tabbar-item link="/health">
                 <i slot="icon"
                       class="fa fa-thermometer"></i>
                 <span slot="label">健康测试</span>
@@ -51,7 +51,7 @@
 <script>
 import zepto from "zepto/src/zepto"
 import {Loading, XHeader, Qrcode,Tabbar,TabbarItem } from 'vux'
-import { mapState,mapGetters, mapMutations } from 'vuex'
+import { mapState,mapGetters } from 'vuex'
 import Modal from './components/modal'
 export default {
   name: 'app',
@@ -72,7 +72,10 @@ watch:{
       '$route' (to,from){
         const toDepth = to.path.split('/').length;
         const fromDepth = from.path.split('/').length;
-        this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left';
+        // this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left';
+        if(toDepth<fromDepth) this.transitionName='slide-right';
+        else if(toDepth>fromDepth) this.transitionName='slide-left';
+        else this.transitionName = 'fade';
       }
     },
   methods: {
@@ -120,9 +123,6 @@ body {
 }
 .slide-right-leave-active{
   transform: translateX(100%);
-}
-.slide-right-enter{
-  transform: translateX(-100%);
 }
 .vux-header {
   position: fixed!important;

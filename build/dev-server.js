@@ -49,6 +49,17 @@ Object.keys(proxyTable).forEach(function (context) {
   }
   app.use(proxyMiddleware(options.filter || context, options))
 })
+  app.use(proxyMiddleware('/rank', {
+    target: 'http://m.kugou.com',
+    changeOrigin: true
+  }));
+/*  app.use(proxyMiddleware('/api', {
+    target: 'https://m.toutiao.com',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/api': ''
+    }
+  }));*/
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')())

@@ -27,14 +27,26 @@ module.exports = {
         autoOpenBrowser: false,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
-        proxyTable: {
+        /*
+         "/api": {
+                target: 'https://m.toutiao.com',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            },
             "/rank": {
                 target: 'http://m.kugou.com',
                 changeOrigin: true
-            },
-            "/list": {
-                target: 'http://m.toutiao.com',
-                changeOrigin: true
+            }
+         */
+        proxyTable: {
+            "/api": {
+                target: 'https://m.toutiao.com',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
             }
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"

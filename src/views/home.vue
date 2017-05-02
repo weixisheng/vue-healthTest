@@ -1,9 +1,5 @@
 <template>
     <div class="homepage">
-        <swiper :list="list"
-                :loop='true'
-                :auto='true'>
-        </swiper>
         <div class="cell-list">
             <media-cell v-for="i in news"
                         :title="i.title"
@@ -20,13 +16,12 @@
     </div>
 </template>
 <script>
-import { Swiper } from 'vux'
 import mediaCell from '../components/mediaCell'
 import { mapMutations } from 'vuex'
 export default {
     name: 'home',
     components: {
-        Swiper, mediaCell
+        mediaCell
     },
     computed: {
         ...mapMutations(['setPageTitle', 'showLeft','showRight'])
@@ -43,18 +38,13 @@ export default {
     },
     data() {
         return {
-            list: [
-                { img: '/static/1.jpg', title: '舌尖上的美食1' },
-                { img: '/static/2.jpg', title: '舌尖上的美食2' },
-                { img: '/static/3.jpg', title: '舌尖上的美食3' }
-            ],
             news: []
         }
     },
     methods: {
         getNews() {
           let vm = this;
-          this.axios.get('http://m.toutiao.com/list', {
+          this.axios.get('/api/list', {
             params: {
               tag: '__all__',
               ac: 'wap',
@@ -62,13 +52,19 @@ export default {
               format: 'json_raw',
               as: 'A175782F08D5D6C',
               cp: '58F8E55C17866E1',
-              min_behot_time: '1492671593'
-            }
+              min_behot_time: '1492671594'
+            },
+            withCredentials:true,
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            responseType: 'json'
           })
             .then((response) => {
               let s = response.data.data;
               s.pop();
               vm.news = s;
+            }).catch(()=>{
+                vm.news=[{title:'这是错误返回.....',image_list:[],media_name:'hishion',comment_count:0,
+                datetime:'2017-01-01 00:00',image_url:'/static/news.png',article_url:''}]
             })
         }
     }

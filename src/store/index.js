@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios'
-import {config} from '../config/service'
-Vue.use(Vuex)
+import axios from 'axios';
+import {config} from '../config/service';
+Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     pageTitle: '',

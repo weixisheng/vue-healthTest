@@ -81,7 +81,7 @@ export default {
     position: relative;
     margin: 0 1rem;
     transition: all .5s ease-in-out;
-    border-bottom: 1px solid hsla(0, 10%, 70%, .5);
+    border-bottom: 1px solid #eee;
     .cell-item__link {
         min-height: 84px;
         padding: .8rem 0;
@@ -96,11 +96,13 @@ export default {
     h3 {
         display: -webkit-box;
         -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
         text-overflow: ellipsis;
         overflow: hidden;
-        -webkit-line-clamp: 2;
         font-weight: 400;
         font-size: 16px;
+        height: 60px;
+        line-height: 20px;
         color: #131313;
     }
     .item-detail__imgs {
@@ -133,8 +135,10 @@ export default {
     .item-detail__cover {
         float: right;
         width: 30%;
+        height: 4rem;
         img{
             width: 100%;
+            height: 100%;
         }
     }
 }

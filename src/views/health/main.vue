@@ -51,7 +51,7 @@ export default {
         this.$router.push({ name: 'start' });
     }
   },
-  beforeRouteEnter: (to, from, next) => {
+  beforeRouteEnter:function (to, from, next){
     next(vm => {
       vm.$store.commit('showLeft',false);
       vm.$store.commit('showRight', true);
