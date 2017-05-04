@@ -1,4 +1,4 @@
-# hello-vux
+# Vux-APP
 
 > A Vue.js project
 
@@ -39,3 +39,29 @@ new HtmlWebpackPlugin({
       inject: true
     })
 ```
+
+> 开启登录验证
+
+```shell
+# 先启动mysql服务
+# src->config->nodeSql.js
+node nodeSql.js
+```
+
+> 代理
+
+```javascript
+# build/dev-server.js
+var express = require('express')
+var proxyMiddleware = require('http-proxy-middleware')
+var app = express()
+/*  访问/rank/8888时，请求代理到http://m.kugou.com/rank/8888  */
+  app.use(proxyMiddleware('/rank', {
+    target: 'http://m.kugou.com',
+    changeOrigin: true
+  }));
+```
+
+详情
+
+[proxyMiddleware]: https://www.npmjs.com/package/http-proxy-middleware
