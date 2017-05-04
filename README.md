@@ -62,6 +62,4 @@ var app = express()
   }));
 ```
 
-详情
-
-[proxyMiddleware]: https://www.npmjs.com/package/http-proxy-middleware
+详情 https://www.npmjs.com/package/http-proxy-middleware
