@@ -40,7 +40,7 @@
                   class="register-dialog"
                   :hideOnBlur="true">
             <p class="dialog-title">注册</p>
-            <form class="register-form"
+            <form class="register-form"  
                   autocomplete="off">
                 <div class="input-group">
                     <label for="register-username">
@@ -49,7 +49,7 @@
                            class="register-username"
                            placeholder="请输入用户名"
                            id="register-username"
-                           autocomplete="off">
+                           autocomplete="off" >
                 </div>
                 <div class="input-group">
                     <label for="register-password">
@@ -58,12 +58,11 @@
                            class="register-password"
                            placeholder="请输入密码"
                            id="register-password"
-                           autocomplete="off">
+                           autocomplete="off" >
                 </div>
             </form>
             <div class="register-btn">
-                <button class=""
-                        @click='doReg'>确认</button>
+            <button  @click="doReg">确认</button>
             </div>
             <span class="vux-close"
                   @click="showHideOnBlur=false"></span>
@@ -109,28 +108,56 @@ export default {
     },
     methods: {
         login: function () {
-            if (this.username == 'admin' && this.password == '1') {
-                window.sessionStorage.setItem('username', this.username)
-                go('home', this.$router);
+            var vm = this;
+            if(!this.username) return;
+            var truePwd ='';
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState==4&&xhr.status==200){
+                   truePwd = xhr.responseText;
+                   if ( vm.password == truePwd) {
+                    window.sessionStorage.setItem('username', vm.username)
+                    go('home', vm.$router);
             }
             else {
-                this.alertCon='登录信息有误，请重试！';
-                this.showValue = true;
+                vm.alertCon='登录信息有误，请重试！';
+                vm.showValue = true;
             }
+                }
+            };
+            xhr.open('GET', `http://localhost:81/login?username=${this.username}`);
+            xhr.send();
+         
         },
         register: function () {
             this.showHideOnBlur = true;
+            document.querySelector('.register-username').value='';
+            document.querySelector('.register-password').value='';
         },
         doReg: function () {
             var a =Array.from(document.querySelector('.register-form').querySelectorAll('input'));
             var b = true;
+            let regName ='',regPwd='';
+            var vm = this;
             a.forEach((i) => {
-                if(!i.value)  b=false;
+                if(!i.value){
+                    b=false;
+                    return;
+                }
             })
-            if(b) {
-                this.alertCon='注册成功!';
-                this.showHideOnBlur = false;
-                this.showValue = true;
+            if(!!b){
+            regName=a[0].value,
+            regPwd = a[1].value;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState==4&&xhr.status==200){
+                    vm.alertCon='注册成功!';
+                    vm.showHideOnBlur = false;
+                    vm.showValue = true;
+                }
+            };
+            xhr.open('POST', 'http://localhost:81/register');
+            xhr.send(`username=${regName}&password=${regPwd}`);
             }
            
         }
@@ -258,6 +285,7 @@ form {
         border: 1px solid #04be02;
         border-radius: 50px;
         color: #04be02;
+        text-align: center;
         &:active {
             background-color: #04be02;
             color: #fff;

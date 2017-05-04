@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { go } from '../../node_modules/vux/src/libs/router'
+import { go } from 'vux/src/libs/router'
 export default {
     name: 'SimpleCell',
     props: {

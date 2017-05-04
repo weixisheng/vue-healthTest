@@ -10,7 +10,7 @@
                   slot="second"></span>
         </simple-cell>
         <audio :src="audio.songUrl"
-               autoplay  @timeupdate="change" @ended="endHandle" id="audio-play"></audio>
+               autoplay loop @timeupdate="change" @ended="endHandle" id="audio-play"></audio>
         <div class="audio-panel" v-if="audio.songUrl">
             <img :src='audio.imgUrl' @click="showLrc">
             <div class="audio-status">
@@ -79,15 +79,10 @@ export default {
         SimpleCell
     },
     created() {
-        if (window.sessionStorage.getItem('username') !== 'admin') {
-            this.$router.push({ name: 'index' })
-            return
-        }
         this.$store.commit('setPageTitle', '音乐')
         this.$store.commit('showLeft', false)
         this.$store.commit('showRight', false)
         this.$store.dispatch('getSongList')
-
     },
     methods: {
         formatTime(t){

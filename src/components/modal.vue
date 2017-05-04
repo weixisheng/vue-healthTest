@@ -6,9 +6,8 @@
                  @click='closeOverlay'
                  v-show="currentValue"></div>
         </transition>
-        <transition name="t-scale">
-            <div class="v-modal"
-                 v-show="currentValue">
+        <transition name="t-scale" >
+            <div class="v-modal" v-show='currentValue'>
                 <header>
                     <slot name='header'></slot>
                 </header>
@@ -101,20 +100,20 @@ export default {
     }
 }
 
-.t-lay-enter,
-.t-layer-leave-active {
-    opacity: 0;
+.t-scale-enter-active{
+    animation: scale-in .5s linear;
 }
-
-.t-layer-enter-active,
-.t-layer-leave-active {
-    opacity: 500ms;
-}
-
 .t-scale-leave-active {
     transform: scale(0);
     transition: all 500ms;
 }
-
+@keyframes scale-in{
+    0%{
+       transform: scale(0); 
+    }
+    100%{
+        transform: scale(1);
+    }
+}
 
 </style>

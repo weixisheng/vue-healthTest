@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 import { Qrcode, XDialog } from 'vux'
 import SimpleCell from '../../components/simpleCell'
 export default {
@@ -83,11 +82,6 @@ export default {
         }
     },
     created() {
-        
-        if (window.sessionStorage.getItem('username') !== 'admin') {
-            this.$router.push({ name: 'index' });
-            return;
-        }
         this.$store.commit('setPageTitle', '我');
         this.$store.commit('showLeft', false);
         this.$store.commit('showRight', false);

@@ -33,15 +33,15 @@ export default {
   },
   created: function () {
     this.$store.commit('setPageTitle', '健康测试')
-    var self = this;
+    var vm = this;
     this.$store.commit('updateLoading',{isLoading:true});
     // setTimeout(() => {
       // this.axios.get(config.question)
       this.axios.get('/health/test/querstion')
         .then((response) => {
           // debugger
-          self.questions = response.data.returnObject
-          self.$store.commit('updateLoading',{isLoading:false})
+          vm.questions = response.data.returnObject
+          vm.$store.commit('updateLoading',{isLoading:false})
         });
     // }, 500)
   },
@@ -58,56 +58,6 @@ export default {
     })
   },
   mounted() {
-  //   function slideDownStep1(d) {
-  //     var sd1 = document.querySelector('.sd1'), sd2 = document.querySelector('.sd2');
-  //     sd2.style.display = 'none';
-  //     sd1.style.display = 'block';
-  //     sd1.style.height = - parseInt(d) + "px";
-  //   }
-  //   function slideDownStep2() {
-  //     var sd1 = document.querySelector('.sd1'), sd2 = document.querySelector('.sd2');
-  //     sd1.style.display = 'none';
-  //     sd1.style.height = "20px";
-  //     sd2.style.display = 'block';
-  //   }
-  //   function slideDownStep3() {
-  //     var sd1 = document.querySelector('.sd1'), sd2 = document.querySelector('.sd2');
-  //     sd1.style.display = 'none';
-  //     sd2.style.display = 'none';
-  //   }
-  //   function k_touch(wrapper) {
-  //     var _start = 0, _end = 0;
-  //     var _content = /#/.test(wrapper) ? document.getElementById(wrapper) : document.querySelector(wrapper);
-  //     _content.addEventListener("touchstart", touchStart, false);
-  //     _content.addEventListener("touchmove", touchMove, false);
-  //     _content.addEventListener("touchend", touchEnd, false);
-
-  //     function touchStart(event) {
-  //       event.preventDefault();
-  //       if (!event.targetTouches.length) return;
-  //       var touch = event.targetTouches[0];
-  //       _start = touch.pageY;
-  //     }
-  //     function touchMove(event) {
-  //       event.preventDefault();
-  //       if (!event.targetTouches.length) return;
-  //       var touch = event.targetTouches[0];
-  //       _end = _start - touch.pageY;
-  //       if (_end < 0 && _end > -40) {
-  //         slideDownStep1(_end)
-  //       }
-  //     }
-  //     function touchEnd(event) {
-  //       if (_end < 0) {
-  //         slideDownStep2();
-  //         setTimeout(() => {
-  //           slideDownStep3();
-  //           console.log('刷新完成')
-  //         }, 1000);
-  //       }
-  //     }
-  //   }
-  //   k_touch('.main-wrapper')
   }
 }
 

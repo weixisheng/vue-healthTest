@@ -9,6 +9,8 @@ import './config/rem.js';
 import router from "./router";
 import store from './store';
 import axios from 'axios';
+// import MuseUI from 'muse-ui'
+// Vue.use(MuseUI)
 Vue.use(VueRouter);
 
 FastClick.attach(document.body);

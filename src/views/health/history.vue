@@ -15,7 +15,6 @@
 <script>
 import Vue from 'vue'
 import { Timeline, TimelineItem } from 'vux'
-import { mapMutations } from 'vuex'
 import JRoll from '../../../node_modules/jroll/jroll.min'
 import Pulldown from '../../../node_modules/jroll/jroll-pulldown.min'
 import VueInfinite from '../../../node_modules/jroll/jroll-vue-infinite'

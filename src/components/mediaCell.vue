@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {go} from '../../node_modules/vux/src/libs/router'
+import {go} from 'vux/src/libs/router'
 export default {
     name: 'mediaCell',
     props: {
@@ -101,7 +101,7 @@ export default {
         overflow: hidden;
         font-weight: 400;
         font-size: 16px;
-        height: 60px;
+        /* height: 60px;*/
         line-height: 20px;
         color: #131313;
     }

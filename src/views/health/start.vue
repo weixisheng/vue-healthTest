@@ -60,7 +60,7 @@
 <script>
 
 import { Toast, Loading, Actionsheet } from 'vux';
-import { go } from '../../../node_modules/vux/src/libs/router'
+import { go } from 'vux/src/libs/router'
 
 export default {
   name: 'start',
