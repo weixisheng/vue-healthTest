@@ -46,6 +46,7 @@ export default {
                 vm.getNews('loadmore');
             }
         });
+        
         // 下拉刷新
         this.myscroll.on('touchEnd', function () {
             var r = this;
@@ -89,6 +90,8 @@ export default {
                         title: '这是错误返回.....', image_list: [], media_name: 'hishion', comment_count: 0,
                         datetime: '2017-01-01 00:00', image_url: '/static/news.png', article_url: ''
                     }]
+                     vm.$store.commit('updateLoading', { isLoading: false })
+                    
                 })
         }
     }
@@ -104,5 +107,14 @@ export default {
     bottom: 0;
     width: 100%;
     overflow: hidden
+}
+.refresh-container{
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    transform: translateY(-44px);
+    text-align: center;
+    transition: transform .5s;
 }
 </style>

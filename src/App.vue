@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <x-header :left-options="{showBack:showBack}" :right-options="{showMore:showMore}" @on-click-more="clickMore">{{pageTitle}}
+    <x-header :left-options="{showBack:showBack}" :right-options="{showMore:showMore}" @on-click-more="clickMore" @on-click-title='goTop'>
+      {{pageTitle}}
     </x-header>
     <div class="main">
-  
       <transition mode="out-in" :name="transitionName">
         <!-- <keep-alive> -->
         <router-view></router-view>
         <!-- </keep-alive>   -->
       </transition>
-  
     </div>
+    
     <tabbar class="fix-footer">
       <tabbar-item selected link="/home">
         <i slot="icon" class="fa fa-home"></i>
@@ -19,6 +19,10 @@
       <tabbar-item link="/music">
         <i slot="icon" class="fa fa-music"></i>
         <span slot="label">音乐</span>
+      </tabbar-item>
+      <tabbar-item link="/movie">
+        <i slot="icon" class="fa fa-file-movie-o"></i>
+        <span slot="label">电影</span>
       </tabbar-item>
       <tabbar-item link="/health">
         <i slot="icon" class="fa fa-thermometer"></i>
@@ -45,9 +49,11 @@ import zepto from "zepto/src/zepto"
 import { Loading, XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
 import { mapState, mapGetters } from 'vuex'
 import Modal from './components/modal'
+import SimpleCell from './components/simpleCell'
+
 export default {
   name: 'app',
-  components: { Loading, XHeader, Qrcode, Modal, Tabbar, TabbarItem },
+  components: { Loading, XHeader, Qrcode, Modal, Tabbar, TabbarItem, SimpleCell },
   computed: {
     ...mapState({
       isLoading: state => state.ajaxLoading.isLoading
@@ -56,9 +62,18 @@ export default {
   },
   data() {
     return {
-      transitionName: 'fade'
+      transitionName: 'fade',
+      lists: [
+        { iconClass: 'fa fa-universal-access v-yellow', label: '了解会员特权' },
+        { iconClass: 'fa fa-credit-card v-red', label: 'QQ钱包' },
+        { iconClass: 'fa fa-paw v-green', label: '个性装扮' },
+        { iconClass: 'fa fa-star v-yellow', label: '我的收藏' },
+        { iconClass: 'fa fa-image v-blue', label: '我的相册' },
+        { iconClass: 'fa fa-file', label: '我的文件' },
+        { iconClass: 'fa fa-calendar v-yellow', label: '我的日程' }
+      ],
+      rdColor: '#' + Math.floor(Math.random() * 255 * 255 * 255 + 1).toString(16)
     }
-
   },
   watch: {
     '$route'(to, from) {
@@ -73,6 +88,12 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1);
+    },
+    goTop() {
+      document.querySelector('.main').scrollTop = 0;
+      if ($('div[jroll-id]').length > 0) {
+        $('div[jroll-id]')[0].jroll.scrollTo(0, 0, 200);
+      }
     },
     clickMore() {
       this.$store.commit('showModal', true)
@@ -147,4 +168,5 @@ body {
   width: 0;
   background-color: #F5F5F5;
 }
+
 </style>

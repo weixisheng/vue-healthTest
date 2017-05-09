@@ -51,6 +51,13 @@ module.exports = {
             "/health":{
                 target:"https://gateway-test.infinitus.com.cn/api/product/products",
                 changeOrigin:true
+            },
+            "/movieAPI":{
+                target:"https://api.douban.com",
+                changeOrigin:true,
+                pathRewrite: {
+                    '^/movieAPI': ''
+                }
             }
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"

@@ -15,15 +15,7 @@ const router = new Router({
         }, {
             path: '/home',
             name: 'home',
-            component: require('../views/home'),
-            beforeEnter: (to, from, next) => {
-                if (!window.sessionStorage.getItem('username')) {
-                    next({path: '/login'})
-                }
-                else{
-                    next()
-                }
-            }
+            component: require('../views/home')
         }, {
             path: '/health',
             name: 'main',
@@ -100,7 +92,12 @@ const router = new Router({
             path: '/music',
             name: 'music',
             component: require('../views/music')
-        }, {
+        }, 
+        {
+            path: '/movie',
+            name: 'movie',
+            component: require('../views/movie')
+        },{
             path: '*',
             redirect: '/login'
         }
