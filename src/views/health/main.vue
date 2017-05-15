@@ -16,7 +16,7 @@
 
 <script>
 import { Group, Cell} from 'vux'
-import circleBox from '../../components/circleBox'
+import circleBox from 'components/circleBox'
 import {config} from '../../config/service'
 export default {
   components: {

@@ -1,23 +1,23 @@
 <template>
     <div class="homepage">
         <div class="cell-list">
-            <media-cell v-for="i in news" 
-            :title="i.title" 
-            :img-list="i.image_list" 
-            :media-name="i.media_name" 
-            :comment-count="i.comment_count" 
-            :time="i.datetime" 
-            :cover="i.image_url" 
-            :source="i.source" 
-            :video-img="i.video_detail_info?i.video_detail_info.detail_video_large_image.url:''" 
-            :large-img="i.large_image_url?i.large_image_url:''" 
+            <media-cell v-for="i in news"
+            :title="i.title"
+            :img-list="i.image_list"
+            :media-name="i.media_name"
+            :comment-count="i.comment_count"
+            :time="i.datetime"
+            :cover="i.image_url"
+            :source="i.source"
+            :video-img="i.video_detail_info?i.video_detail_info.detail_video_large_image.url:''"
+            :large-img="i.large_image_url?i.large_image_url:''"
             :link="i.article_url"></media-cell>
         </div>
     </div>
 </template>
 <script>
-import mediaCell from '../components/mediaCell'
-import JRoll from '../../node_modules/jroll/jroll.min'
+import mediaCell from 'components/mediaCell'
+import JRoll from 'jroll/jroll.min'
 export default {
     name: 'home',
     components: {
@@ -46,7 +46,7 @@ export default {
                 vm.getNews('loadmore');
             }
         });
-        
+
         // 下拉刷新
         this.myscroll.on('touchEnd', function () {
             var r = this;
@@ -91,7 +91,7 @@ export default {
                         datetime: '2017-01-01 00:00', image_url: '/static/news.png', article_url: ''
                     }]
                      vm.$store.commit('updateLoading', { isLoading: false })
-                    
+
                 })
         }
     }

@@ -8,7 +8,8 @@ let TABLE = 'member';
 let app = express();
 //创建连接  
 let client = mysql.createConnection({
-	host: 'localhost',
+	// host: 'http://172.31.31.231',
+	host:'localhost',
 	user: 'root',
 	password: '',
 	database: 'makefriend',
@@ -20,6 +21,7 @@ client.connect();
 let selectSql = `SELECT password FROM ${TABLE} WHERE username=?`;
 let selectParams = [];
 app.get('/login', (req, res) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.writeHead(200, {
 		'Content-Type': 'text/html; charset=utf8'
 	});

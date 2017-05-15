@@ -56,7 +56,7 @@
 
 <script>
 import { Group, XSwitch } from 'vux'
-import SimpleCell from '../../components/simpleCell'
+import SimpleCell from 'components/simpleCell'
 export default {
     name: 'setting',
     data() {

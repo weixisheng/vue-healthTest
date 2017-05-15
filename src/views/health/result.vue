@@ -4,13 +4,11 @@
             <div class="circle-box test-active text-center v-bg-yellow v-white">
                 <div class="v-cen">
                     <p class="v-fz-11">您的肤质为</p>
-                    <h1 class="v-fz-18">
-                                                                            {{testResult}}
-                                                                        </h1>
+                    <h1 class="v-fz-18">{{testResult}}</h1>
                 </div>
             </div>
         </div>
-    
+
         <div class="tonic-container">
             <h2 class="h2 v-fz-15 text-center">推荐商品</h2>
             <div class="tonic-tabs flex space-between">
@@ -57,7 +55,7 @@
     </div>
 </template>
 <script>
-import tonic from '../../components/tonic'
+import tonic from 'components/tonic'
 import { mapState } from 'vuex'
 export default {
     name: "result",
@@ -93,7 +91,7 @@ export default {
                     tabItems = document.querySelectorAll(".tab-item");
                 var startX, moveX, differ;
                 tabCon.addEventListener('touchstart', function (e) {
-                
+
                     var touch = e.targetTouches[0];
                     startX = touch.pageX;
                 }, false);
@@ -136,7 +134,7 @@ export default {
         },
         cartNum() {
             var c = document.querySelector('.cart-count');
-            
+
                 c.classList.add('bounce');
                 setTimeout(()=>{
                     c.classList.remove('bounce');

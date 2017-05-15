@@ -12,10 +12,10 @@
                 <div class="me-qrcode fr" @click="showQrBox">
                     <qrcode value="wxs" type='canvas' :size='30' :fg-color="rdColor"></qrcode>
                 </div>
-    
+
             </div>
         </div>
-    
+
         <div class="me-group" v-for="item in lists">
             <simple-cell v-for="c in item" :link="c.link?c.link:''" :padding="10">
                 <span slot="icon" :class="c.iconClass"></span>
@@ -36,7 +36,7 @@
             <p>扫一扫上面的二维码图案，加我微信</p>
         </x-dialog>
         <div class="side-bar">
-            <div class="side-layer" @click="hideLayer($event)"></div>
+            <div class="side-layer"></div>
             <div class="side-content">
                 <div class="top-info clearfix">
                     <qrcode value="华圣灵魂" type='canvas' :size='20' :fg-color="rdColor" class='me-qrcode'></qrcode>
@@ -70,7 +70,7 @@
 
 <script>
 import { Qrcode, XDialog } from 'vux'
-import SimpleCell from '../../components/simpleCell'
+import SimpleCell from 'components/simpleCell'
 export default {
     name: "me",
     computed: {
@@ -118,7 +118,7 @@ export default {
         showQrBox() {
             this.showQr = true;
         },
-        hideLayer(e) {
+        hideLayer() {
             $('.side-content').css({
                 'transform': 'translateX(-100%)'
             })
@@ -131,23 +131,42 @@ export default {
         var main = document.querySelector('.me-container');
         let startX, endX;
         main.addEventListener('touchstart', function (e) {
+            $('.side-content').css({
+                'left':  '0'
+            })
             let touch = e.changedTouches[0];
             startX = touch.pageX;
+            $('.side-bar').css({
+                'display': 'block'
+            })
         }, false);
         main.addEventListener('touchmove', function (e) {
             let touch = e.changedTouches[0];
             endX = touch.pageX;
+            var diff = endX - startX;
+            let sideContent = document.querySelector('.side-content');
+            let width = ~~(window.getComputedStyle(sideContent).width).replace('px','');
+            if (diff > width/2) diff = width;
+            if (diff < 0) {
+                $('.side-bar').css({
+                    'display': 'none'
+                })
+                return;
+            };
+            $('.side-content').css({
+                'left':  diff + 'px'
+            })
         }, false);
         main.addEventListener('touchend', function (e) {
-            let diff = endX - startX;
-            if (diff > 50) {
-                $('.side-content').css({
-                    'transform': 'translateX(0)'
-                })
-                $('.side-layer').css({
-                    'display': 'block'
-                })
-            }
+            // let diff = endX - startX;
+            // if (diff > 0) {
+            //     $('.side-content').css({
+            //         'transform': 'translateX(-100%)'
+            //     })
+            //     $('.side-bar').css({
+            //         'display': 'none'
+            //     })
+            // }
         }, false);
     },
     beforeRouteLeave: function (to, from, next) {
@@ -231,16 +250,7 @@ export default {
 }
 
 .side-bar {
-    .side-layer {
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        height: 100%;
-        background: rgba(0, 0, 0, .5);
-        z-index: 999;
-        display: none;
-    }
+    display: none;
     .side-content {
         position: fixed;
         left: 0;
@@ -250,7 +260,7 @@ export default {
         background: #fff;
         z-index: 1000;
         transform: translateX(-100%);
-        transition: transform .5s;
+        transition: left .5s;
     }
 }
 
@@ -262,6 +272,12 @@ export default {
     padding: 1rem .5rem;
     >.me-qrcode {
         text-align: right;
+    }
+    .me-head {
+        img {
+            border: 1px solid #fff;
+            border-radius: 50%;
+        }
     }
 }
 

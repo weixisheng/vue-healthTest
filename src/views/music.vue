@@ -54,8 +54,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import SimpleCell from '../components/simpleCell'
-import Peaks from '../../node_modules/peaks.js/src/main'
+import SimpleCell from 'components/simpleCell'
 export default {
     name: 'music',
     data() {
@@ -85,7 +84,7 @@ export default {
         lrcOffset() {
             if (this.songLrc) {
                 var offset = (this.songLrc.length - document.querySelectorAll('.isCurrentLrc').length - 2) * (-20);
-                //动态改变高度   
+                //动态改变高度
                 return this.audio.currentLength + offset - this.audio.currentLength;
             }
         }
@@ -308,9 +307,9 @@ export default {
     color: #2fc27b;
     font-size: 14px;
     text-align: center;
-    transition: transform 0.5s;
+    transition: margin-top 0.5s;
     .lrc-content {
-        transition: transform .5s;
+        transition: margin-top .5s;
     }
 }
 

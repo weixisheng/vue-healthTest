@@ -67,7 +67,7 @@ const router = new Router({
         }, {
             path: '/me',
             name: 'me',
-            component: require('../views/me/me'),  
+            component: require('../views/me/me'),
             beforeEnter: (to, from, next) => {
                 if (!window.sessionStorage.getItem('username')) {
                     next({path: '/login'})

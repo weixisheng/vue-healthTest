@@ -10,9 +10,9 @@
         <!-- </keep-alive>   -->
       </transition>
     </div>
-    
+
     <tabbar class="fix-footer">
-      <tabbar-item selected link="/home">
+      <tabbar-item link="/home" selected>
         <i slot="icon" class="fa fa-home"></i>
         <span slot="label">首页</span>
       </tabbar-item>
@@ -32,7 +32,7 @@
         <i slot="icon" class="fa fa-user-o"></i>
         <span slot="label">我的</span>
       </tabbar-item>
-  
+
     </tabbar>
     <modal v-model="showModal" @modal-hide="onHide">
       <h1 slot="header">扫一扫获取测试链接</h1>
@@ -48,8 +48,8 @@
 import zepto from "zepto/src/zepto"
 import { Loading, XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
 import { mapState, mapGetters } from 'vuex'
-import Modal from './components/modal'
-import SimpleCell from './components/simpleCell'
+import Modal from 'components/modal'
+import SimpleCell from 'components/simpleCell'
 
 export default {
   name: 'app',
@@ -62,17 +62,7 @@ export default {
   },
   data() {
     return {
-      transitionName: 'fade',
-      lists: [
-        { iconClass: 'fa fa-universal-access v-yellow', label: '了解会员特权' },
-        { iconClass: 'fa fa-credit-card v-red', label: 'QQ钱包' },
-        { iconClass: 'fa fa-paw v-green', label: '个性装扮' },
-        { iconClass: 'fa fa-star v-yellow', label: '我的收藏' },
-        { iconClass: 'fa fa-image v-blue', label: '我的相册' },
-        { iconClass: 'fa fa-file', label: '我的文件' },
-        { iconClass: 'fa fa-calendar v-yellow', label: '我的日程' }
-      ],
-      rdColor: '#' + Math.floor(Math.random() * 255 * 255 * 255 + 1).toString(16)
+      transitionName: 'fade'
     }
   },
   watch: {
@@ -156,7 +146,7 @@ body {
   top: 44px;
   left: 0;
   right: 0;
-  bottom: 44px;
+  bottom: 50px;
   overflow: auto;
 }
 
