@@ -52,8 +52,8 @@ export default {
             var r = this;
             //  vm.loading = true;
             if (r.y > 40) {
-                r.scrollTo(0, 0, 200)
                 vm.getNews('pulldown');
+                r.scrollTo(0, 0, 200)
             }
         });
     },
