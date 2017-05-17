@@ -7,7 +7,7 @@
                 <label slot="label">{{item.title}}</label>
                 <span class="play-status fa fa-music m-blue hidden" slot="second"></span>
             </simple-cell>
-            <audio :src="audio.songUrl" autoplay loop @timeupdate="change" @ended="endHandle" id="audio-play"></audio>
+            <audio :src="audio.songUrl" autoplay @timeupdate="change" @ended="endHandle" id="audio-play"></audio>
             <div class="audio-panel" v-if="audio.songUrl">
                 <img :src='audio.imgUrl' @click="togglePlayer">
                 <div class="audio-status">
@@ -24,7 +24,11 @@
             </div>
             <div class="audio-info">
                 <p class="audio-title">{{audio.title}}</p>
-                <p class="audio-singer v-fz-16"><span class='line'>-</span><span>{{audio.singer}}</span><span class="line">-</span></p>
+                <p class="audio-singer v-fz-16">
+                    <span class='line'>-</span>
+                    <span>{{audio.singer}}</span>
+                    <span class="line">-</span>
+                </p>
             </div>
             <div class="audio-head">
                 <img :src="audio.imgUrl.replace(/\/100\//,'/400/')" class="rotating">
@@ -43,6 +47,7 @@
                 </p>
                 <span>{{formatTime(audio.songLength)}}</span>
                 <div class="play-control">
+                    <span class="random-btn" @click="random()"></span>
                     <span class="prev-btn" @click="prev()"></span>
                     <span class="play-btn" @click="togglePlay()"></span>
                     <span class="next-btn" @click="next()"></span>
@@ -108,21 +113,18 @@ export default {
         },
         togglePlayer() {
             if (!this.lrcing) {
-                $('.audio-player').css({ 'transform': 'translateY(0)' })
-                $('.audio-bg').css({ 'transform': 'translateY(0)' })
+                $('.audio-player,.audio-bg').css({ 'transform': 'translateY(0)' })
                 this.lrcing = true;
             }
             else {
-                $('.audio-player').css({ 'transform': 'translateY(100%)' })
-                $('.audio-bg').css({ 'transform': 'translateY(100%)' })
+                $('.audio-player,.audio-bg').css({ 'transform': 'translateY(100%)' })
                 this.lrcing = false;
             }
         },
         playSong(event) {
-            var vm = this, target = event.currentTarget;
+            var target = event.currentTarget;
             var hash = target.dataset['hash'];
             var playIndex = ~~target.dataset['index'];
-            window.sessionStorage.setItem('hash', hash);
             this.$store.commit('setPlayIndex', playIndex);
             this.$store.dispatch('getSong', hash);
             this.$store.dispatch('getLrc', hash);
@@ -143,8 +145,7 @@ export default {
             progressBall.style.transform = `translateX(${left}px)`;
         },
         endHandle() {
-            var h = window.sessionStorage.getItem('hash');
-            $(`[data-hash='${h}']`).find('.play-status').removeClass('rotating').addClass('hidden')
+            this.next();
         },
         togglePlay() {
             if (!this.playing) {
@@ -165,6 +166,12 @@ export default {
         prev() {
             this.$store.dispatch('prev');
             this.playStatus();
+        },
+        random(){
+            const songLength = this.songList.length;
+            let r = Math.floor(Math.random()*songLength);
+            this.$store.dispatch('random',r);
+            this.playStatus();            
         }
     },
     beforeRouteLeave: function (to, from, next) {
@@ -206,7 +213,7 @@ export default {
 }
 
 .rotating {
-    animation: rotate 10s infinite linear
+    animation: rotate 20s infinite linear
 }
 
 @keyframes rotate {
@@ -348,6 +355,14 @@ export default {
         align-items: center;
         span {
             display: inline-block;
+        }
+        .random-btn {
+            background: url('/static/random.png');
+            background-size: contain;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-left: -1.6rem;
+            margin-right: .8rem;
         }
         .prev-btn {
             background: url('/static/pre.png');

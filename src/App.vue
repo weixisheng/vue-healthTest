@@ -40,7 +40,7 @@
         <qrcode value="https://emcs-test.infinitus.com.cn/h5/www/product/pages/module_healthTestBf/index.html" type='canvas'></qrcode>
       </div>
     </modal>
-    <loading v-model="isLoading"></loading>
+    <loading v-model="isLoading" :text='text'></loading>
   </div>
 </template>
 
@@ -56,9 +56,10 @@ export default {
   components: { Loading, XHeader, Qrcode, Modal, Tabbar, TabbarItem, SimpleCell },
   computed: {
     ...mapState({
-      isLoading: state => state.ajaxLoading.isLoading
+      isLoading: state => state.ajaxLoading.isLoading,
+      text:state=>state.ajaxLoading.text
     }),
-    ...mapGetters(['pageTitle', 'showMore', 'showBack', 'showModal'])
+    ...mapGetters(['showBack','showMore','pageTitle','showModal'])
   },
   data() {
     return {

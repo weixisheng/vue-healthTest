@@ -150,6 +150,7 @@ const store = new Vuex.Store({
       else 
         ++state.playIndex
       let hash = list[state.playIndex].hash;
+      
       dispatch('getSong', hash);
       dispatch('getLrc', hash);
     },
@@ -160,18 +161,27 @@ const store = new Vuex.Store({
        else
        --state.playIndex;
        let hash = list[state.playIndex].hash;
+
       dispatch('getSong', hash);
       dispatch('getLrc', hash);
+    },
+    random({dispatch,state},index){
+      let h = state.songList[index].hash;
+      state.playIndex = index;
+      dispatch('getSong',h);
+      dispatch('getLrc',h);
     }
   }
 });
 store.registerModule('ajaxLoading', {
   state: {
-    isLoading: false
+    isLoading: false,
+    text:''
   },
   mutations: {
     updateLoading(state, payload) {
       state.isLoading = payload.isLoading;
+      state.text = payload.text;
     }
   }
 })

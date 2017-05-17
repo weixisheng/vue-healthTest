@@ -60,7 +60,8 @@ export default {
     methods: {
         getNews(action) {
             let vm = this;
-            this.$store.commit('updateLoading', { isLoading: true });
+            let text = action=='pulldown'?'刷新中...':'加载中...';
+            this.$store.commit('updateLoading', { isLoading: true ,text});
             this.axios.get('/api/list', {
                 params: {
                     tag: '__all__',

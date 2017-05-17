@@ -105,7 +105,7 @@ export default {
 }
 .t-scale-leave-active {
     transform: scale(0);
-    transition: all 500ms;
+    transition: transform 500ms;
 }
 @keyframes scale-in{
     0%{
