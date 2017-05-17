@@ -55,10 +55,13 @@ node nodeSql.js
 var express = require('express')
 var proxyMiddleware = require('http-proxy-middleware')
 var app = express()
-/*  访问/rank/8888时，请求代理到http://m.kugou.com/rank/8888  */
-  app.use(proxyMiddleware('/rank', {
+/*  访问/kugouAPI/rangk/info时，请求代理到http://m.kugou.com/rank/info  */
+   app.use(proxyMiddleware('/kugouAPI', {
     target: 'http://m.kugou.com',
-    changeOrigin: true
+    changeOrigin: true,
+    pathRewrite:{
+      '^/kugouAPI':''
+    }
   }));
 ```
 
