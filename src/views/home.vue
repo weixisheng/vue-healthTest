@@ -62,7 +62,7 @@ export default {
             let vm = this;
             let text = action=='pulldown'?'刷新中...':'加载中...';
             this.$store.commit('updateLoading', { isLoading: true ,text});
-            this.axios.get('/api/list', {
+            this.axios.get('/toutiaoAPI/list', {
                 params: {
                     tag: '__all__',
                     ac: 'wap',

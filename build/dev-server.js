@@ -49,9 +49,12 @@ Object.keys(proxyTable).forEach(function (context) {
   }
   app.use(proxyMiddleware(options.filter || context, options))
 })
-  app.use(proxyMiddleware('/rank', {
+  app.use(proxyMiddleware('/kugouAPI', {
     target: 'http://m.kugou.com',
-    changeOrigin: true
+    changeOrigin: true,
+    pathRewrite:{
+      '^/kugouAPI':''
+    }
   }));
 /*  app.use(proxyMiddleware('/api', {
     target: 'https://m.toutiao.com',

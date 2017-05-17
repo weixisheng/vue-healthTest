@@ -14,8 +14,12 @@
                     <p>{{audio.singer}}</p>
                     <p class="v-fz-14">{{audio.title}}</p>
                 </div>
+                <div class="audio-play">
+                <span class="fa fa-pause" @click="togglePlay()"></span>
+                </div>
             </div>
         </div>
+
         <!--player-->
         <div class="audio-bg" :style="{'background-image': 'url('+audio.imgUrl.replace(/\/100\//,'/400/')+')'}"></div>
         <div class="audio-player">
@@ -60,12 +64,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import SimpleCell from 'components/simpleCell'
+// import throttle from 'lodash/throttle'
 export default {
     name: 'music',
     data() {
         return {
             lrcing: false,
-            playing: true
+            playing: true,
+            page:1
         }
     },
     computed: {
@@ -103,6 +109,45 @@ export default {
         this.$store.commit('showLeft', false)
         this.$store.commit('showRight', false)
         this.$store.dispatch('getSongList')
+    },
+    mounted(){
+        let musicWrap = document.querySelector('.main');
+        const vm = this;
+        // musicWrap.onscroll = throttle(function(){
+        musicWrap.onscroll = function(){
+        var hadLoad = false;
+        let mHeight = musicWrap.offsetHeight,
+            lHeight = document.querySelector('.song-list').offsetHeight,
+            mscrollTop = musicWrap.scrollTop;
+            if((mHeight+mscrollTop>=lHeight)&&!hadLoad&&vm.page<10){
+                // load more here
+                // vm.$store.commit('updateLoading',{isLoading:true});
+                vm.axios.get("/kugouAPI/rank/info",{
+                    params:{
+                        rankid:8888,
+                        page:++vm.page,
+                        json:true
+                    }
+                })
+                .then(function(res){
+                // vm.$store.commit('updateLoading',{isLoading:false});                    
+                    var r = res.data.songs.list;
+                    hadLoad = true;
+                    let result = [];
+                    r.map(function(item){
+                        var s = {};
+                        s.title = item.filename;
+                        s.hash = item.hash;
+                        result.push(s);
+                    });
+                    let v1 = vm.songList.concat(result);
+                    vm.$store.commit('receiveSongList',v1);
+                })
+                .catch(function(){
+                    vm.page--;
+                })
+            }
+        }
     },
     methods: {
         formatTime(t) {
@@ -151,11 +196,13 @@ export default {
             if (!this.playing) {
                 document.getElementById("audio-play").play();
                 $('.play-btn').removeClass('playing');
+                $(".audio-play").find('span').removeClass('fa-play').addClass('fa-pause');
                 this.playing = true;
             }
             else {
                 document.getElementById("audio-play").pause();
                 $('.play-btn').addClass('playing');
+                $(".audio-play").find('span').removeClass('fa-pause').addClass('fa-play');                
                 this.playing = false;
             }
         },
@@ -238,7 +285,7 @@ export default {
     }
     .audio-status {
         float: left;
-        width: 78%;
+        width: 70%;
         margin-left: 1rem;
         font-size: 16px;
         span {
@@ -246,6 +293,11 @@ export default {
                 margin-right: 5px;
             }
         }
+    }
+    .audio-play{
+        float: left;
+        width:10%;
+        line-height: 2.5rem;
     }
 }
 

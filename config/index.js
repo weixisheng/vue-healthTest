@@ -41,11 +41,11 @@ module.exports = {
             }
          */
         proxyTable: {
-            "/api": {
+            "/toutiaoAPI": {
                 target: 'https://m.toutiao.com',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api': ''
+                    '^/toutiaoAPI': ''
                 }
             },
             "/health":{

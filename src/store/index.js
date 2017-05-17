@@ -115,7 +115,7 @@ const store = new Vuex.Store({
               .split('{size}')
               .join('100'),
             title = result.songName,
-            singer = result.singerName,
+            singer = result.choricSinger.split(/[，、]/).join('|'),
             songLength = result.timeLength,
             currentLength = 0,
             audio = {
