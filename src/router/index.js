@@ -3,10 +3,10 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
-// const foo = resolve => { require.ensure(['../views/foo.vue'], () => {resolve(require('../views/foo.vue')); }); }; 
-// {path:'/foo',compoennt:foo}
-// const bar =resolve=>require(['../views/bar.vue'],resolve);
-// {path:'/bar',compoennt:bar}
+/*const foo = resolve => { require.ensure(['../views/foo.vue'], () => {resolve(require('../views/foo.vue')); }); }; 
+{path:'/foo',compoennt:foo}*/
+/*const bar =resolve=>require(['../views/bar.vue'],resolve);
+{path:'/bar',compoennt:bar}*/
 const router = new Router({
     routes: [
         {
