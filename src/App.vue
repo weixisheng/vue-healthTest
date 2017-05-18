@@ -81,7 +81,19 @@ export default {
       this.$router.go(-1);
     },
     goTop() {
-      document.querySelector('.main').scrollTop = 0;
+      // document.querySelector('.main').scrollTop = 0;
+      let timer = null;
+      const m = document.querySelector('.main');
+      timer = setInterval(function(){
+        var ct = m.scrollTop;
+        ct-=20;
+        if(ct > 0)
+          m.scrollTop=ct;
+        else{
+          m.scrollTop=0;
+          clearInterval(timer);
+        }
+      },10);
       if ($('div[jroll-id]').length > 0) {
         $('div[jroll-id]')[0].jroll.scrollTo(0, 0, 200);
       }

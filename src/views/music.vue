@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id='music-wrap'>
         <!--songList-->
         <div class="song-list">
             <simple-cell v-for="(item,index) in songList" :data-hash="item.hash" :key='index' :data-index='index' @click.native="playSong">
@@ -111,7 +111,7 @@ export default {
         this.$store.dispatch('getSongList')
     },
     mounted(){
-        let musicWrap = document.querySelector('.main');
+        let musicWrap = document.querySelector('#music-wrap');
         const vm = this;
         // musicWrap.onscroll = throttle(function(){
         musicWrap.onscroll = function(){
@@ -228,6 +228,14 @@ export default {
 }
 </script>
 <style lang="less">
+#music-wrap{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
 .song-list {
     padding-bottom: 50px;
 }
