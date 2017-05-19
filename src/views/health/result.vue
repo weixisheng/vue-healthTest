@@ -8,49 +8,26 @@
                 </div>
             </div>
         </div>
-
+    
         <div class="tonic-container">
             <h2 class="h2 v-fz-15 text-center">推荐商品</h2>
             <div class="tonic-tabs flex space-between">
-                <div class="tab-item v-fz-14 active"
-                     @click="changeTab"
-                     data-index="0">暖湿环境方案</div>
-                <div class="tab-item v-fz-14"
-                     @click="changeTab"
-                     data-index="1">干冷环境方案</div>
+                <div class="tab-item v-fz-14 active" @click="changeTab" data-index="0">暖湿环境方案</div>
+                <div class="tab-item v-fz-14" @click="changeTab" data-index="1">干冷环境方案</div>
                 <div class="underline"></div>
             </div>
             <div class="tab-content">
                 <div class="warm">
-                    <tonic v-for="w in warmProduct"
-                           :src="w.appPhotoUrl"
-                           :hot="w.hot"
-                           :prom="w.prom"
-                           :new1="w.new"
-                           :product-full-name="w.productFullName"
-                           :product-price="w.productPrice"
-                           :product-retail-price="w.productRetailPrice"
-                           :show-count='true'
-                           @cart-num='cartNum'></tonic>
+                    <tonic v-for="w in warmProduct" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum'></tonic>
                 </div>
                 <div class="dry hidden">
-                    <tonic v-for="d in dryProduct"
-                           :src="d.appPhotoUrl"
-                           :hot="d.hot"
-                           :prom="d.prom"
-                           :new1="d.new"
-                           :product-full-name="d.productFullName"
-                           :product-price="d.productPrice"
-                           :product-retail-price="d.productRetailPrice"
-                           :show-count='true'
-                           @cart-num='cartNum'></tonic>
+                    <tonic v-for="d in dryProduct" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum'></tonic>
                 </div>
             </div>
         </div>
         <div class="shopping-cart-right">
             <i class="fa fa-cart-arrow-down"></i>
-            <span class="cart-count"
-                  v-show="cartCount">{{cartCount}}</span>
+            <span class="cart-count" v-show="cartCount">{{cartCount}}</span>
         </div>
     </div>
 </template>
@@ -63,16 +40,21 @@ export default {
         tonic
     },
     computed: {
-        ...mapState(['cartCount'])
+        ...mapState(['cartCount']),
+         testResult(){
+           const TEST_RESULT = ['干性肌肤','油性肌肤','中性肌肤','混合性肌肤'];
+           let i = Math.round(Math.random()*TEST_RESULT.length);
+           return TEST_RESULT[i];
+       } 
     },
     data() {
         return {
-            testResult: "混合性肌肤",
             tonicList: [],
             warmProduct: [],
             dryProduct: []
         }
     },
+    
     created: function () {
         this.$store.commit('setPageTitle', '测试结果')
         let self = this;
@@ -125,7 +107,6 @@ export default {
             var target = panels.eq(index);
             tabs.eq(index).addClass("active").siblings("div").removeClass("active");
             target.removeClass("hidden").siblings("div").addClass("hidden");
-            // debugger
             var l = event.currentTarget.offsetLeft;
             underline.css({
                 "-webkit-transform": "translateX(" + l + "px)",
@@ -135,10 +116,10 @@ export default {
         cartNum() {
             var c = document.querySelector('.cart-count');
 
-                c.classList.add('bounce');
-                setTimeout(()=>{
-                    c.classList.remove('bounce');
-                },1500);
+            c.classList.add('bounce');
+            setTimeout(() => {
+                c.classList.remove('bounce');
+            }, 1500);
         }
     }
 }

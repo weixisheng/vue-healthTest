@@ -1,9 +1,7 @@
 <template>
     <div class="tonic-item">
         <div class="product-img">
-            <img :src="src"
-                 class="hv-cen"
-                 onerror="src='/static/logo.jpg'">
+            <img :src="src" class="hv-cen" onerror="src='/static/logo.jpg'">
         </div>
         <div class="product-label">
             <span :class="[hot?hotClass:'hidden']">热</span>
@@ -20,10 +18,8 @@
             </div>
         </div>
         <div v-if="showCount">
-            <count :min='1'
-                   :max='300'></count>
-            <div class="add2cart fr"
-                 @click="add2cart">
+            <count :min='1' :max='300'></count>
+            <div class="add2cart fr" @click="add2cart">
                 <i class="fa fa-shopping-cart"></i>
             </div>
         </div>
@@ -54,9 +50,9 @@ export default {
         productFullName: String,
         productPrice: Number,
         productRetailPrice: Number,
-        showCount:{
-            type:Boolean,
-            default:false
+        showCount: {
+            type: Boolean,
+            default: false
         }
     },
     components: { animatedInteger, count },
@@ -70,16 +66,32 @@ export default {
     },
     methods: {
         add2cart(event) {
-            var ct = $(event.currentTarget);
-            var con = ct.parents('.tonic-item');
-            var $img = $(con.find('.product-img img'));
-            var width = $img[0].width;
-            var height = $img[0].height;
-            var offset = $img.offset();
+            // var ct = $(event.currentTarget);
+            // var con = ct.parents('.tonic-item');
+            // var $img = $(con.find('.product-img img'));
+            // var width = $img[0].width;
+            // var height = $img[0].height;
+            // var offset = $img.offset();
+            // var bottom = $(window).height() - offset.top - height + $(window).scrollTop();
+            // var right = $(window).width() - offset.left - width;
+            // var src = $img.attr("src");
+            // var m = document.createElement('img');
+            // m.id = 'imgMoive';
+            // var tt = `width:${width}px;height:${height}px;bottom:${bottom}px;right:${right}px;`;
+            // m.style = `position:fixed;z-index:1000;${tt}-webkit-animation:end 1s ease-in-out;animation:end 1s ease-in-out`;
+            // m.src = src;
+            // document.body.appendChild(m);
+            // setTimeout(() => {
+            //     m.remove();
+            // }, 1000);
+            var ct = event.currentTarget;
+            var img = ct.parentNode.parentNode.firstChild.firstChild;
+            var width = img.clientWidth;
+            var height = img.clientHeight;
+            var bottom =window.innerHeight- img.getBoundingClientRect().bottom;
+            var right =window.innerWidth- img.getBoundingClientRect().right;
             
-            var bottom = $(window).height() - offset.top - height + $(window).scrollTop();
-            var right = $(window).width() - offset.left - width;
-            var src = $img.attr("src");
+            var src= img.src;
             var m = document.createElement('img');
             m.id = 'imgMoive';
             var tt = `width:${width}px;height:${height}px;bottom:${bottom}px;right:${right}px;`;
