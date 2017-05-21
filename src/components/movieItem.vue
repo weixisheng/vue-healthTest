@@ -58,7 +58,6 @@ export default {
 }
 
 .movie-title {
-   
     font-weight: bold;
 }
 

@@ -101,14 +101,7 @@ export default {
 </script>
 
 <style lang="less">
-.homepage {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    overflow: hidden
-}
+
 .refresh-container{
     position: absolute;
     left:0;

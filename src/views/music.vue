@@ -228,14 +228,7 @@ export default {
 }
 </script>
 <style lang="less">
-#music-wrap{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-}
+
 .song-list {
     padding-bottom: 50px;
 }

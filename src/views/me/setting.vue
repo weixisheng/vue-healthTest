@@ -1,5 +1,5 @@
 <template>
-    <div class="v-bg-lightgray stretch">
+    <div class="v-bg-lightgray">
         <group title="通讯录">
             <simple-cell :padding='0'>
                 <x-switch slot="label"

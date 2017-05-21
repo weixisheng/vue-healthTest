@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import {config} from '../config/service';
+import config from '../config/service';
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
@@ -74,8 +74,7 @@ const store = new Vuex.Store({
   },
   actions: {
     getSongList({commit, state}) {
-      axios
-        .get(config.rank)
+      axios.get(config.rank)
         .then((response) => {
           var div = document.createElement('div');
           div.innerHTML = response.data;
@@ -84,23 +83,15 @@ const store = new Vuex.Store({
           var songList = [];
           for (var i = 0; i < list.length; i++) {
             var song = {};
-            song.title = list[i]
-              .querySelector('.panel-songs-item-name span')
-              .innerText;
-            song.hash = list[i]
-              .id
-              .substr(6);
+            song.title = list[i].querySelector('.panel-songs-item-name span').innerText;
+            song.hash = list[i].id.substr(6);
             songList.push(song);
           }
           commit('receiveSongList', songList)
         })
     },
-    getSong({
-      commit,
-      state
-    }, hash) {
-      axios
-        .get(config.songInfo, {
+    getSong({commit,state}, hash) {
+      axios.get(config.songInfo, {
         params: {
           cmd: 'playInfo',
           hash: hash,
@@ -110,10 +101,7 @@ const store = new Vuex.Store({
         .then(res => {
           var result = res.data;
           var songUrl = result.url,
-            imgUrl = result
-              .imgUrl
-              .split('{size}')
-              .join('100'),
+            imgUrl = result.imgUrl.split('{size}').join('100'),
             title = result.songName,
             singer = result.choricSinger.split(/[，、]/).join('|'),
             songLength = result.timeLength,
@@ -129,12 +117,8 @@ const store = new Vuex.Store({
           commit('setAudio', audio)
         })
     },
-    getLrc({
-      commit,
-      state
-    }, hash) {
-      axios
-        .get('http://cs003.m2828.com/apis/getLrc.php', {
+    getLrc({commit,state}, hash) {
+      axios.get('http://cs003.m2828.com/apis/getLrc.php', {
         params: {
           hash: hash
         }
@@ -150,33 +134,33 @@ const store = new Vuex.Store({
       else 
         ++state.playIndex
       let hash = list[state.playIndex].hash;
-      
-      dispatch('getSong', hash);
-      dispatch('getLrc', hash);
-    },
-    prev({dispatch, state}){
-      var list = state.songList;
-      if(state.playIndex==0)
-       state.playIndex = list.length-1;
-       else
-       --state.playIndex;
-       let hash = list[state.playIndex].hash;
 
       dispatch('getSong', hash);
       dispatch('getLrc', hash);
     },
-    random({dispatch,state},index){
+    prev({dispatch, state}) {
+      var list = state.songList;
+      if (state.playIndex == 0) 
+        state.playIndex = list.length - 1;
+      else 
+        --state.playIndex;
+      let hash = list[state.playIndex].hash;
+
+      dispatch('getSong', hash);
+      dispatch('getLrc', hash);
+    },
+    random({dispatch,state}, index) {
       let h = state.songList[index].hash;
       state.playIndex = index;
-      dispatch('getSong',h);
-      dispatch('getLrc',h);
+      dispatch('getSong', h);
+      dispatch('getLrc', h);
     }
   }
 });
 store.registerModule('ajaxLoading', {
   state: {
     isLoading: false,
-    text:''
+    text: ''
   },
   mutations: {
     updateLoading(state, payload) {

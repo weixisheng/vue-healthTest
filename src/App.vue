@@ -12,27 +12,26 @@
     </div>
 
     <tabbar class="fix-footer">
-      <tabbar-item link="/home" selected>
+      <tabbar-item link="/home" :selected="/\/home/.test($route.path)">
         <i slot="icon" class="fa fa-home"></i>
         <span slot="label">首页</span>
       </tabbar-item>
-      <tabbar-item link="/music">
+      <tabbar-item link="/music" :selected="/music/.test($route.path)">
         <i slot="icon" class="fa fa-music"></i>
         <span slot="label">音乐</span>
       </tabbar-item>
-      <tabbar-item link="/movie">
+      <tabbar-item link="/movie" :selected="/movie/.test($route.path)">
         <i slot="icon" class="fa fa-file-movie-o"></i>
         <span slot="label">电影</span>
       </tabbar-item>
-      <tabbar-item link="/health">
+      <tabbar-item link="/health" :selected="/health/.test($route.path)">
         <i slot="icon" class="fa fa-thermometer"></i>
         <span slot="label">健康测试</span>
       </tabbar-item>
-      <tabbar-item link="/me">
+      <tabbar-item link="/me" :selected="/\/me/.test($route.path)">
         <i slot="icon" class="fa fa-user-o"></i>
         <span slot="label">我的</span>
       </tabbar-item>
-
     </tabbar>
     <modal v-model="showModal" @modal-hide="onHide">
       <h1 slot="header">扫一扫获取测试链接</h1>
@@ -77,13 +76,10 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      this.$router.go(-1);
-    },
     goTop() {
       // document.querySelector('.main').scrollTop = 0;
       let timer = null;
-      const m = document.querySelector('.main');
+      const m = document.querySelector('.main').firstChild;
       timer = setInterval(function(){
         var ct = m.scrollTop;
         ct-=20;
@@ -117,34 +113,6 @@ body {
   background-color: #fff;
 }
 
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity .5s;
-}
-
-.slide-left-enter-active,
-.slide-right-enter-active {
-  transition: transform .5s;
-}
-
-.slide-left-enter {
-  transform: translateX(100%);
-}
-
-.slide-left-leave-active,
-.slide-right-enter {
-  transform: translateX(-100%);
-}
-
-.slide-right-leave-active {
-  transform: translateX(100%);
-}
-
 .vux-header {
   position: fixed!important;
   height: 44px;
@@ -160,7 +128,15 @@ body {
   left: 0;
   right: 0;
   bottom: 50px;
-  overflow: auto;
+  overflow: hidden;
+  >div:first-child{
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom:0;
+    width: 100%;
+    overflow-y: auto;
+  }
 }
 
 .fix-footer {

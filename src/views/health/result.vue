@@ -20,7 +20,7 @@
                 <div class="warm">
                     <tonic v-for="w in warmProduct" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum'></tonic>
                 </div>
-                <div class="dry hidden">
+                <div class="dry">
                     <tonic v-for="d in dryProduct" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum'></tonic>
                 </div>
             </div>
@@ -41,11 +41,11 @@ export default {
     },
     computed: {
         ...mapState(['cartCount']),
-         testResult(){
-           const TEST_RESULT = ['干性肌肤','油性肌肤','中性肌肤','混合性肌肤'];
-           let i = Math.round(Math.random()*TEST_RESULT.length);
-           return TEST_RESULT[i];
-       } 
+        testResult() {
+            const TEST_RESULT = ['干性肌肤', '油性肌肤', '中性肌肤', '混合性肌肤'];
+            let i = Math.round(Math.random() * TEST_RESULT.length);
+            return TEST_RESULT[i];
+        }
     },
     data() {
         return {
@@ -54,78 +54,102 @@ export default {
             dryProduct: []
         }
     },
-    
+
     created: function () {
         this.$store.commit('setPageTitle', '测试结果')
-        let self = this;
-        this.axios.get('./static/recommend.json')
-            .then((response) => {
-                let result = response.data
-                self.tonicList = result.data;
-                self.tonicList.forEach((i) => {
-                    if (i.appPhotoUrl)
-                        i.appPhotoUrl += "&imageView/2/2/h/250"
-                });
-                self.warmProduct = self.tonicList.slice(0, 9);
-                self.dryProduct = self.tonicList.slice(9);
-
-                var tabCon = document.querySelector(".tab-content"),
-                    tabItems = document.querySelectorAll(".tab-item");
-                var startX, moveX, differ;
-                tabCon.addEventListener('touchstart', function (e) {
-
-                    var touch = e.targetTouches[0];
-                    startX = touch.pageX;
-                }, false);
-                tabCon.addEventListener('touchmove', function (e) {
-                    var touch = e.targetTouches[0];
-                    moveX = touch.pageX;
-                    differ = moveX - startX;
-                }, false);
-                tabCon.addEventListener('touchend', function (e) {
-                    //left-->right
-                    if (differ > 0 && differ > 50) {
-                        if (tabItems[1].classList.contains('active')) {
-                            tabItems[0].click();
-                        }
-                    }
-                    //right-->left
-                    else if (differ < 0 && differ < -50) {
-                        if (tabItems[0].classList.contains('active')) {
-                            tabItems[1].click();
-                        }
-                    }
-                }, false);
-            });
+        this.getRecommend();
     },
     methods: {
-        changeTab: function (event) {
-            var tabs = $(".tonic-tabs>.tab-item"),
-                panels = $(".tab-content>div"),
-                underline = $(".underline");
-            var index = event.currentTarget.dataset.index;
-            var target = panels.eq(index);
-            tabs.eq(index).addClass("active").siblings("div").removeClass("active");
-            target.removeClass("hidden").siblings("div").addClass("hidden");
-            var l = event.currentTarget.offsetLeft;
-            underline.css({
-                "-webkit-transform": "translateX(" + l + "px)",
-                "transform": "translateX(" + l + "px)"
-            });
+        getRecommend() {
+            let self = this;
+            this.axios.get('./static/recommend.json')
+                .then(function (response) {
+                    let result = response.data
+                    self.tonicList = result.data;
+                    self.tonicList.forEach((i) => {
+                        if (i.appPhotoUrl)
+                            i.appPhotoUrl += "&imageView/2/2/h/250"
+                    });
+                    self.warmProduct = self.tonicList.slice(0, 9);
+                    self.dryProduct = self.tonicList.slice(9);
+                });
+        },
+        changeTab(event) {
+            // var tabs = $(".tonic-tabs>.tab-item"),
+            //     panels = $(".tab-content>div"),
+            //     underline = document.querySelector('.underline');
+            // var index = event.currentTarget.dataset.index;
+            // var target = panels.eq(index);
+            // tabs.eq(index).addClass("active").siblings("div").removeClass("active");
+            // target.removeClass("hidden").siblings("div").addClass("hidden");
+            const tabs = document.querySelectorAll('.tab-item');
+            let tabsLength = tabs.length;
+            const panels = document.querySelector('.tab-content').children;
+            const underline = document.querySelector('.underline');
+            var i =0,j=0;
+             i = +event.currentTarget.dataset.index;
+             j = tabsLength - i - 1;
+            tabs[i].classList.add('active');
+            tabs[j].classList.remove('active');
+            // panels[i].classList.remove('hidden');
+            // panels[j].classList.add('hidden');
+            if (i == 1) {
+                
+                panels[j].style.transform = panels[j].style.webkitTransform = `translateX(-100%)`;
+                panels[i].style.transform = panels[i].style.webkitTransform = `translateX(0)`;
+            }
+            else{
+                panels[j].style.transform = panels[j].style.webkitTransform = `translateX(100%)`;
+                panels[i].style.transform = panels[i].style.webkitTransform = `translateX(0)`;
+            }
+
+            let l = event.currentTarget.offsetLeft;
+            underline.style.transform = underline.style.webkitTransform = `translateX(${l}px)`;
         },
         cartNum() {
             var c = document.querySelector('.cart-count');
-
             c.classList.add('bounce');
             setTimeout(() => {
                 c.classList.remove('bounce');
             }, 1500);
         }
+    },
+    mounted() {
+        const tabCon = document.querySelector(".tab-content"),
+            tabItems = document.querySelectorAll(".tab-item");
+
+        var startX, moveX, differ;
+        tabCon.addEventListener('touchstart', function (e) {
+            var touch = e.targetTouches[0];
+            startX = touch.pageX;
+        }, false);
+        tabCon.addEventListener('touchmove', function (e) {
+            var touch = e.targetTouches[0];
+            moveX = touch.pageX;
+            differ = moveX - startX;
+        }, false);
+        tabCon.addEventListener('touchend', function (e) {
+            //left-->right
+            if (differ > 0 && differ > 50) {
+                if (tabItems[1].classList.contains('active')) {
+                    tabItems[0].click();
+                }
+            }
+            //right-->left
+            else if (differ < 0 && differ < -50) {
+                if (tabItems[0].classList.contains('active')) {
+                    tabItems[1].click();
+                }
+            }
+        }, false);
     }
 }
 </script>
 
 <style lang="less" scoped>
+.container {
+    overflow-x: hidden;
+}
 .result-container {
     margin: 10px;
     padding: 4% 0;
@@ -165,7 +189,9 @@ export default {
     position: relative;
     margin: 0 15%;
 }
-
+.space-between{
+    justify-content: space-between;
+}
 .tab-item {
     padding: 6px 0;
     transition: all .5s;
@@ -173,6 +199,20 @@ export default {
 
 .tonic-tabs .active {
     color: #e4bb91;
+}
+
+.tab-content {
+    overflow: hidden;
+    >div {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        transition: transform .5s;
+    }
+
+    .dry {
+        transform: translateX(100%)
+    }
 }
 
 .tonic-tabs .underline {

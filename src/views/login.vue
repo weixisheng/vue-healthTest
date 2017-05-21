@@ -191,7 +191,7 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
         color: #bc2826;
-    text-shadow: 0 0 5px #d2d445;
+        text-shadow: 0 0 5px #d2d445;
     }
 }
 
@@ -241,7 +241,6 @@ form {
         padding: 10px;
         label {
             width: 25px;
-             
             padding-right: 10px;
             
         }
@@ -297,7 +296,7 @@ form {
     background: #dfdfdf;
 }
 
-input:-webkit-autofill {
+input::-webkit-autofill {
     background: none;
 }
 
@@ -312,8 +311,8 @@ input:-webkit-autofill {
     margin: 8px 0;
     top: 0;
     right: 5px;
-    &:before,
-    &:after {
+    &::before,
+    &::after {
         content: '';
         position: absolute;
         height: 1px;
@@ -322,10 +321,10 @@ input:-webkit-autofill {
         left: 0;
         background: #98979d;
     }
-    &:before {
+    &::before {
         transform: rotate(45deg);
     }
-    &:after {
+    &::after {
         transform: rotate(-45deg);
     }
 }

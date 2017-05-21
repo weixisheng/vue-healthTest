@@ -58,16 +58,7 @@ export default {
 }
 </script>
 <style lang="less">
-.clearfix {
-    &:after {
-        visibility: hidden;
-        display: block;
-        font-size: 0;
-        content: " ";
-        clear: both;
-        height: 0;
-    }
-}
+@import '../assets/less/common';
 
 .c-blue {
     color: blue;
@@ -94,14 +85,9 @@ export default {
 
 .item-detail {
     h3 {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-        text-overflow: ellipsis;
-        overflow: hidden;
+        .multi-ellipsis(3);
         font-weight: 400;
         font-size: 16px;
-        /* height: 60px;*/
         line-height: 20px;
         color: #131313;
     }
@@ -109,8 +95,8 @@ export default {
         margin-top: .1rem;
         ul {
             list-style: none;
-            display: flex;
-            justify-content: space-between;
+            .flex;
+            .just-cont(space-between);
             li {
                 height: 4rem;
                 padding: 0 3px;
@@ -129,12 +115,10 @@ export default {
 
 .simple {
     .item-detail__title ,.item-detail__info{
-        float: left;
-        width: 70%;
+        .f-w(left,70%);
     }
     .item-detail__cover {
-        float: right;
-        width: 30%;
+        .f-w(right,30%);
         height: 4rem;
         img{
             width: 100%;

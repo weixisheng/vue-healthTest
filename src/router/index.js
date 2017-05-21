@@ -20,63 +20,23 @@ const router = new Router({
         }, {
             path: '/health',
             name: 'main',
-            component: require('../views/health/main'),
-            beforeEnter: (to, from, next) => {
-                if (!window.sessionStorage.getItem('username')) {
-                    next({path: '/login'})
-                }
-                else{
-                    next()
-                }
-            }
+            component: require('../views/health/main')
         }, {
             path: '/health/start',
             name: 'start',
-            component: require('../views/health/start'),
-            beforeEnter: (to, from, next) => {
-                if (!window.sessionStorage.getItem('username')) {
-                    next({path: '/health'})
-                }
-                else{
-                    next()
-                }
-            }
+            component: require('../views/health/start')
         }, {
             path: '/health/history',
             name: 'history',
-            component: require('../views/health/history'),
-            beforeEnter: (to, from, next) => {
-                if (!window.sessionStorage.getItem('username')) {
-                    next({path: '/health'})
-                }
-                else{
-                    next()
-                }
-            }
+            component: require('../views/health/history')
         }, {
             path: '/health/result',
             name: 'result',
-            component: require('../views/health/result'),
-            beforeEnter: (to, from, next) => {
-                if (!window.sessionStorage.getItem('username')) {
-                    next({path: '/health'})
-                }
-                else{
-                    next()
-                }
-            }
+            component: require('../views/health/result')
         }, {
             path: '/me',
             name: 'me',
-            component: require('../views/me/me'),
-            beforeEnter: (to, from, next) => {
-                if (!window.sessionStorage.getItem('username')) {
-                    next({path: '/login'})
-                }
-                else{
-                    next()
-                }
-            }
+            component: require('../views/me/me')
         }, {
             path: '/me/money',
             name: 'money',
@@ -104,5 +64,14 @@ const router = new Router({
         }
     ]
 });
-
+router.beforeEach((to, from, next) => {
+    //to and from are Route Object,next() must be called to resolve the hook
+    // console.log(to.path);
+    if(to.path!=='/login' && !window.sessionStorage.getItem('username')){
+        next({path:'/login'})
+    }
+    else{
+        next();
+    }
+})
 export default router;

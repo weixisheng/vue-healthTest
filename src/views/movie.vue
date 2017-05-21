@@ -30,6 +30,8 @@ export default {
             this.axios.get('/movieAPI/v2/movie/in_theaters').then((res) => {
                 vm.movieList = res.data.subjects;
                 vm.$store.commit('updateLoading', { isLoading: false })
+            }).catch(()=>{
+                vm.$store.commit('updateLoading', { isLoading: false })
             })
         },
         goMovie(e){

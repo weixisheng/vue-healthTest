@@ -91,7 +91,6 @@ input,button{
 .clearfix {
   display: block;
   zoom: 1;
-
   &:after {
     content: " ";
     display: block;
@@ -100,6 +99,10 @@ input,button{
     clear: both;
     visibility: hidden;
   }
+}
+.f-w(@type:left,@width:100%){
+    float: @type;
+    width: @width;
 }
 .fl{
     float: left;
@@ -123,12 +126,48 @@ input,button{
     top: 50%;
     transform: translateY(-50%);
 }
-.space-between{
-    justify-content: space-between;
+.just-cont(@type:center){
+    justify-content: @type;
 }
-.stretch{
-    position: absolute;
-    width: 100%;
-    top: 0;
-    bottom: 0;
+.align-items(@type:center){
+    align-items: @type;
+}
+.ellipsis{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.multi-ellipsis(@line:2){
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: @line;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+
+.slide-left-enter-active,
+.slide-right-enter-active {
+  transition: transform .5s;
+}
+
+.slide-left-enter {
+  transform: translateX(100%);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+  transform: translateX(-100%);
+}
+
+.slide-right-leave-active {
+  transform: translateX(100%);
 }

@@ -10,16 +10,16 @@
             <span>{{productFullName}}</span>
         </div>
         <div class="product-price clearfix">
-            <div class="fl v-red">
+            <div class="v-red">
                 <animated-integer :value="productPrice"></animated-integer>
             </div>
-            <div class="fr v-blue">
+            <div class="v-blue">
                 <animated-integer :value="productRetailPrice"></animated-integer>
             </div>
         </div>
         <div v-if="showCount">
             <count :min='1' :max='300'></count>
-            <div class="add2cart fr" @click="add2cart">
+            <div class="add2cart" @click="add2cart">
                 <i class="fa fa-shopping-cart"></i>
             </div>
         </div>
@@ -95,9 +95,10 @@ export default {
             var m = document.createElement('img');
             m.id = 'imgMoive';
             var tt = `width:${width}px;height:${height}px;bottom:${bottom}px;right:${right}px;`;
-            m.style = `position:fixed;z-index:1000;${tt}-webkit-animation:end 1s ease-in-out;animation:end 1s ease-in-out`;
+            m.style = `position:fixed;z-index:1000;${tt}-webkit-animation:end 1s cubic-bezier(0.82, -0.39, 0.82, 0.12);animation:end 1s cubic-bezier(0.82, -0.39, 0.82, 0.12)`;
             m.src = src;
             document.body.appendChild(m);
+            
             setTimeout(() => {
                 m.remove();
             }, 1000);
@@ -109,15 +110,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~vux/src/styles/common.less';
+@import '../assets/less/common.less';
 .tonic-item {
     padding: 5px;
     background: #fff;
-    width: 48%;
     margin: 1%;
     position: relative;
     box-sizing: border-box;
-    float: left;
+    .f-w(left,48%);
     display: block;
     border: 1px solid rgba(234, 234, 21, 0.47);
     box-shadow: 0 0 5px rgba(31, 208, 216, 0.63);
@@ -131,16 +131,13 @@ export default {
         }
     }
     .product-label {
-        overflow: hidden;
         margin-top: 8px;
         margin-bottom: 5px;
         font-size: 15px;
         line-height: 20px;
         height: 40px;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
+        overflow: hidden;
+       .multi-ellipsis(2);
         word-wrap: break-word;
         .v-product-tag {
             width: 17px;
@@ -150,7 +147,7 @@ export default {
             border-radius: 2px;
             color: #fff;
             font-size: 12px;
-            text-align: center;
+            .text-center;
             position: relative;
             top: -1px;
         }
@@ -159,14 +156,20 @@ export default {
 
 .product-price {
     font-size: 16px;
+    >div:first-child{
+        .fl;
+    }
+    >div:last-child{
+        .fr;
+    }
 }
 
 .add2cart {
     height: 30px;
     line-height: 30px;
-    width: 30px;
+    .f-w(right,30px);
     font-weight: bold;
-    text-align: center;
+    .text-center;
     background: #e4bb91;
     color: #fff;
     font-size: 18px;

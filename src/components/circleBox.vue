@@ -6,7 +6,7 @@
              :class="[activeClass,commonClass]">开始测试</div>
         <div v-else
              :class='[commonClass]'>暂未开通</div>
-        <h3 class="v-gray v-fz-18">{{paperName}}</h3>
+        <h3 class="v-gray">{{paperName}}</h3>
     </div>
 </template>
 <script>
@@ -47,6 +47,7 @@ export default {
     height: 7rem;
     line-height: 7rem;
     margin: 0 auto;
+    border: 1px solid transparent;/*解决部分oppo机型渲染问题*/
     border-radius: 50%;
     box-shadow: 0 0 5px 5px rgba(223, 223, 221, .64);
     &.test-active {
@@ -55,7 +56,9 @@ export default {
 }
 
 h3 {
-    line-height: 50px;
+    line-height: 1.2;
     font-weight: normal;
+    margin: .5rem 0;
+    font-size: .8rem;
 }
 </style>

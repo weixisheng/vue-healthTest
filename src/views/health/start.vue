@@ -1,73 +1,55 @@
 <template>
-  <div class="test-home">
-    <div class="test-title v-yellow">
-      <p>干性皮肤（Dry - D）</p>
-      <p>VS.</p>
-      <p>油性皮肤（Oil - O）</p>
-    </div>
-    <p class="test-description v-fz-15 v-gray">
-      {{illustrate}}
-    </p>
-    <div class="btn-group flex">
-      <button class="v-bg-yellow v-white v-fz-15 start"
-              @click="history">查看历史</button>
-      <button class="v-bg-yellow v-white v-fz-15 start"
-              @click="start">开始测试</button>
-    </div>
-    <div class="share-test v-yellow"
-         @click="showSheet">
-      <span class="fa fa-paper-plane-o"></span>
-    </div>
-    <Actionsheet v-if="showAction" v-model='action'
-                 :show-cancel="showCancel"
-                 cancel-text="取消"
-                 :menus='menus'
-                 v-on:on-click-menu='onClickMenu'></Actionsheet>
-    <loading :value="showLoading"
-             :text="loadingText"></loading>
-  
-    <div class="test-cell v-gray v-fz-14"
-         :data-index="index + 1"
-         :data-id="paperItem.id"
-         v-for="(paperItem,index) in paperItems"
-         :class="[{hidden:hidden}]">
-      <h3 class="quest-title v-gray v-fz-16">
-                            {{index + 1}}.{{paperItem.question}}
-                      </h3>
-      <div v-for="ele in paperItem.items"
-           class="quest-answer radio radio-primary clearfix">
-        <input type="radio"
-               :name="index"
-               :data-code="ele.option"
-               :id="'ques-'+index + ele.option">
-        <label :for="'ques-'+index + ele.option">
-          {{ele.content}}
-        </label>
+  <div id='start-wrapper'>
+    <div class="test-home">
+      <div class="test-title v-yellow">
+        <p>干性皮肤（Dry - D）</p>
+        <p>VS.</p>
+        <p>油性皮肤（Oil - O）</p>
       </div>
-      <img :src="paperItem.questionImg"
-           alt=""
-           onerror="src='/static/logo.jpg'">
+      <p class="test-description v-fz-15 v-gray">
+        {{illustrate}}
+      </p>
+      <div class="btn-group flex">
+        <button class="v-bg-yellow v-white v-fz-15 start" @click="history">查看历史</button>
+        <button class="v-bg-yellow v-white v-fz-15 start" @click="start">开始测试</button>
+      </div>
+      <div class="share-test v-yellow" @click="showSheet">
+        <span class="fa fa-paper-plane-o"></span>
+      </div>
+      <Actionsheet v-if="showAction" v-model='action' :show-cancel="showCancel" cancel-text="取消" :menus='menus' v-on:on-click-menu='onClickMenu'></Actionsheet>
+      <loading :value="showLoading" :text="loadingText"></loading>
+  
+      <div class="test-cell v-gray v-fz-14" :data-index="index + 1" :data-id="paperItem.id" v-for="(paperItem,index) in paperItems" :class="[{hidden:hidden}]" :key="index">
+        <h3 class="quest-title v-gray v-fz-16">
+          {{index + 1}}.{{paperItem.question}}
+        </h3>
+        <div v-for="ele in paperItem.items" class="quest-answer radio radio-primary clearfix">
+          <input type="radio" :name="index" :data-code="ele.option" :id="'ques-'+index + ele.option">
+          <label :for="'ques-'+index + ele.option">
+            {{ele.content}}
+          </label>
+        </div>
+        <img :src="paperItem.questionImg" alt="" onerror="src='/static/logo.jpg'">
+      </div>
+      <button class="v-bg-yellow v-white v-fz-15 submit" @click="submit" :class="{hidden:hidden}">提交测试</button>
+      <Toast :value="showToast" type="warn" is-show-mask>请选择答案</Toast>
+      <div class="fix-progress-bar" :class="{hidden:hidden}">
+        <div class="fix-progress" :style="{height:`${menuIndex * 50/paperItems.length}vh`}"></div>
+      </div>
     </div>
-    <button class="v-bg-yellow v-white v-fz-15 submit"
-            @click="submit"
-            :class="{hidden:hidden}">提交测试</button>
-    <Toast :value="showToast"
-           type="warn"
-           is-show-mask>请选择答案</Toast>
   </div>
 </template>
 
 <script>
 
 import { Toast, Loading, Actionsheet } from 'vux';
-import { go } from 'vux/src/libs/router'
+// import { go } from 'vux/src/libs/router'
 
 export default {
   name: 'start',
   components: {
     Toast, Loading, Actionsheet
   },
-
   data() {
     return {
       illustrate: '',
@@ -77,8 +59,10 @@ export default {
       showLoading: false,
       loadingText: '加载中...',
       action: false,
-      showAction:false,
+      showAction: false,
       showCancel: true,
+      topList:[],
+      menuIndex:1,
       menus: [{
         type: 'disabled',
         label: '分享链接到'
@@ -94,8 +78,8 @@ export default {
     }
   },
   beforeRouteEnter: (to, from, next) => {
-    next(vm=>{
-      vm.$store.commit('showLeft',true);
+    next(vm => {
+      vm.$store.commit('showLeft', true);
     })
   },
 
@@ -108,9 +92,9 @@ export default {
         self.illustrate = result.desc;
         self.paperItems = result.paperItems;
       });
-      setTimeout(function(){
-        self.showAction = true;
-      },800);
+    setTimeout(function () {
+      self.showAction = true;
+    }, 800);
   },
   methods: {
     history: function () {
@@ -143,7 +127,6 @@ export default {
         }
         this.loadingText = `加载进度${percent}%`
       })
-      
     },
     showSheet: function () {
       this.action = true;
@@ -153,11 +136,11 @@ export default {
     },
     submit: function () {
       let a = Array.from(document.querySelectorAll("input"));
-      let c = 0;
+      let count = 0;
       a.forEach((i) => {
-        i.checked ? c++ : c;
+        i.checked ? count++ : count;
       })
-      if (c !== this.paperItems.length) {
+      if (count !== this.paperItems.length) {
         this.showToast = true;
         setTimeout(() => {
           this.showToast = false;
@@ -167,8 +150,40 @@ export default {
         // go('result', this.$router);
         this.$router.push({ name: 'result' });
       }
+    },
+    getTopList(){
+      const cells= document.querySelectorAll('.test-cell');
+      let startWrapper = document.getElementById('start-wrapper');
+      Array.from(cells).forEach((item,index)=>{
+        this.topList[index] = item.offsetTop;
+      })
+      this.listenScroll(startWrapper);
+    },
+    listenScroll(wrapper){
+      let vm = this;
+      const wH = wrapper.offsetHeight;
+      wrapper.onscroll = function(){
+        var top = this.scrollTop;
+        vm.topList.forEach((item,index)=>{
+          if(top>=item){
+            vm.menuIndex = index + 1;
+          }
+        });
+        if(top+wH>=wrapper.firstChild.offsetHeight-150){
+          vm.menuIndex = vm.paperItems.length;
+        }
+      }
     }
-  }
+  },
+    watch:{
+      showLoading(value){
+        if(!value){
+          this.$nextTick(()=>{
+            this.getTopList();
+          });
+        }
+      }
+    }
 }
 </script>
 
@@ -231,8 +246,7 @@ export default {
 }
 
 .test-cell {
-  margin-top: .2rem;
-  margin-bottom: .1rem;
+  margin: .2rem .8rem .1rem 0;
 }
 
 .test-cell .quest-title {
@@ -257,12 +271,12 @@ export default {
   border-radius: 50%;
   background: url(../../assets/1.png);
   background-size: contain;
+  &:checked{
+     content: url(../../assets/2.png);
+  background-color: #fff;
+  }
 }
 
-.quest-answer>input[type='radio']:checked {
-  content: url(../../assets/2.png);
-  background-color: #fff;
-}
 
 .quest-answer>label {
   position: relative;
@@ -276,5 +290,22 @@ export default {
   width: 100%;
   margin-top: 9%;
   margin-bottom: 16%;
+}
+
+.fix-progress-bar {
+  position: fixed;
+  right: 5px;
+  top: 8rem;
+  width: 5px;
+  height: 50vh;
+  background: #d4e0e0;
+  .fix-progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #e4bb91;
+    transition: height .5s;
+  }
 }
 </style>
