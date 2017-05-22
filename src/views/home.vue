@@ -77,10 +77,12 @@ export default {
                     let s = response.data.data;
                     s.pop();
                     if (action == 'loadmore') {
-                        vm.news = vm.news.concat(s);
+                        // vm.news = vm.news.concat(s);
+                        vm.news = [...vm.news,...s];
                     }
                     else {
-                        vm.news = s.concat(vm.news);
+                        // vm.news = s.concat(vm.news);
+                        vm.news = [...s,...vm.news];
                     }
                     vm.$nextTick(function () {
                         vm.myscroll.refresh();
