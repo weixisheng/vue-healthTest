@@ -75,7 +75,6 @@ export default {
     }
     .my-foot {
         display: inline;
-        
         position: relative;
         font-size: 15px;
         color:#aaa;

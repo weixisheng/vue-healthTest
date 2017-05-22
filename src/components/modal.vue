@@ -1,6 +1,5 @@
 <template>
-    <div class="v-modal-container"
-         @touchmove="onTouchMove">
+    <div class="v-modal-container">
         <transition name='t-layer'>
             <div class="v-layer"
                  @click='closeOverlay'
@@ -50,16 +49,12 @@ export default {
         },
         currentValue(val) {
             this.$emit(val ? 'modal-show' : 'modal-hide');
-            this.$emit('input', val)
+            this.$emit('input', val);
         }
     },
     methods: {
-        onTouchMove(event) {
-            event.preventDefault();
-        },
         closeOverlay() {
             this.currentValue = false;
-            this.$emit('modal-hide')
         }
     }
 }

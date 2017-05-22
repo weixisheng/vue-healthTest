@@ -6,11 +6,8 @@
         <div class="movie-title">{{title}}</div>
         <div class="movie-score">
             <p v-if="rater>0">
-            <rater v-model="rater" 
-            :max="5" 
-            active-color="#ffbe00"
-            :font-size="12" disabled></rater>
-            <span>{{score}}</span>
+                <rater v-model="rater" :max="5" active-color="#ffbe00" :font-size="12" disabled></rater>
+                <span>{{score}}</span>
             </p>
             <span v-else>暂未评分</span>
         </div>
@@ -39,10 +36,10 @@ export default {
         directors: Array,
         cast: Array,
         rater: Number,
-        score:Number,
+        score: Number,
         label: Array
     },
-    components:{
+    components: {
         Rater
     }
 }
@@ -65,30 +62,32 @@ export default {
     float: right;
     width: 30%;
     text-align: right;
-    span{
-        font-size:12px;
+    span {
+        font-size: 12px;
     }
-    &>span{
-        color:#aaa;
+    &>span {
+        color: #aaa;
     }
 }
+
 .movie-directors span {
     margin-right: 10px;
     color: #4d00ff;
     font-size: 16px;
 }
+
 .movie-label {
     margin: 0 0 5px 0;
     span {
-    display: inline-block;
-    border: 1px solid #bc2826;
-    background: #bc2826;
-    color: #fff;
-    margin-right: 10px;
-    font-size: 12px;
-    padding: 0 3px;
-    border-radius: 5px;
-}
+        display: inline-block;
+        border: 1px solid #bc2826;
+        background: #bc2826;
+        color: #fff;
+        margin-right: 10px;
+        font-size: 12px;
+        padding: 0 3px;
+        border-radius: 5px;
+    }
 }
 
 .movie-casts {
