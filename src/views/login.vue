@@ -220,9 +220,6 @@ form {
                 color:#e4bb91;
                 border-right: 1px solid #e4bb91;
             }
-            span {
-                width: 15px;
-            }
         }
     }
     &.register-form {
@@ -238,9 +235,11 @@ form {
         }
     }
     .input-group {
+        display: flex;
+        align-items: center;
         padding: 10px;
         label {
-            width: 25px;
+            flex:1;
             padding-right: 10px;
             
         }
@@ -249,7 +248,7 @@ form {
             border: none;
             padding: 10px 5px;
             font-size: 16px;
-            width: 85%;
+            flex:11;
             &::-webkit-input-placeholder {
                 color: #e4bb91;
             }

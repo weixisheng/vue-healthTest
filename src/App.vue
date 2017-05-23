@@ -10,7 +10,7 @@
         <!-- </keep-alive>   -->
       </transition>
     </div>
-
+  
     <tabbar class="fix-footer">
       <tabbar-item link="/home" :selected="/\/home/.test($route.path)">
         <i slot="icon" class="fa fa-home"></i>
@@ -56,9 +56,9 @@ export default {
   computed: {
     ...mapState({
       isLoading: state => state.ajaxLoading.isLoading,
-      text:state=>state.ajaxLoading.text
+      text: state => state.ajaxLoading.text
     }),
-    ...mapGetters(['showBack','showMore','pageTitle','showModal'])
+    ...mapGetters(['showBack', 'showMore', 'pageTitle', 'showModal'])
   },
   data() {
     return {
@@ -78,7 +78,7 @@ export default {
   methods: {
     goTop() {
       // document.querySelector('.main').scrollTop = 0;
-      let timer = null;
+      /*let timer = null;
       const m = document.querySelector('.main').firstChild;
       timer = setInterval(function(){
         var ct = m.scrollTop;
@@ -89,7 +89,23 @@ export default {
           m.scrollTop=0;
           clearInterval(timer);
         }
-      },10);
+      },16);*/
+      var timer = null;
+      const m = document.querySelector('.main').firstChild;
+      window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
+      window.cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAniamtionFrame;
+      window.cancelAnimationFrame(timer);
+      timer = window.requestAnimationFrame(function smoothScroll() {
+        var ct = m.scrollTop;
+        if (ct > 0) {
+         timer= window.requestAnimationFrame(smoothScroll);
+          m.scrollTop -= ct / 5;
+        }
+        else {
+          window.cancelAnimationFrame(timer);
+        }
+      })
+
       if ($('div[jroll-id]').length > 0) {
         $('div[jroll-id]')[0].jroll.scrollTo(0, 0, 200);
       }
@@ -129,11 +145,11 @@ body {
   right: 0;
   bottom: 50px;
   overflow: hidden;
-  >div:first-child{
+  >div:first-child {
     position: absolute;
     left: 0;
     top: 0;
-    bottom:0;
+    bottom: 0;
     width: 100%;
     overflow-y: auto;
   }
@@ -147,5 +163,4 @@ body {
   width: 0;
   background-color: #F5F5F5;
 }
-
 </style>
