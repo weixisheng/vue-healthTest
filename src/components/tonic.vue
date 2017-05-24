@@ -110,7 +110,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../assets/less/common.less';
+@import '../assets/less/common';
 .tonic-item {
     padding: 5px;
     background: #fff;

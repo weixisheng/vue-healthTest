@@ -45,9 +45,10 @@
 
 <script>
 import zepto from "zepto/src/zepto"
-import { Loading, XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
+import {XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
 import { mapState, mapGetters } from 'vuex'
 import Modal from 'components/modal'
+import Loading from 'components/loading'
 import SimpleCell from 'components/simpleCell'
 
 export default {
