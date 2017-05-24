@@ -15,34 +15,39 @@
                     <p class="v-fz-14">{{audio.title}}</p>
                 </div>
                 <div class="audio-play">
-                <span class="fa fa-pause" @click="togglePlay()"></span>
+                    <span class="fa fa-pause" @click="togglePlay()"></span>
                 </div>
             </div>
         </div>
-
+    
         <!--player-->
         <div class="audio-bg" :style="{'background-image': 'url('+audio.imgUrl.replace(/\/100\//,'/400/')+')'}"></div>
         <div class="audio-player">
-            <div class="audio-collapse" @click="togglePlayer">
-                <span class='fa fa-angle-double-down'></span>
-            </div>
-            <div class="audio-info">
-                <p class="audio-title">{{audio.title}}</p>
-                <p class="audio-singer v-fz-16">
-                    <span class='line'>-</span>
-                    <span>{{audio.singer}}</span>
-                    <span class="line">-</span>
-                </p>
-            </div>
-            <div class="audio-head">
-                <img :src="audio.imgUrl.replace(/\/100\//,'/400/')" class="rotating">
-            </div>
-            <div class="audio-lrc">
-                <div class="lrc-content" :style="{'margin-top':`${lrcOffset}px`}">
-                    <p v-for="(item,index) in songLrc" :class="{'isCurrentLrc':item.seconds>=audio.currentLength,'disCurrentLrc':item.seconds<audio.currentLength}">
-                        {{item.lrcContent}}
+            <div class="aduio-header">
+                <div class="audio-collapse" @click="togglePlayer">
+                    <span class='fa fa-angle-double-down'></span>
+                </div>
+                <div class="audio-info">
+                    <p class="audio-title">{{audio.title}}</p>
+                    <p class="audio-singer v-fz-16">
+                        <span class='line'>-</span>
+                        <span>{{audio.singer}}</span>
+                        <span class="line">-</span>
                     </p>
                 </div>
+            </div>
+            <div class="audio-body">
+                <div class="audio-head">
+                    <img :src="audio.imgUrl.replace(/\/100\//,'/400/')" class="rotating">
+                </div>
+                <div class="audio-lrc">
+                    <div class="lrc-content" :style="{'margin-top':`${lrcOffset}px`}">
+                        <p v-for="(item,index) in songLrc" :class="{'isCurrentLrc':item.seconds>=audio.currentLength,'disCurrentLrc':item.seconds<audio.currentLength}">
+                            {{item.lrcContent}}
+                        </p>
+                    </div>
+                </div>
+    
             </div>
             <div class="audio-controls">
                 <span>{{formatTime(audio.currentLength)}}</span>
@@ -57,6 +62,9 @@
                     <span class="next-btn" @click="next()"></span>
                 </div>
             </div>
+            <div class="audio-footer">
+                <canvas id="canvas"></canvas>
+            </div>
         </div>
     </div>
 </template>
@@ -64,14 +72,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import SimpleCell from 'components/simpleCell'
-// import throttle from 'lodash/throttle'
+
 export default {
     name: 'music',
     data() {
         return {
             lrcing: false,
             playing: true,
-            page:1
+            page: 1
         }
     },
     computed: {
@@ -110,44 +118,46 @@ export default {
         this.$store.commit('showRight', false)
         this.$store.dispatch('getSongList')
     },
-    mounted(){
+    mounted() {
         let musicWrap = document.querySelector('#music-wrap');
         const vm = this;
         // musicWrap.onscroll = throttle(function(){
-        musicWrap.onscroll = function(){
-        var hadLoad = false;
-        let mHeight = musicWrap.offsetHeight,
-            lHeight = document.querySelector('.song-list').offsetHeight,
-            mscrollTop = musicWrap.scrollTop;
-            if((mHeight+mscrollTop>=lHeight)&&!hadLoad&&vm.page<10){
+        musicWrap.onscroll = function () {
+            var hadLoad = false;
+            let mHeight = musicWrap.offsetHeight,
+                lHeight = document.querySelector('.song-list').offsetHeight,
+                mscrollTop = musicWrap.scrollTop;
+            if ((mHeight + mscrollTop >= lHeight) && !hadLoad && vm.page < 10) {
                 // load more here
                 // vm.$store.commit('updateLoading',{isLoading:true});
-                vm.axios.get("/kugouAPI/rank/info",{
-                    params:{
-                        rankid:8888,
-                        page:++vm.page,
-                        json:true
+                vm.axios.get("/kugouAPI/rank/info", {
+                    params: {
+                        rankid: 8888,
+                        page: ++vm.page,
+                        json: true
                     }
                 })
-                .then(function(res){
-                // vm.$store.commit('updateLoading',{isLoading:false});                    
-                    var r = res.data.songs.list;
-                    hadLoad = true;
-                    let result = [];
-                    r.map(function(item){
-                        var s = {};
-                        s.title = item.filename;
-                        s.hash = item.hash;
-                        result.push(s);
-                    });
-                    let v1 = vm.songList.concat(result);
-                    vm.$store.commit('receiveSongList',v1);
-                })
-                .catch(function(){
-                    vm.page--;
-                })
+                    .then(function (res) {
+                        // vm.$store.commit('updateLoading',{isLoading:false});                    
+                        var r = res.data.songs.list;
+                        hadLoad = true;
+                        let result = [];
+                        r.map(function (item) {
+                            var s = {};
+                            s.title = item.filename;
+                            s.hash = item.hash;
+                            result.push(s);
+                        });
+                        let v1 = vm.songList.concat(result);
+                        // vm.songList = [...vm.songList,...result];
+                        vm.$store.commit('receiveSongList', v1);
+                    })
+                    .catch(function () {
+                        vm.page--;
+                    })
             }
         }
+        this.draw();
     },
     methods: {
         formatTime(t) {
@@ -202,7 +212,7 @@ export default {
             else {
                 document.getElementById("audio-play").pause();
                 $('.play-btn').addClass('playing');
-                $(".audio-play").find('span').removeClass('fa-pause').addClass('fa-play');                
+                $(".audio-play").find('span').removeClass('fa-pause').addClass('fa-play');
                 this.playing = false;
             }
         },
@@ -214,11 +224,79 @@ export default {
             this.$store.dispatch('prev');
             this.playStatus();
         },
-        random(){
+        random() {
             const songLength = this.songList.length;
-            let r = Math.floor(Math.random()*songLength);
-            this.$store.dispatch('random',r);
-            this.playStatus();            
+            let r = Math.floor(Math.random() * songLength);
+            this.$store.dispatch('random', r);
+            this.playStatus();
+        },
+        draw() {
+            var audio = document.getElementById('audio-play');
+            var canvas = document.getElementById('canvas');
+            //创建境况
+            var AudioContext = window.AudioContext || window.webkitAudioContext;
+            var audioContext = new AudioContext();
+            //创建输入源
+            var audioSrc = audioContext.createMediaElementSource(audio);
+            //用createAnalyser方法,获取音频时间和频率数据,实现数据可视化。
+            var analyser = audioContext.createAnalyser();
+            //连接：source → analyser → destination
+            audioSrc.connect(analyser);
+            //声音连接到扬声器
+            analyser.connect(audioContext.destination);
+            /*存储频谱数据，Uint8Array数组创建的时候必须制定长度，
+            长度就从analyser.frequencyBinCount里面获取，长度是1024*/
+            var capHeight = 2,
+                cwidth = canvas.width,
+                cheight = canvas.height - capHeight,
+                capStyle = '#00FFD5',//帽子颜色
+                meterNum = 200, //多少个能量柱
+                meterWidth = Math.floor(cwidth / meterNum * 0.9), //能量柱的宽度
+                verSpace = Math.max(cwidth / meterNum * 0.1, 2),//能量柱间隔
+                capYPositionArray = [], //能量柱的帽子
+                canvasContext = canvas.getContext('2d'),
+                rectHeight = 0,//能量柱高度
+                array = new Uint8Array(analyser.frequencyBinCount);
+            audio.renderFrame = function () {
+                //自适应
+                cwidth = canvas.width;
+                cheight = canvas.height - capHeight;
+                meterWidth = Math.floor(cwidth / meterNum * 0.9);//能量柱的宽度
+                verSpace = Math.max(cwidth / meterNum * 0.1, 2);//能量柱间隔
+                //获取音频数据
+                analyser.getByteFrequencyData(array);
+                //取完整的长度，后面一部分低音就没有能量柱了，所以取音频的百分之68，68是我测试出来的，差不多正好可以全部有
+                var step = Math.round(array.length * 0.68 / meterNum);
+                canvasContext.clearRect(0, 0, cwidth, cheight);
+                for (var i = 0; i < meterNum; i++) {
+                    var value = array[i * step + step];//一个计算能量柱高度的公式第二步
+                    if (capYPositionArray.length < Math.round(meterNum)) {
+                        capYPositionArray.push(value);//往帽子数组里面添加值，长度不能大于能量柱的个数
+                    };
+                    //设置画笔颜色，画能量柱帽子
+                    canvasContext.fillStyle =  "hsl( " + Math.round((i * 300) / meterNum) + ", 100%, 50%)";
+                    rectHeight = Math.max(cheight - value * 2, capHeight);
+                    //能量柱过渡效果
+                    if (value < capYPositionArray[i]) {
+                        //如果这次的高度比上次小，能量柱帽子递减往下落
+                        canvasContext.fillRect(i * (meterWidth + verSpace), cheight - (--capYPositionArray[i]) * 2, meterWidth, capHeight);
+                    } else {
+                        //正常画能量柱帽子
+                        canvasContext.fillRect(i * (meterWidth + verSpace), rectHeight, meterWidth, capHeight);
+                        capYPositionArray[i] = value;
+                    };
+                    //设置画笔颜色，开始画能量柱
+                    /*设置画笔颜色，hsl通过这个公式出来的是很漂亮的彩虹色
+		            H：Hue(色调)。0(或360)表示红色，120表示绿色，240表示蓝色，也可取其他数值来指定颜色。取值为：0 - 360
+		            S：Saturation(饱和度)。取值为：0.0% - 100.0%
+		            L：Lightness(亮度)。取值为：0.0% - 100.0%
+		            */
+                    canvasContext.fillStyle = "hsl( " + Math.round((i * 360) / meterNum) + ", 100%, 50%)";
+                    canvasContext.fillRect(i * (meterWidth + verSpace), rectHeight + capHeight * 3, meterWidth, value * 2);
+                }
+                return requestAnimationFrame(audio.renderFrame);
+            }
+            audio.renderFrame();//开始动画
         }
     },
     beforeRouteLeave: function (to, from, next) {
@@ -228,7 +306,6 @@ export default {
 }
 </script>
 <style lang="less">
-
 .song-list {
     padding-bottom: 50px;
 }
@@ -295,9 +372,9 @@ export default {
             }
         }
     }
-    .audio-play{
+    .audio-play {
         float: left;
-        width:10%;
+        width: 10%;
         line-height: 2.5rem;
     }
 }
@@ -362,7 +439,7 @@ export default {
     width: 100%;
     height: 60px;
     overflow: hidden;
-    margin-bottom: 20px;
+
     line-height: 20px;
     color: #2fc27b;
     font-size: 14px;
@@ -376,6 +453,7 @@ export default {
 .audio-controls {
     text-align: center;
     font-size: 12px;
+    margin-top: 20px;
     p {
         display: inline-block;
     }
@@ -444,5 +522,13 @@ export default {
             width: 2rem;
         }
     }
+}
+
+.audio-body {
+    position: relative;
+}
+
+#canvas {
+    width: 100%;
 }
 </style>
