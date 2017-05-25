@@ -1,5 +1,5 @@
 <template>
-    <div v-show='currentValue'>
+    <div v-if='currentValue'>
         <div class="loading-mask"></div>
         <div class='loading-container'>
             <div class="loading-img" :style="{backgroundPositionY: -(y % 6)*5 + 'rem'}"></div>
