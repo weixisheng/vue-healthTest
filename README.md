@@ -46,6 +46,10 @@ new HtmlWebpackPlugin({
 # 先启动mysql服务
 # src->config->nodeSql.js
 node nodeSql.js
+
+# 替代做法
+# 在console控制台输入
+window.sessionStorage.setItem("username","admin")
 ```
 
 > 代理
