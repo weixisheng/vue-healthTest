@@ -89,7 +89,6 @@ export default {
       this.i++;
     },
     prev() {
-      this.transitonName = 'slide-out'
       this.i--;
     },
     next() {
@@ -116,7 +115,6 @@ export default {
       }
       else {
         // go('result', this.$router);
-        
         this.$router.push({ name: 'result' });
       }
     }
