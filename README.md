@@ -8,7 +8,11 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# download jroll plugin and Tween.js into node_modules
+jroll/jroll.min.js
+tween.js/src/Tween.js
+
+# serve with hot reload at localhost:8184
 npm run dev
 
 # build for production with minification
