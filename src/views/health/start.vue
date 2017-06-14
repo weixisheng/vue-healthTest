@@ -15,9 +15,16 @@
         </div>
       </section>
       <section v-else>
-        <x-progress :percent="percent" :show-cancel='false'></x-progress>
-        <p class="v-fz-12" style="letter-spacing:3px;color:#888;">第{{i}}题/共{{length}}题</p>
-        <div class="test-cell v-gray v-fz-14" :data-index="index + 1" :data-id="paperItem.id" v-for="(paperItem,index) in paperItems" :class="{'is-current':index==i-1}" :key="index">
+        <div class="pro">
+          <div class="progress progress-primary">
+            <div class="progress-bar  v-bg-yellow" :style="{width: percent+'%'}"></div>
+          </div>
+          <div class="progress-text v-fz-12">
+            第{{i}}题/共{{length}}题
+          </div>
+        </div>
+  
+        <div class="test-cell v-gray v-fz-14" v-for="(paperItem,index) in paperItems" :class="{'is-current':index==i-1}" :data-index="index + 1" :data-id="paperItem.id" :key="index">
           <h3 class="quest-title v-gray v-fz-16">
             {{index + 1}}.{{paperItem.question}}
           </h3>
@@ -28,15 +35,14 @@
             </label>
           </div>
           <img :src="paperItem.questionImg" alt="" onerror="src='/static/logo.jpg'">
-          <div class="btn-groups">
-            <button class="btn prev v-bg-yellow v-white" v-if="i>1&&i<length" @click="prev">上一题</button>
-            <button class="btn v-bg-yellow v-white" v-if="i>=1&&i<length" @click="next">下一题</button>
-            <button class="btn v-bg-yellow v-white" v-if="i==length" @click="submit">提交测试</button>
-          </div>
+        </div>
   
+        <div class="btn-groups">
+          <button class="btn prev v-bg-yellow v-white" v-if="i>1&&i<length" @click="prev">上一题</button>
+          <button class="btn v-bg-yellow v-white" v-if="i>=1&&i<length" @click="next">下一题</button>
+          <button class="btn v-bg-yellow v-white" v-if="i==length" @click="submit">提交测试</button>
         </div>
         <Toast :value="showToast" type="warn" is-show-mask>请选择答案</Toast>
-  
       </section>
     </div>
   </div>
@@ -44,12 +50,12 @@
 
 <script>
 
-import { XProgress, Toast, Loading } from 'vux';
+import { Toast, Loading } from 'vux';
 
 export default {
   name: 'start',
   components: {
-    Toast, Loading, XProgress
+    Toast, Loading
   },
   data() {
     return {
@@ -78,16 +84,19 @@ export default {
     }
   },
   methods: {
-
     start: function () {
       this.i++;
     },
     prev() {
+      this.transitonName = 'slide-out'
       this.i--;
     },
     next() {
       if (document.querySelectorAll(":checked").length < this.i) {
         this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+        }, 1500);
         return
       }
       this.i++;
@@ -102,10 +111,11 @@ export default {
         this.showToast = true;
         setTimeout(() => {
           this.showToast = false;
-        }, 2000);
+        }, 1500);
       }
       else {
         // go('result', this.$router);
+        
         this.$router.push({ name: 'result' });
       }
     }
@@ -165,8 +175,9 @@ export default {
 }
 
 .test-cell {
-  margin: .2rem .8rem .1rem 0;
+  margin: 2.5rem .8rem .1rem 0;
   display: none;
+  transition: all .5s;
 }
 
 .test-cell .quest-title {
@@ -212,24 +223,35 @@ export default {
   margin-bottom: 16%;
 }
 
-
 .is-current {
   display: block;
-  transition: all .5s;
 }
 
-.weui-progress {
-  margin-top: 10px;
-  .weui-progress__bar {
+.pro {
+  position: fixed;
+  z-index: 999;
+  top: 44px;
+  right: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 4%;
+  .progress {
     box-sizing: border-box;
-    margin-bottom: .1rem;
-    border-radius: 4px;
     height: 8px;
+    margin-bottom: .2rem;
+    border-radius: 6px;
+    .progress-bar {
+      height: 6px;
+      transition: width 800ms;
+      border-radius: 6px;
+    }
+    &.progress-primary {
+      border: 1px solid #ecbb91;
+    }
   }
-  .weui-progress__inner-bar {
-    transition: all .5s;
-    border-radius: 4px;
-    background-color: #e4bb91 !important;
+  .progress-text {
+    letter-spacing: 3px;
+    color: #888;
   }
 }
 </style>
