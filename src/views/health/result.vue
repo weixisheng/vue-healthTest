@@ -57,6 +57,7 @@ export default {
 
     created: function () {
         this.$store.commit('setPageTitle', '测试结果')
+        this.$store.commit('showLeft',true)
         this.getRecommend();
     },
     methods: {

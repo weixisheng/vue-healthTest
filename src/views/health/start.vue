@@ -68,6 +68,7 @@ export default {
   },
   created: function () {
     this.$store.commit('setPageTitle', '开始测试')
+    this.$store.commit('showLeft', true)
     var self = this;
     this.axios.get('/health/test/detail?paperCode=JKCSPFCS')
       .then((response) => {
