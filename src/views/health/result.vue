@@ -43,7 +43,7 @@ export default {
         ...mapState(['cartCount']),
         testResult() {
             const TEST_RESULT = ['干性肌肤', '油性肌肤', '中性肌肤', '混合性肌肤'];
-            let i = Math.round(Math.random() * TEST_RESULT.length);
+            let i = Math.floor(Math.random() * TEST_RESULT.length);
             return TEST_RESULT[i];
         }
     },
