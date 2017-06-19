@@ -5,77 +5,58 @@
                 <div class="bg-head"></div>
                 <p class="username">{{username}}</p>
             </div>
-            <form class="login-form"
-                  autocomplete="off">
-                <div class="input-group">
+            <form class="login-form" autocomplete="off">
+                <div class="input-group" :class="{'is-danger':errors.has('用户名')}">
                     <label for="login-username">
-                        <span class="fa fa-user-o"></span> </label>
-                    <input type="text"
-                           class="login-username"
-                           placeholder="请输入用户名"
-                           v-model="username"
-                           id="login-username"
-                           autocomplete="off">
+                        <span class="fa fa-user-o"></span>
+                    </label>
+                    <input type="text" name="用户名" v-validate="'required'" class="login-username" placeholder="请输入用户名" v-model="username" id="login-username" autocomplete="off">
                 </div>
-                <div class="input-group">
+                <p v-show="errors.has('用户名')" class="v-red v-fz-12">{{errors.first('用户名')}}</p>
+    
+                <div class="input-group" :class="{'is-danger':errors.has('密码')}">
                     <label for="login-password">
-                        <span class="fa fa-unlock-alt"></span> </label>
-                    <input type="password"
-                           class="login-password"
-                           placeholder="请输入密码"
-                           v-model="password"
-                           id="login-password"
-                           autocomplete="off"
-                           v-on:keyup.enter="login">
+                        <span class="fa fa-unlock-alt"></span>
+                    </label>
+                    <input type="password" name="密码" v-validate="'required'" class="login-password" placeholder="请输入密码" v-model="password" id="login-password" autocomplete="off" v-on:keyup.enter="login">
                 </div>
+                <p v-show="errors.has('密码')" class="v-red v-fz-12">{{errors.first('密码')}}</p>
             </form>
             <div class="login-btn">
-                <button class="v-bg-blue"
-                        @click="login">登录</button>
-                <button class="v-bg-red"
-                        @click="register">注册</button>
+                <button class="v-bg-blue" @click="login">登录</button>
+                <button class="v-bg-red" @click="register">注册</button>
             </div>
         </div>
-        <x-dialog v-model="showHideOnBlur"
-                  class="register-dialog"
-                  :hideOnBlur="true">
+        <x-dialog v-model="showHideOnBlur" class="register-dialog" :hideOnBlur="true">
             <p class="dialog-title">注册</p>
-            <form class="register-form"  
-                  autocomplete="off">
+            <form class="register-form" autocomplete="off">
                 <div class="input-group">
                     <label for="register-username">
-                        <span class="fa fa-user-o"></span> </label>
-                    <input type="text"
-                           class="register-username"
-                           placeholder="请输入用户名"
-                           id="register-username"
-                           autocomplete="off" >
+                        <span class="fa fa-user-o"></span>
+                    </label>
+                    <input type="text" class="register-username" placeholder="请输入用户名" id="register-username" autocomplete="off">
                 </div>
                 <div class="input-group">
                     <label for="register-password">
-                        <span class="fa fa-unlock-alt"></span> </label>
-                    <input type="password"
-                           class="register-password"
-                           placeholder="请输入密码"
-                           id="register-password"
-                           autocomplete="off" >
+                        <span class="fa fa-unlock-alt"></span>
+                    </label>
+                    <input type="password" class="register-password" placeholder="请输入密码" id="register-password" autocomplete="off">
                 </div>
             </form>
             <div class="register-btn">
-            <button  @click="doReg">确认</button>
+                <button @click="doReg">确认</button>
             </div>
-            <span class="vux-close"
-                  @click="showHideOnBlur=false"></span>
+            <span class="vux-close" @click="showHideOnBlur=false"></span>
         </x-dialog>
-        <alert v-model="showValue"
-               title="提示"
-               :content="alertCon"></alert>
+        <alert v-model="showValue" title="提示" :content="alertCon"></alert>
     </div>
 </template>
 
 <script>
-import { go } from '../../node_modules/vux/src/libs/router'
+
 import { XDialog, Alert } from 'vux'
+import { Validator } from 'vee-validate';
+
 export default {
     name: 'login',
     data() {
@@ -90,9 +71,19 @@ export default {
     components: {
         XDialog, Alert
     },
-   
+
     created: function () {
-        this.$store.commit('setPageTitle','登录')
+        this.$store.commit('setPageTitle', '登录');
+
+        // validate form
+        const dict = {
+            en: {
+                messages: {
+                    required: (field) => `${field}是必填项`
+                }
+            }
+        }
+        this.$validator.updateDictionary(dict)
     },
     watch: {
         username: function (val) {
@@ -109,71 +100,76 @@ export default {
     methods: {
         login: function () {
             var vm = this;
-            if(!this.username) return;
-            var truePwd ='';
+            if (!this.username) return;
+            var truePwd = '';
             var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){
-                if(xhr.readyState==4&&xhr.status==200){
-                   truePwd = xhr.responseText;
-                   if ( vm.password == truePwd) {
-                    window.sessionStorage.setItem('username', vm.username)
-                    go('home', vm.$router);
-            }
-            else {
-                vm.alertCon='登录信息有误，请重试！';
-                vm.showValue = true;
-            }
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    truePwd = xhr.responseText;
+                    if (vm.password == truePwd) {
+                        window.sessionStorage.setItem('username', vm.username)
+                        this.$router.push({ name: 'home' });
+                    }
+                    else {
+                        vm.alertCon = '登录信息有误，请重试！';
+                        vm.showValue = true;
+                    }
                 }
             };
             xhr.open('GET', `http://localhost:81/login?username=${this.username}`);
             xhr.send();
-         
+
         },
         register: function () {
             this.showHideOnBlur = true;
-            document.querySelector('.register-username').value='';
-            document.querySelector('.register-password').value='';
+            document.querySelector('.register-username').value = '';
+            document.querySelector('.register-password').value = '';
         },
         doReg: function () {
-            var a =Array.from(document.querySelector('.register-form').querySelectorAll('input'));
+            var a = Array.from(document.querySelector('.register-form').querySelectorAll('input'));
             var b = true;
-            let regName ='',regPwd='';
+            let regName = '', regPwd = '';
             var vm = this;
             a.forEach((i) => {
-                if(!i.value){
-                    b=false;
+                if (!i.value) {
+                    b = false;
                     return;
                 }
             })
-            if(!!b){
-            regName=a[0].value,
-            regPwd = a[1].value;
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){
-                if(xhr.readyState==4&&xhr.status==200){
-                    vm.alertCon='注册成功!';
-                    vm.showHideOnBlur = false;
-                    vm.showValue = true;
-                }
-            };
-            xhr.open('POST', 'http://localhost:81/register');
-            xhr.send(`username=${regName}&password=${regPwd}`);
+            if (!!b) {
+                regName = a[0].value,
+                    regPwd = a[1].value;
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        vm.alertCon = '注册成功!';
+                        vm.showHideOnBlur = false;
+                        vm.showValue = true;
+                    }
+                };
+                xhr.open('POST', 'http://localhost:81/register');
+                xhr.send(`username=${regName}&password=${regPwd}`);
             }
-           
+
         }
     },
     beforeRouteEnter: (to, from, next) => {
-        next(vm=>{
-            vm.$store.commit('showRight',false)
+        next(vm => {
+            vm.$store.commit('showRight', false)
         })
     }
 }
 </script>
 <style lang="less">
+.is-danger {
+    border: 1px solid #ea2323;
+    box-shadow: 0 0 5px #eab213;
+    border-radius: 10px;
+}
 
 .user-info {
     text-align: center;
-    margin-top:70px;
+    margin-top: 70px;
     padding: 0 10px 0 20px;
     .bg-head {
         width: 5rem;
@@ -182,7 +178,7 @@ export default {
         background: url('/static/default.png') center center no-repeat;
         background-size: cover;
         margin: 0 auto 10px;
-        border: 2px solid #e4bb91; 
+        border: 2px solid #e4bb91;
     }
     .username {
         height: 20px;
@@ -203,21 +199,21 @@ form {
     &.login-form {
         width: 80%;
         margin-top: 20%;
-       /* background-color: rgba(195, 189, 189, 0.16);*/
+        /* background-color: rgba(195, 189, 189, 0.16);*/
         .input-group {
-                position: relative;
-                &:after{
-                    position: absolute;
-                    content: '';
-                    height: 1px;
-                    left: 0;
-                    bottom: 0;
-                    width: 100%;
-                    background: #ccc;
-                    transform: scaleY(.5);
-                }
-            label{
-                color:#e4bb91;
+            position: relative;
+            &:after {
+                position: absolute;
+                content: '';
+                height: 1px;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background: #ccc;
+                transform: scaleY(.5);
+            }
+            label {
+                color: #e4bb91;
                 border-right: 1px solid #e4bb91;
             }
         }
@@ -239,16 +235,15 @@ form {
         align-items: center;
         padding: 10px;
         label {
-            flex:1;
+            flex: 1;
             padding-right: 10px;
-            
         }
         input {
             background: none;
             border: none;
             padding: 10px 5px;
             font-size: 16px;
-            flex:11;
+            flex: 11;
             &::-webkit-input-placeholder {
                 color: #e4bb91;
             }

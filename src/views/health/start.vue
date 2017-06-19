@@ -34,7 +34,7 @@
               {{ele.content}}
             </label>
           </div>
-          <img :src="paperItem.questionImg" alt="" onerror="src='/static/logo.jpg'">
+          <img :src="paperItem.questionImg+'?imageView/2/2/h/250'" alt="" onerror="src='/static/logo.jpg'">
         </div>
   
         <div class="btn-groups">
