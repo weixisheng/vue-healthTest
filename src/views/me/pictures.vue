@@ -30,10 +30,10 @@ export default {
     },
     created() {
         this.$store.commit('setPageTitle', '懒加载相册')
-        this.initData();
+        this.getData();
     },
     methods: {
-        async initData() {
+        async getData() {
             this.$store.commit('updateLoading', { isLoading: true });
             let res = await this.axios.get(`https://m.jd.com/index/recommend.action`, {
                 params: {
@@ -51,8 +51,7 @@ export default {
         },
         loadData() {
             this.page++;
-
-            this.initData();
+            this.getData();
         }
     }
 
