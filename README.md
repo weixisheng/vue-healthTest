@@ -1,5 +1,4 @@
-# Vux-APP
-
+# Vue-healthTest
 > A Vue.js project
 
 使用Vue2.0技术栈开发的一款资讯类WebAPP。
