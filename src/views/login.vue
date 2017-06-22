@@ -34,14 +34,16 @@
                     <label for="register-username">
                         <span class="fa fa-user-o"></span>
                     </label>
-                    <input type="text" class="register-username" placeholder="请输入用户名" id="register-username" autocomplete="off">
+                    <input type="text" name="注册用户名" v-validate="'required'" class="register-username" placeholder="请输入用户名" id="register-username" autocomplete="off">
                 </div>
+                <p v-show="errors.has('注册用户名')" class="v-red v-fz-12">{{errors.first('注册用户名')}}</p>
                 <div class="input-group">
                     <label for="register-password">
                         <span class="fa fa-unlock-alt"></span>
                     </label>
-                    <input type="password" class="register-password" placeholder="请输入密码" id="register-password" autocomplete="off">
+                    <input type="password" name="注册密码" v-validate="'required'" class="register-password" placeholder="请输入密码" id="register-password" autocomplete="off">
                 </div>
+                <p v-show="errors.has('注册密码')" class="v-red v-fz-12">{{errors.first('注册密码')}}</p>                
             </form>
             <div class="register-btn">
                 <button @click="doReg">确认</button>

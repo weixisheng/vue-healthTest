@@ -67,9 +67,10 @@ export default {
         flex: 0 1 auto;
         width: 48%;
         padding: 25% 0;
-        margin: 0 1%;
+        margin: 1% 1%;
         position: relative;
         overflow: hidden;
+        background-color: #fff;
         img {
             width: 100%;
             position: absolute;
