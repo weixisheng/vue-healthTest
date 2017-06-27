@@ -28,9 +28,9 @@
           <h3 class="quest-title v-gray v-fz-16">
             {{index + 1}}.{{paperItem.question}}
           </h3>
-          <div v-for="ele in paperItem.items" class="quest-answer radio radio-primary clearfix">
-            <input type="radio" :name="index" :data-code="ele.option" :id="'ques-'+index + ele.option">
-            <label :for="'ques-'+index + ele.option">
+          <div v-for="(ele,j) in paperItem.items" class="quest-answer radio radio-primary clearfix" :key="j">
+            <input type="radio" :name="index" :data-code="ele.option" :id="'ques-'+index+j + ele.option">
+            <label :for="'ques-'+index+j + ele.option">
               {{ele.content}}
             </label>
           </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="tonic-item">
         <div class="product-img">
-            <img :src="src" class="hv-cen" onerror="src='/static/logo.jpg'">
+            <img :src="src" class="hv-cen" onerror="src='/static/logo.jpg'" @click="clickImg">
         </div>
         <div class="product-label">
             <span :class="[hot?hotClass:'hidden']">热</span>
@@ -104,6 +104,9 @@ export default {
             }, 1000);
             this.$store.commit('addCartCount');
             this.$emit('cart-num');
+        },
+        clickImg(){
+            this.$emit('click-img');
         }
     }
 }

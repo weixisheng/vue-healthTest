@@ -18,10 +18,10 @@
             </div>
             <div class="tab-content">
                 <div class="warm">
-                    <tonic v-for="w in warmProduct" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum'></tonic>
+                    <tonic v-for="(w,index) in warmProduct" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail"></tonic>
                 </div>
                 <div class="dry">
-                    <tonic v-for="d in dryProduct" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum'></tonic>
+                    <tonic v-for="(d,index) in dryProduct" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail"></tonic>
                 </div>
             </div>
         </div>
@@ -55,9 +55,9 @@ export default {
         }
     },
 
-    created: function () {
+    created() {
         this.$store.commit('setPageTitle', '测试结果')
-        this.$store.commit('showLeft',true)
+        this.$store.commit('showLeft', true)
         this.getRecommend();
     },
     methods: {
@@ -87,19 +87,19 @@ export default {
             let tabsLength = tabs.length;
             const panels = document.querySelector('.tab-content').children;
             const underline = document.querySelector('.underline');
-            var i =0,j=0;
-             i = +event.currentTarget.dataset.index;
-             j = tabsLength - i - 1;
+            var i = 0, j = 0;
+            i = +event.currentTarget.dataset.index;
+            j = tabsLength - i - 1;
             tabs[i].classList.add('active');
             tabs[j].classList.remove('active');
             // panels[i].classList.remove('hidden');
             // panels[j].classList.add('hidden');
             if (i == 1) {
-                
+
                 panels[j].style.transform = panels[j].style.webkitTransform = `translateX(-100%)`;
                 panels[i].style.transform = panels[i].style.webkitTransform = `translateX(0)`;
             }
-            else{
+            else {
                 panels[j].style.transform = panels[j].style.webkitTransform = `translateX(100%)`;
                 panels[i].style.transform = panels[i].style.webkitTransform = `translateX(0)`;
             }
@@ -113,6 +113,9 @@ export default {
             setTimeout(() => {
                 c.classList.remove('bounce');
             }, 1500);
+        },
+        goDetail() {
+            console.log('产品详情略')
         }
     },
     mounted() {
@@ -151,6 +154,7 @@ export default {
 .container {
     overflow-x: hidden;
 }
+
 .result-container {
     margin: 10px;
     padding: 4% 0;
@@ -190,9 +194,11 @@ export default {
     position: relative;
     margin: 0 15%;
 }
-.space-between{
+
+.space-between {
     justify-content: space-between;
 }
+
 .tab-item {
     padding: 6px 0;
     transition: all .5s;
