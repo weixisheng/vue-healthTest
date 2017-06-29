@@ -1,11 +1,7 @@
 <template>
-    <div class="test-item v-bg-lightgray"
-         :class="state=='normal'?'open':halfClass"
-         :data-code="code">
-        <div v-if="state=='normal'"
-             :class="[activeClass,commonClass]">开始测试</div>
-        <div v-else
-             :class='[commonClass]'>暂未开通</div>
+    <div class="test-item v-bg-lightgray" :class="state=='normal'?'open':halfClass" :data-code="code">
+        <div v-if="state=='normal'" :class="[activeClass,commonClass]">开始测试</div>
+        <div v-else :class='[commonClass]'>暂未开通</div>
         <h3 class="v-gray">{{paperName}}</h3>
     </div>
 </template>
@@ -33,9 +29,9 @@ export default {
     &.half {
         width: calc((100% - 5px)/2);
         .circle-box {
-            width:6.1rem;
-            height:6.1rem;
-            line-height:6.1rem;
+            width: 6.1rem;
+            height: 6.1rem;
+            line-height: 6.1rem;
             background: #dfdfdf;
         }
     }
@@ -47,7 +43,8 @@ export default {
     height: 7rem;
     line-height: 7rem;
     margin: 0 auto;
-    border: 1px solid transparent;/*解决部分oppo机型渲染问题*/
+    border: 1px solid transparent;
+    /*解决部分oppo机型渲染问题*/
     border-radius: 50%;
     box-shadow: 0 0 5px 5px rgba(223, 223, 221, .64);
     &.test-active {

@@ -8,8 +8,7 @@ Vue.use(Router);
 /*const bar =resolve=>require(['../views/bar.vue'],resolve);
 {path:'/bar',compoennt:bar}*/
 const router = new Router({
-    routes: [
-        {
+    routes: [{
             path: '/login',
             name: 'index',
             component: require('../views/login')
@@ -37,11 +36,19 @@ const router = new Router({
             path: '/me',
             name: 'me',
             component: require('../views/me/me')
+
+        },
+        {
+            path: '/me/xss',
+            name: 'xss',
+            component: require('../views/me/xss')
         }, {
             path: '/me/money',
             name: 'money',
             component: require('../views/me/money')
-        }, {
+        },
+
+        {
             path: '/me/pictures',
             name: 'pictures',
             component: require('../views/me/pictures')
@@ -53,12 +60,12 @@ const router = new Router({
             path: '/music',
             name: 'music',
             component: require('../views/music')
-        }, 
+        },
         {
             path: '/movie',
             name: 'movie',
             component: require('../views/movie')
-        },{
+        }, {
             path: '*',
             redirect: '/login'
         }
@@ -67,10 +74,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     //to and from are Route Object,next() must be called to resolve the hook
     // console.log(to.path);
-    if(to.path!=='/login' && !window.sessionStorage.getItem('username')){
-        next({path:'/login'})
-    }
-    else{
+    if (to.path !== '/login' && !window.sessionStorage.getItem('username')) {
+        next({ path: '/login' })
+    } else {
         next();
     }
 })

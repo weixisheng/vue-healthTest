@@ -42,7 +42,7 @@
                 </div>
                 <div class="audio-lrc">
                     <div class="lrc-content" :style="{'margin-top':`${lrcOffset}px`}">
-                        <p v-for="(item,index) in songLrc" :class="{'isCurrentLrc':item.seconds>=audio.currentLength,'disCurrentLrc':item.seconds<audio.currentLength}">
+                        <p v-for="(item,index) in songLrc" :class="{'isCurrentLrc':item.seconds>=audio.currentLength,'disCurrentLrc':item.seconds<audio.currentLength}" :key="index">
                             {{item.lrcContent}}
                         </p>
                     </div>

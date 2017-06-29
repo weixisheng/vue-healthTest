@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="me-group">
-                    <simple-cell :padding="10" v-for="item in lists2">
+                    <simple-cell :padding="10" v-for="(item,index) in lists2" :key="index">
                         <span slot="icon" :class="item.iconClass"></span>
                         <label slot="label">{{item.label}}</label>
                     </simple-cell>
@@ -84,7 +84,7 @@ export default {
             lists: [
                 [
                     { iconClass: 'fa fa-picture-o v-blue', label: '相册', link: '/me/pictures' },
-                    { iconClass: 'fa fa-star v-yellow v-fz-18', label: '收藏' },
+                    { iconClass: 'fa fa-star v-yellow v-fz-18', label: '收藏',link:'/me/xss' },
                 ],
                 [
                     { iconClass: 'fa fa-credit-card v-red', label: '钱包', link: '/me/money' },

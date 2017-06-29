@@ -5,7 +5,7 @@
             <div class="sd1">松开后刷新</div>
             <div class="sd2">加载中...</div>
           </div>-->
-      <circle-box v-for="(item,index) in questions" :state='item.state' :code='item.paperCode' :paper-name="item.paperName" @click.native="goTest"></circle-box>
+      <circle-box v-for="(item,index) in questions" :state='item.state' :code='item.paperCode' :paper-name="item.paperName" @click.native="goTest" :key="index"></circle-box>
     </div>
   </div>
 </template>
