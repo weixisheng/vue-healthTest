@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <x-header :left-options="{showBack:showBack}" :right-options="{showMore:showMore}" @on-click-more="clickMore" @dblclick='goTop'>
+    <x-header :left-options="{showBack:showBack}" :right-options="{showMore:showMore}" @on-click-more="clickMore" @on-click-title='goTop'>
       {{pageTitle}}
     </x-header>
     <div class="main">
