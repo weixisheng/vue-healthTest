@@ -9,21 +9,24 @@
             </div>
         </div>
     
-        <div class="tonic-container">
+        <div class="tonic-container"  v-if="result!=='C'">
             <h2 class="h2 v-fz-15 text-center">推荐商品</h2>
-            <div class="tonic-tabs flex space-between">
-                <div class="tab-item v-fz-14 active" @click="changeTab" data-index="0">暖湿环境方案</div>
-                <div class="tab-item v-fz-14" @click="changeTab" data-index="1">干冷环境方案</div>
-                <div class="underline"></div>
-            </div>
-            <div class="tab-content">
-                <div class="warm">
-                    <tonic v-for="(w,index) in warmProduct" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail"></tonic>
+                <div class="tonic-tabs flex space-between" v-if="result=='B'">
+                    <div class="tab-item v-fz-14 active" @click="changeTab" data-index="0">暖湿环境方案</div>
+                    <div class="tab-item v-fz-14" @click="changeTab" data-index="1">干冷环境方案</div>
+                    <div class="underline"></div>
                 </div>
-                <div class="dry">
-                    <tonic v-for="(d,index) in dryProduct" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail"></tonic>
+                <div class="tab-content">
+                    <div class="warm" v-if="result=='B' || result=='A'">
+                        <tonic v-for="(w,index) in warmProduct" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail"></tonic>
+                    </div>
+                    <div class="dry" v-if="result=='B' || result=='D'" :style="result=='B'?'transform:translateX(100%)':''">
+                        <tonic v-for="(d,index) in dryProduct" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail"></tonic>
+                    </div>
                 </div>
-            </div>
+        </div>
+        <div v-else class="text-center">
+            中性肌肤属于青少年，没有推荐商品
         </div>
         <div class="shopping-cart-right">
             <i class="fa fa-cart-arrow-down"></i>
@@ -42,19 +45,22 @@ export default {
     computed: {
         ...mapState(['cartCount']),
         testResult() {
-            const TEST_RESULT = ['干性肌肤', '油性肌肤', '中性肌肤', '混合性肌肤'];
-            let i = Math.floor(Math.random() * TEST_RESULT.length);
-            return TEST_RESULT[i];
+            const TEST_RESULT = {'A':'油性肌肤', 'B':'混合性肌肤', 'C':'中性肌肤','D':'干性肌肤'};
+            return TEST_RESULT[this.result];
         }
     },
     data() {
         return {
+            result:'B',
             tonicList: [],
             warmProduct: [],
             dryProduct: []
         }
     },
-
+    beforeRouteEnter(to, from, next) {
+        
+        next(vm=>vm.result = to.params.result);
+    },
     created() {
         this.$store.commit('setPageTitle', '测试结果')
         this.$store.commit('showLeft', true)
@@ -76,13 +82,7 @@ export default {
                 });
         },
         changeTab(event) {
-            // var tabs = $(".tonic-tabs>.tab-item"),
-            //     panels = $(".tab-content>div"),
-            //     underline = document.querySelector('.underline');
-            // var index = event.currentTarget.dataset.index;
-            // var target = panels.eq(index);
-            // tabs.eq(index).addClass("active").siblings("div").removeClass("active");
-            // target.removeClass("hidden").siblings("div").addClass("hidden");
+          
             const tabs = document.querySelectorAll('.tab-item');
             let tabsLength = tabs.length;
             const panels = document.querySelector('.tab-content').children;
@@ -92,8 +92,7 @@ export default {
             j = tabsLength - i - 1;
             tabs[i].classList.add('active');
             tabs[j].classList.remove('active');
-            // panels[i].classList.remove('hidden');
-            // panels[j].classList.add('hidden');
+          
             if (i == 1) {
 
                 panels[j].style.transform = panels[j].style.webkitTransform = `translateX(-100%)`;
@@ -121,7 +120,9 @@ export default {
     mounted() {
         const tabCon = document.querySelector(".tab-content"),
             tabItems = document.querySelectorAll(".tab-item");
-
+            if(this.result=='D'){
+                tabCon.querySelector('.dry').style.transform = tabCon.querySelector('.dry').style.webkitTransform='translateX(0)'
+            }
         var startX, moveX, differ;
         tabCon.addEventListener('touchstart', function (e) {
             var touch = e.targetTouches[0];
@@ -217,9 +218,6 @@ export default {
         transition: transform .5s;
     }
 
-    .dry {
-        transform: translateX(100%)
-    }
 }
 
 .tonic-tabs .underline {

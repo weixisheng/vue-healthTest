@@ -39,15 +39,14 @@ const router = new Router({
 
         },
         {
-            path: '/me/xss',
-            name: 'xss',
-            component: require('../views/me/xss')
+            path: '/me/a',
+            name: 'a',
+            component: require('../views/me/a')
         }, {
             path: '/me/money',
             name: 'money',
             component: require('../views/me/money')
         },
-
         {
             path: '/me/pictures',
             name: 'pictures',

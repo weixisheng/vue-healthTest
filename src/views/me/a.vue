@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form action="http://localhost:82/dashboard/xss.php">
+        <form action="http://localhost:82/dashboard/a.php">
             <input v-model="message" type="text" name="xss_input_value" placeholder="输入字符">
             <br> {{message}}
             <br>
@@ -10,11 +10,14 @@
 </template>
 <script>
 export default {
-    name: "XSS",
+    name: "A",
     data() {
         return {
             message: ''
         }
+    },
+    created(){
+        this.$store.commit('setPageTitle','A')
     },
     methods: {
     }

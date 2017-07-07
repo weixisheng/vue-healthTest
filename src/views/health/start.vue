@@ -102,11 +102,8 @@ export default {
       this.i++;
     },
     submit: function () {
-      let a = Array.from(document.querySelectorAll("input"));
-      let count = 0;
-      a.forEach((i) => {
-        i.checked ? count++ : count;
-      })
+      const checkes = document.querySelectorAll(":checked");
+      let count = checkes.length;
       if (count !== this.paperItems.length) {
         this.showToast = true;
         setTimeout(() => {
@@ -114,8 +111,8 @@ export default {
         }, 1500);
       }
       else {
-        // go('result', this.$router);
-        this.$router.push({ name: 'result' });
+        const result = String.fromCharCode(Math.floor(Math.random()*4+65));//随机生成ABCD
+        this.$router.push({ name: 'result' ,params:{result}});
       }
     }
   }

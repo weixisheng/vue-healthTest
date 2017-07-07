@@ -84,7 +84,7 @@ export default {
             lists: [
                 [
                     { iconClass: 'fa fa-picture-o v-blue', label: '相册', link: '/me/pictures' },
-                    { iconClass: 'fa fa-star v-yellow v-fz-18', label: '收藏',link:'/me/xss' },
+                    { iconClass: 'fa fa-star v-yellow v-fz-18', label: '收藏'},
                 ],
                 [
                     { iconClass: 'fa fa-credit-card v-red', label: '钱包', link: '/me/money' },
