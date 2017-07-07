@@ -1,8 +1,8 @@
 {
-  "name": "vux-demo",
+  "name": "vue-healthtest",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "hishion 魏喜胜 <weixisheng@foreveross.com>",
+  "author": "hishion 魏喜胜 956656628@qq.com",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",

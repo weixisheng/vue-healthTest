@@ -37,9 +37,9 @@ const router = new Router({
     name: 'me',
     component: require('../views/me/me')
   }, {
-    path: '/me/a',
-    name: 'a',
-    component: require('../views/me/a')
+    path: '/me/xss',
+    name: 'xss',
+    component: require('../views/me/xss')
   }, {
     path: '/me/money',
     name: 'money',
