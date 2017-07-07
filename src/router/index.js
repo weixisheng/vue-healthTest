@@ -8,75 +8,72 @@ Vue.use(Router);
 /*const bar =resolve=>require(['../views/bar.vue'],resolve);
 {path:'/bar',compoennt:bar}*/
 const router = new Router({
-    routes: [{
-            path: '/login',
-            name: 'index',
-            component: require('../views/login')
-        }, {
-            path: '/home',
-            name: 'home',
-            component: require('../views/home')
-        }, {
-            path: '/health',
-            name: 'main',
-            component: require('../views/health/main')
-        }, {
-            path: '/health/start',
-            name: 'start',
-            component: require('../views/health/start')
-        }, {
-            path: '/health/history',
-            name: 'history',
-            component: require('../views/health/history')
-        }, {
-            path: '/health/result',
-            name: 'result',
-            component: require('../views/health/result')
-        }, {
-            path: '/me',
-            name: 'me',
-            component: require('../views/me/me')
-
-        },
-        {
-            path: '/me/a',
-            name: 'a',
-            component: require('../views/me/a')
-        }, {
-            path: '/me/money',
-            name: 'money',
-            component: require('../views/me/money')
-        },
-        {
-            path: '/me/pictures',
-            name: 'pictures',
-            component: require('../views/me/pictures')
-        }, {
-            path: '/me/setting',
-            name: 'setting',
-            component: require('../views/me/setting')
-        }, {
-            path: '/music',
-            name: 'music',
-            component: require('../views/music')
-        },
-        {
-            path: '/movie',
-            name: 'movie',
-            component: require('../views/movie')
-        }, {
-            path: '*',
-            redirect: '/login'
-        }
-    ]
+  routes: [{
+    path: '/login',
+    name: 'index',
+    component: require('../views/login')
+  }, {
+    path: '/home',
+    name: 'home',
+    component: require('../views/home')
+  }, {
+    path: '/health',
+    name: 'main',
+    component: require('../views/health/main')
+  }, {
+    path: '/health/start',
+    name: 'start',
+    component: require('../views/health/start')
+  }, {
+    path: '/health/history',
+    name: 'history',
+    component: require('../views/health/history')
+  }, {
+    path: '/health/result',
+    name: 'result',
+    component: require('../views/health/result')
+  }, {
+    path: '/me',
+    name: 'me',
+    component: require('../views/me/me')
+  }, {
+    path: '/me/a',
+    name: 'a',
+    component: require('../views/me/a')
+  }, {
+    path: '/me/money',
+    name: 'money',
+    component: require('../views/me/money')
+  }, {
+    path: '/me/pictures',
+    name: 'pictures',
+    component: require('../views/me/pictures')
+  }, {
+    path: '/me/setting',
+    name: 'setting',
+    component: require('../views/me/setting')
+  }, {
+    path: '/music',
+    name: 'music',
+    component: require('../views/music')
+  }, {
+    path: '/movie',
+    name: 'movie',
+    component: require('../views/movie')
+  }, {
+    path: '*',
+    redirect: '/login'
+  }]
 });
 router.beforeEach((to, from, next) => {
-    //to and from are Route Object,next() must be called to resolve the hook
-    // console.log(to.path);
-    if (to.path !== '/login' && !window.sessionStorage.getItem('username')) {
-        next({ path: '/login' })
-    } else {
-        next();
-    }
+  //to and from are Route Object,next() must be called to resolve the hook
+  // console.log(to.path);
+  if (to.path !== '/login' && !window.sessionStorage.getItem('username')) {
+    next({
+      path: '/login'
+    })
+  } else {
+    next();
+  }
 })
 export default router;
