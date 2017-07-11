@@ -12,12 +12,12 @@
                 <div class="me-qrcode fr" @click="showQrBox">
                     <qrcode value="wxs" type='canvas' :size='30' :fg-color="rdColor"></qrcode>
                 </div>
-
+    
             </div>
         </div>
-
-        <div class="me-group" v-for="item in lists">
-            <simple-cell v-for="c in item" :link="c.link?c.link:''" :padding="10">
+    
+        <div class="me-group" v-for="(item,index) in lists" :key="index">
+            <simple-cell v-for="(c,i) in item" :link="c.link?c.link:''" :padding="10" :key="i">
                 <span slot="icon" :class="c.iconClass"></span>
                 <label slot="label">{{c.label}}</label>
             </simple-cell>
@@ -28,8 +28,14 @@
                     <img src="/static/head.png" alt="">
                 </div>
                 <div class="me-info">
-                    <p class="user"> <span class="fa fa-male"></span><span>hision</span></p>
-                    <p class="address"> <span class="fa fa-map-marker"></span><span>挪威</span></p>
+                    <p class="user">
+                        <span class="fa fa-male"></span>
+                        <span>hision</span>
+                    </p>
+                    <p class="address">
+                        <span class="fa fa-map-marker"></span>
+                        <span>挪威</span>
+                    </p>
                 </div>
             </div>
             <img src="/static/qr.png" alt="">
@@ -69,6 +75,7 @@
 </template>
 
 <script>
+import zepto from 'zepto/src/zepto'
 import { Qrcode, XDialog } from 'vux'
 import SimpleCell from 'components/simpleCell'
 export default {
@@ -84,7 +91,7 @@ export default {
             lists: [
                 [
                     { iconClass: 'fa fa-picture-o v-blue', label: '相册', link: '/me/pictures' },
-                    { iconClass: 'fa fa-star v-yellow v-fz-18', label: '收藏'},
+                    { iconClass: 'fa fa-star v-yellow v-fz-18', label: '收藏' },
                 ],
                 [
                     { iconClass: 'fa fa-credit-card v-red', label: '钱包', link: '/me/money' },
@@ -132,7 +139,7 @@ export default {
         let startX, endX;
         main.addEventListener('touchstart', function (e) {
             $('.side-content').css({
-                'left':  '0'
+                'left': '0'
             })
             let touch = e.changedTouches[0];
             startX = touch.pageX;
@@ -145,8 +152,8 @@ export default {
             endX = touch.pageX;
             var diff = endX - startX;
             let sideContent = document.querySelector('.side-content');
-            let width = ~~(window.getComputedStyle(sideContent).width).replace('px','');
-            if (diff > width/2) diff = width;
+            let width = ~~(window.getComputedStyle(sideContent).width).replace('px', '');
+            if (diff > width / 2) diff = width;
             if (diff < 0) {
                 $('.side-bar').css({
                     'display': 'none'
@@ -154,7 +161,7 @@ export default {
                 return;
             };
             $('.side-content').css({
-                'left':  diff + 'px'
+                'left': diff + 'px'
             })
         }, false);
         main.addEventListener('touchend', function (e) {

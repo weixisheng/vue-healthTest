@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import zepto from "zepto/src/zepto"
 import {XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
 import { mapState, mapGetters } from 'vuex'
 import Modal from 'components/modal'
@@ -60,7 +59,7 @@ export default {
       isLoading: state => state.ajaxLoading.isLoading,
       text: state => state.ajaxLoading.text
     }),
-    ...mapGetters(['showBack', 'showMore', 'pageTitle', 'showModal'])
+    ...mapGetters(['showBack','showMore', 'pageTitle', 'showModal'])
   },
   data() {
     return {
@@ -68,6 +67,7 @@ export default {
     }
   },
   watch: {
+    //已经使用vuet插件替换
     '$route'(to, from) {
       const toDepth = to.path.split('/').length;
       const fromDepth = from.path.split('/').length;

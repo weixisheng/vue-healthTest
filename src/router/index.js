@@ -32,6 +32,10 @@ const router = new Router({
     path: '/health/result',
     name: 'result',
     component: require('../views/health/result')
+  },{
+    path: '/health/distribution',
+    name: 'distribution',
+    component: require('../views/health/distribution')
   }, {
     path: '/me',
     name: 'me',

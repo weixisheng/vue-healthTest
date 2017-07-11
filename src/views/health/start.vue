@@ -11,6 +11,7 @@
           {{illustrate}}
         </p>
         <div class="btn-group flex">
+          <button class="v-bg-yellow v-white v-fz-15 start" @click="overview">测试分布</button>
           <button class="v-bg-yellow v-white v-fz-15 start" @click="start">开始测试</button>
         </div>
       </section>
@@ -79,6 +80,7 @@ export default {
       });
 
   },
+
   computed: {
     percent() {
       return (this.i / this.length) * 100;
@@ -87,6 +89,9 @@ export default {
   methods: {
     start: function () {
       this.i++;
+    },
+    overview(){
+      this.$router.push('distribution');
     },
     prev() {
       this.i--;
