@@ -26,7 +26,7 @@ export default {
     var vm = this;
     this.$store.commit('updateLoading', { isLoading: true });
 
-    this.axios.get('/health/test/question')
+    this.axios.get('/health/test/querstion')
       .then((response) => {
         vm.questions = response.data.returnObject
         vm.$store.commit('updateLoading', { isLoading: false })

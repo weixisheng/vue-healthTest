@@ -94,8 +94,7 @@ export default {
                     { iconClass: 'fa fa-smile-o v-yellow v-fz-18', label: '表情' }
                 ],
                 [
-                    { iconClass: 'fa fa-cog', label: '设置', link: '/me/setting' },
-                    { iconClass: 'fa fa-heartbeat', label: 'XSS', link: '/me/xss' }
+                    { iconClass: 'fa fa-cog', label: '设置', link: '/me/setting' }
                 ]
             ],
             lists2: [
