@@ -5,6 +5,7 @@ import config from '../config/service';
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
+    login: false,
     pageTitle: '',
     cartCount: 0,
     showMore: false,
@@ -22,6 +23,7 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    getLoginStatus: state => state.login,
     pageTitle: state => state.pageTitle,
     cartCount: state => state.cartCount,
     showMore: state => state.showMore,
@@ -32,6 +34,9 @@ const store = new Vuex.Store({
     playIndex: state => state.playIndex
   },
   mutations: {
+    updateLoginStatus(state, login) {
+      state.login = login;
+    },
     setPageTitle(state, title) {
       state.pageTitle = title;
     },
@@ -73,7 +78,10 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    getSongList({commit, state}) {
+    getSongList({
+      commit,
+      state
+    }) {
       axios.get(config.rank)
         .then((response) => {
           var div = document.createElement('div');
@@ -90,14 +98,17 @@ const store = new Vuex.Store({
           commit('receiveSongList', songList)
         })
     },
-    getSong({commit,state}, hash) {
+    getSong({
+      commit,
+      state
+    }, hash) {
       axios.get(config.songInfo, {
-        params: {
-          cmd: 'playInfo',
-          hash: hash,
-          from: 'mkugou'
-        }
-      })
+          params: {
+            cmd: 'playInfo',
+            hash: hash,
+            from: 'mkugou'
+          }
+        })
         .then(res => {
           var result = res.data;
           var songUrl = result.url,
@@ -117,39 +128,51 @@ const store = new Vuex.Store({
           commit('setAudio', audio)
         })
     },
-    getLrc({commit,state}, hash) {
+    getLrc({
+      commit,
+      state
+    }, hash) {
       axios.get('http://cs003.m2828.com/apis/getLrc.php', {
-        params: {
-          hash: hash
-        }
-      })
+          params: {
+            hash: hash
+          }
+        })
         .then(res => {
           commit('setLrc', res.data)
         })
     },
-    next({dispatch, state}) {
+    next({
+      dispatch,
+      state
+    }) {
       var list = state.songList;
-      if (state.playIndex == list.length - 1) 
+      if (state.playIndex == list.length - 1)
         state.playIndex = 0
-      else 
+      else
         ++state.playIndex
       let hash = list[state.playIndex].hash;
 
       dispatch('getSong', hash);
       dispatch('getLrc', hash);
     },
-    prev({dispatch, state}) {
+    prev({
+      dispatch,
+      state
+    }) {
       var list = state.songList;
-      if (state.playIndex == 0) 
+      if (state.playIndex == 0)
         state.playIndex = list.length - 1;
-      else 
+      else
         --state.playIndex;
       let hash = list[state.playIndex].hash;
 
       dispatch('getSong', hash);
       dispatch('getLrc', hash);
     },
-    random({dispatch,state}, index) {
+    random({
+      dispatch,
+      state
+    }, index) {
       let h = state.songList[index].hash;
       state.playIndex = index;
       dispatch('getSong', h);

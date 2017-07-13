@@ -5,7 +5,7 @@
     </x-header>
     <div class="main">
       <!--<transition mode="out-in" :name="transitionName">-->
-        <transition>
+      <transition>
         <!-- <keep-alive> -->
         <router-view></router-view>
         <!-- </keep-alive>   -->
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import {XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
+import { XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
 import { mapState, mapGetters } from 'vuex'
 import Modal from 'components/modal'
 import Loading from 'components/loading'
@@ -59,12 +59,15 @@ export default {
       isLoading: state => state.ajaxLoading.isLoading,
       text: state => state.ajaxLoading.text
     }),
-    ...mapGetters(['showBack','showMore', 'pageTitle', 'showModal'])
+    ...mapGetters(['showBack', 'showMore', 'pageTitle', 'showModal'])
   },
   data() {
     return {
       transitionName: 'fade'
     }
+  },
+  created() {
+    this.redirect();
   },
   watch: {
     //已经使用vuet插件替换
@@ -78,6 +81,24 @@ export default {
     }
   },
   methods: {
+    redirect() {
+      this.$router.beforeEach((to, from, next) => {
+        
+        if (to.matched.some(record => record.meta.requireAuth)) {
+          // this route requires auth, check if logged in
+          // if not, redirect to login page.
+          if (!this.$store.state.login) {
+            next({
+              path: '/login'
+            })
+          } else {
+            next()
+          }
+        } else {
+          next() // 确保一定要调用 next()
+        }
+      })
+    },
     goTop() {
       // document.querySelector('.main').scrollTop = 0;
       /*let timer = null;
@@ -100,7 +121,7 @@ export default {
       timer = window.requestAnimationFrame(function smoothScroll() {
         var ct = m.scrollTop;
         if (ct > 0) {
-         timer= window.requestAnimationFrame(smoothScroll);
+          timer = window.requestAnimationFrame(smoothScroll);
           m.scrollTop -= ct / 5;
         }
         else {

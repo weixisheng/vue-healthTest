@@ -10,7 +10,7 @@
                     <label for="login-username">
                         <span class="fa fa-user-o"></span>
                     </label>
-                    <input type="text" name="用户名" v-validate="'required'" class="login-username" placeholder="请输入用户名" v-model="username" id="login-username" autocomplete="off">
+                    <input type="text" name="用户名" v-validate="'required'" class="login-username" placeholder="请输入用户名" v-model="username" id="login-username">
                 </div>
                 <p v-show="errors.has('用户名')" class="v-red v-fz-12">{{errors.first('用户名')}}</p>
     
@@ -18,7 +18,7 @@
                     <label for="login-password">
                         <span class="fa fa-unlock-alt"></span>
                     </label>
-                    <input type="password" name="密码" v-validate="'required'" class="login-password" placeholder="请输入密码" v-model="password" id="login-password" autocomplete="off" v-on:keyup.enter="login">
+                    <input type="password" name="密码" v-validate="'required'" class="login-password" placeholder="请输入密码" v-model="password" id="login-password" v-on:keyup.enter="login" ref="loginpwd">
                 </div>
                 <p v-show="errors.has('密码')" class="v-red v-fz-12">{{errors.first('密码')}}</p>
             </form>
@@ -43,7 +43,7 @@
                     </label>
                     <input type="password" name="注册密码" v-validate="'required'" class="register-password" placeholder="请输入密码" id="register-password" autocomplete="off">
                 </div>
-                <p v-show="errors.has('注册密码')" class="v-red v-fz-12">{{errors.first('注册密码')}}</p>                
+                <p v-show="errors.has('注册密码')" class="v-red v-fz-12">{{errors.first('注册密码')}}</p>
             </form>
             <div class="register-btn">
                 <button @click="doReg">确认</button>
@@ -110,7 +110,9 @@ export default {
                     truePwd = xhr.responseText;
                     if (vm.password == truePwd) {
                         window.sessionStorage.setItem('username', vm.username)
-                        this.$router.push({ name: 'home' });
+                        vm.$store.commit('updateLoginStatus', true)
+                        vm.$router.push({ name: 'me' });
+                        
                     }
                     else {
                         vm.alertCon = '登录信息有误，请重试！';
@@ -147,6 +149,10 @@ export default {
                         vm.alertCon = '注册成功!';
                         vm.showHideOnBlur = false;
                         vm.showValue = true;
+                        //注册成功后把注册名填入登录页面的用户名，并聚焦密码栏
+                        vm.username=regName;
+                        vm.$refs.loginpwd.focus();
+                       
                     }
                 };
                 xhr.open('POST', 'http://localhost:81/register');

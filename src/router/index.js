@@ -32,14 +32,17 @@ const router = new Router({
     path: '/health/result',
     name: 'result',
     component: require('../views/health/result')
-  },{
+  }, {
     path: '/health/distribution',
     name: 'distribution',
     component: require('../views/health/distribution')
   }, {
     path: '/me',
     name: 'me',
-    component: require('../views/me/me')
+    component: require('../views/me/me'),
+    meta: {
+      requireAuth: true
+    }
   }, {
     path: '/me/money',
     name: 'money',
@@ -56,7 +59,7 @@ const router = new Router({
     path: '/me/xss',
     name: 'xss',
     component: require('../views/me/xss')
-  },{
+  }, {
     path: '/music',
     name: 'music',
     component: require('../views/music')
@@ -69,15 +72,5 @@ const router = new Router({
     redirect: '/login'
   }]
 });
-router.beforeEach((to, from, next) => {
-  //to and from are Route Object,next() must be called to resolve the hook
-  // console.log(to.path);
-  if (to.path !== '/login' && !window.sessionStorage.getItem('username')) {
-    next({
-      path: '/login'
-    })
-  } else {
-    next();
-  }
-})
+
 export default router;
