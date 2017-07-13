@@ -53,6 +53,10 @@ const router = new Router({
     name: 'setting',
     component: require('../views/me/setting')
   }, {
+    path: '/me/xss',
+    name: 'xss',
+    component: require('../views/me/xss')
+  },{
     path: '/music',
     name: 'music',
     component: require('../views/music')
