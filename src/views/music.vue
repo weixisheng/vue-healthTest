@@ -2,7 +2,7 @@
     <div id='music-wrap'>
         <!--songList-->
         <div class="song-list">
-            <simple-cell v-for="(item,index) in songList" :data-hash="item.hash" :key='index' :data-index='index' @click.native="playSong">
+            <simple-cell v-for="(item,index) in songList" :data-hash="item.hash" :key='index' :data-index='index'  @click.native="playSong">
                 <span slot="icon" :class="[index<3?`index-${index+1}`:'']">{{index+1}}</span>
                 <label slot="label">{{item.title}}</label>
                 <span class="play-status fa fa-music m-blue hidden" slot="second"></span>
@@ -176,13 +176,13 @@ export default {
                 this.lrcing = false;
             }
         },
-        playSong(event) {
+         playSong(event) {
             var target = event.currentTarget;
             var hash = target.dataset['hash'];
             var playIndex = ~~target.dataset['index'];
             this.$store.commit('setPlayIndex', playIndex);
             this.$store.dispatch('getSong', hash);
-            this.$store.dispatch('getLrc', hash);
+            
             this.playStatus();
         },
         playStatus() {

@@ -2,7 +2,7 @@
     <div class="movie-wrapper">
         <a class="movie-item clearfix" v-for="(item,index) in movieList" :key="index" :href='item.alt'>
             <div class="movie-bg">
-                <img :src="item.images.large">
+                <img :src="item.images.large" class="bounce">
             </div>
             <div class="movie-title">{{item.title}}</div>
             <div class="movie-score">
@@ -129,5 +129,22 @@ export default {
 .movie-avator p {
     font-size: 14px;
     text-align: center;
+}
+.bounce{
+    animation: bounce 2s infinite;
+}
+@keyframes bounce{
+    0%{
+        transform: scale(.8);
+    }
+    25%{
+        transform: scale(1);        
+    }
+    75%{
+        transform: scale(1);        
+    }
+    100%{
+        transform: scale(.8);
+    }
 }
 </style>

@@ -6,14 +6,14 @@
     <div class="main">
       <!--<transition mode="out-in" :name="transitionName">-->
       <transition>
-        <!-- <keep-alive> -->
+         <!-- <keep-alive>  -->
         <router-view></router-view>
-        <!-- </keep-alive>   -->
+         <!-- </keep-alive>    -->
       </transition>
     </div>
   
     <tabbar class="fix-footer">
-      <tabbar-item link="/home" :selected="/\/home/.test($route.path)">
+      <tabbar-item link="/information" :selected="/\/information/.test($route.path)">
         <i slot="icon" class="fa fa-home"></i>
         <span slot="label">首页</span>
       </tabbar-item>

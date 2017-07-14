@@ -99,6 +99,7 @@ const store = new Vuex.Store({
         })
     },
     getSong({
+      dispatch,
       commit,
       state
     }, hash) {
@@ -125,16 +126,23 @@ const store = new Vuex.Store({
               songLength,
               currentLength
             };
+          dispatch('getLrc', {
+            hash,
+            songLength:songLength*1000
+          });
           commit('setAudio', audio)
+
         })
     },
     getLrc({
       commit,
       state
-    }, hash) {
-      axios.get('http://cs003.m2828.com/apis/getLrc.php', {
+    }, payload) {
+      axios.get('http://m.kugou.com/app/i/krc.php', {
           params: {
-            hash: hash
+            cmd: 100,
+            hash: payload.hash,
+            timelength: payload.songLength
           }
         })
         .then(res => {
@@ -153,7 +161,7 @@ const store = new Vuex.Store({
       let hash = list[state.playIndex].hash;
 
       dispatch('getSong', hash);
-      dispatch('getLrc', hash);
+      // dispatch('getLrc', hash);
     },
     prev({
       dispatch,
@@ -167,7 +175,7 @@ const store = new Vuex.Store({
       let hash = list[state.playIndex].hash;
 
       dispatch('getSong', hash);
-      dispatch('getLrc', hash);
+      // dispatch('getLrc', hash);
     },
     random({
       dispatch,
@@ -176,7 +184,7 @@ const store = new Vuex.Store({
       let h = state.songList[index].hash;
       state.playIndex = index;
       dispatch('getSong', h);
-      dispatch('getLrc', h);
+      // dispatch('getLrc', h);
     }
   }
 });

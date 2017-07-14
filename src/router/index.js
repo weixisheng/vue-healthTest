@@ -10,13 +10,17 @@ Vue.use(Router);
 const router = new Router({
   routes: [{
     path: '/login',
-    name: 'index',
+    name: 'login',
     component: require('../views/login')
   }, {
-    path: '/home',
-    name: 'home',
-    component: require('../views/home')
+    path: '/information',
+    name: 'information',
+    component: require('../views/information/index')
   }, {
+    path: '/information/detail',
+    name: 'detail',
+    component: require('../views/information/detail')
+  },{
     path: '/health',
     name: 'main',
     component: require('../views/health/main')
