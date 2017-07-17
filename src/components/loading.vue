@@ -2,7 +2,7 @@
     <div v-if='currentValue'>
         <div class="loading-mask"></div>
         <div class='loading-container'>
-            <div class="loading-img" :style="{backgroundPositionY: -(y % 6)*5 + 'rem'}"></div>
+            <div class="loading-img" :style="{backgroundPositionY: -(y % 6)*100 + 'px'}"></div>
             <div class="loading-text">{{text}}</div>
         </div>
     </div>
@@ -65,24 +65,26 @@ export default {
         transform: translateY(0px);
     }
 }
+
 .loading-mask {
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: rgb(255,255,255);
-    }
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgb(255, 255, 255);
+}
+
 .loading-container {
-   .hv-cen;
+    .hv-cen;
     background: #fff;
-    width: 5rem;
+    width: 100px;
     height: 6rem;
     z-index: 5000;
-    
+
     .loading-img {
         width: 100%;
-        height: 5rem;
+        height: 100px;
         background: url(/static/sprite.png) no-repeat left top;
         background-position: 5rem auto;
         transform: translateY(0);

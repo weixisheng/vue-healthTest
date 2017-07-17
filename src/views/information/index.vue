@@ -1,7 +1,7 @@
 <template>
     <div class="homepage">
         <div class="cell-list">
-            <router-link v-for="(item,index) in news" :to="{path:'/information/detail',query:{hash:item.group_id,time:item.datetime}}" :key="index" tag="div" class="cell-item">
+            <div v-for="(item,index) in news" :key="index" class="cell-item" @click="showDetail(item)">
                 <a class="cell-item__link clearfix">
                     <div class="item-detail" v-if="item.image_list.length&&!item.image_url">
                         <h3 class="item-detail__title">{{item.title}}</h3>
@@ -36,13 +36,14 @@
                         </div>
                     </div>
                 </a>
-            </router-link>
+            </div>
         </div>
     </div>
 </template>
 <script>
 
 import JRoll from 'jroll/jroll.min'
+import { go } from 'vux/src/libs/router'
 export default {
     name: 'information',
     data() {
@@ -82,7 +83,6 @@ export default {
         });
     },
     methods: {
-
         getNews(action) {
             let vm = this;
             let text = action == 'pulldown' ? '刷新中...' : '加载中...';
@@ -135,10 +135,29 @@ export default {
         frtTime(t) {
             //t->205
             let min = parseInt(t / 60);
-            min = min < 10 ? '0' + min : min;
+            // min = min < 10 ? '0' + min : min;
+            min = min.toString().padStart(2, '0');
             let sec = t % 60;
-            sec = sec < 10 ? '0' + sec : sec;
+            // sec = sec < 10 ? '0' + sec : sec;
+            sec = sec.toString().padStart(2, '0');
             return `${min}:${sec}`;
+        },
+        showDetail(item) {
+            if(!item.video_duration){
+                 this.$router.push({
+                name: 'detail',
+                query: {
+                    id: item.group_id
+                },
+                params: {
+                    hash: item.item_id,
+                    time: item.datetime
+                }
+            })
+            }
+           else{
+            go(item.url, this.$router);
+           }
         }
     }
 }
@@ -159,7 +178,7 @@ export default {
     position: relative;
     margin: 0 1rem;
     transition: all .5s ease-in-out;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #f9f9f9;
     .cell-item__link {
         min-height: 84px;
         padding: .8rem 0 .2rem;
@@ -176,7 +195,7 @@ export default {
         font-weight: 400;
         font-size: 16px;
         line-height: 20px;
-        color: #131313;
+        color: #222;
     }
     .item-detail__imgs {
         margin-top: .1rem;
@@ -216,9 +235,10 @@ export default {
             position: absolute;
             top: .8rem;
             font-size: 10px;
-            background: #000;
+            background-color: rgba(0, 0, 0, 0.8);
             color: #fff;
-            padding: 0 5px;
+            padding: 2px 8px;
+            border-radius: 5px;
         }
         .video-play {
             position: absolute;
