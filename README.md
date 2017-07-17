@@ -94,6 +94,8 @@ var app = express()
 
 ![资讯首页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/home.png)
 
+![资讯详情页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/detail.png)
+
 ![健康测试-首页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/main.png)
 
 ![健康测试-测试页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/start2.png)
