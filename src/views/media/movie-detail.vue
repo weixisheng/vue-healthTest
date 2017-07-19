@@ -26,23 +26,74 @@
     <section>
       <div class="summary">{{mInfo.summary}}</div>
       <ul class="people-list director-list">
-        <li v-for="(c,ci) in mInfo.directors" :key="ci">
+        <li v-for="(c,ci) in mInfo.directors" :key="ci" @click="getCelebrity(c.id)">
           <img :src="c.avatars.small" alt="">
           <p>{{c.name}}</p>
           <p>导演</p>
         </li>
       </ul>
       <ul class="people-list actor-list">
-        <li v-for="(a,ai) in mInfo.casts" :key="ai">
+        <li v-for="(a,ai) in mInfo.casts" :key="ai" @click="getCelebrity(a.id)">
           <img :src="a.avatars.small" alt="">
           <p>{{a.name}}</p>
           <p>领衔主演</p>
         </li>
       </ul>
     </section>
-    <section>
-  
-    </section>
+    <transition name="fade">
+      <section class='celebrity-container' v-show="showCelebrity">
+        <header>
+          <h3>
+            <span>{{celebrity.name}}</span>
+            <span v-if="celebrity.name_en">{{celebrity.name_en}}</span>
+          </h3>
+          <div class="close" @click="showCelebrity = false">
+            <span class="fa fa-power-off" style="color:red"></span>
+          </div>
+        </header>
+        <main>
+          <div class="basic-wrapper flex">
+            <div class="basic-cover" v-if="celebrity.aka_en[0]">
+              <img :src="getImg(celebrity.avatars.medium)" :alt="celebrity.name">
+            </div>
+             <div class="basic-cover" v-else>
+              <img :src="getImg(celebrity.avatars.small)" :alt="celebrity.name">
+            </div>
+            <ul class="basic-info">
+              <li>性别：{{celebrity.gender}}</li>
+              <li v-if="celebrity.born_place">出生地：{{celebrity.born_place}}</li>
+              <li class="aka" v-if="celebrity.aka[0]">更多中文名：
+                <span v-for="(i,j) in celebrity.aka" :key="j">{{i}}</span>
+              </li>
+              <li class="aka" v-if="celebrity.aka_en[0]">更多外文名：
+                <span v-for="(m,n) in celebrity.aka_en" :key="n">{{m}}</span>
+              </li>
+            </ul>
+          </div>
+          <ul class="subject-list">
+            <li class="list-header">影视作品</li>
+            <li v-for="(item,index) in celebrity.works" :key="index" class="flex">
+              <div class="subject-cover">
+                <img :src="item.subject.images.small" alt="">
+              </div>
+              <div class="subject-info">
+                <h4>{{item.subject.title}}</h4>
+                <div>
+                  <span v-for="(r,ri) in item.roles" :key="ri" style="color:#6de66b;">{{r}}</span>
+                  <p class="subject-rating">
+                  <rater :value="str2num(item.subject.rating.stars)" :max="5" active-color="#F56D4C" :font-size="12" disabled></rater>
+                  <span :style="{color:'#333',marginRight:'10px'}">{{item.subject.rating.average}}</span>
+                  </p>
+                </div>
+                <div>({{item.subject.year}})
+                  <span v-for="(g,gi) in item.subject.genres" :key="gi">{{g}}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </main>
+      </section>
+    </transition>
   </div>
 </template>
 <script>
@@ -52,24 +103,50 @@ export default {
   name: "movieDetail",
   data() {
     return {
-      mInfo: {}
+      mInfo: {},
+      celebrity: {},
+      showCelebrity: false,
     }
   },
   components: { Rater },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.getMovieInfo(vm.$route.query.id);
+    })
+  },
   created() {
-    this.$store.commit('setPageTitle', this.$route.params.title);
+    this.$store.commit('setPageTitle', this.$route.params.title || this.mInfo.title);
     this.$store.commit('showLeft', true);
-    this.getMovieInfo(this.$route.query.id);
+  },
+  updated(){
+    this.$store.commit('setPageTitle', this.mInfo.title);    
   },
   mixins: [str2num],
   methods: {
     async getMovieInfo(id) {
+      this.$store.commit('updateLoading', { isLoading: true })
       let res = await this.axios.get(`/movieAPI/v2/movie/subject/${id}`)
       this.mInfo = res.data
       // let res2 = await this.axios.get(`/movieAPI/v2/movie/subject/${id}/reviews`)
       // this.mInfo = {...this.mInfo,...res.data}
+      this.$store.commit('updateLoading', { isLoading: false })
+      this.initCelebrity(this.mInfo.casts[0].id);
+    },
+    async initCelebrity(id) {
+      let res = await this.axios.get(`/movieAPI/v2/movie/celebrity/${id}`)
+      this.celebrity = res.data;
+    },
+    getCelebrity(id) {   
+      this.axios.get(`/movieAPI/v2/movie/celebrity/${id}`).then(res => {
+          this.celebrity = res.data;
+          this.showCelebrity = true;       
+      })
+    },
+    getImg(path) {
+      return path ? path : '/static/head.png';
     }
   }
+
 }
 </script>
 <style lang='less' scoped>
@@ -132,7 +209,7 @@ ul {
         font-size: 14px;
       }
     }
-    &::before{
+    &::before {
       position: absolute;
       content: '';
       right: 5px;
@@ -142,7 +219,6 @@ ul {
       height: 10px;
       border-top: 1px solid #ccc;
       border-right: 1px solid #ccc;
-
     }
     &::after {
       position: absolute;
@@ -163,6 +239,93 @@ ul {
   &.actor-list {
     p:last-child {
       color: #0012ff;
+    }
+  }
+}
+
+.celebrity-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 44px;
+  bottom: 36px;
+  z-index: 5;
+  padding: 8px;
+  background: #fff;
+  overflow: scroll;
+  header {
+    h3 {
+      font-size: 18px;
+      margin: 10px 0;
+      span {
+        margin-right: 5px;
+      }
+    }
+    .close {
+      position: absolute;
+      right: 5px;
+      width: 20px;
+      height: 20px;
+      top: 5px;
+    }
+  }
+  main {
+    .basic-wrapper {
+      align-items: center;
+      .basic-cover {
+        float: left;
+        margin-right: 5px;
+        img {
+          width: 100%;
+        }
+      }
+      .basic-info {
+        font-size: 14px;
+        li.aka {
+          span {
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+    .subject-list {
+      .list-header {
+        font-size: 16px;
+        color: #ea5f1a;
+      }
+      li:not(.list-header) {
+        padding: 5px 0;
+        .subject-cover {
+          width: 3rem;
+          height: 3rem;
+          margin-right: .5rem;
+          img {
+            width: 100%;
+            height: inherit;
+          }
+        }
+        .subject-info {
+        flex: 1;
+          h4 {
+            font-size: .8rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          div {
+            font-size: 12px;
+            position: relative;
+            .subject-rating{
+              position: absolute;
+              right: 0;
+              top:0;
+            }
+            span {
+              margin-left: 5px;
+            }
+          }
+        }
+      }
     }
   }
 }
