@@ -15,11 +15,11 @@ const router = new Router({
   }, {
     path: '/information',
     name: 'information',
-    component: require('../views/information/index')
+    component: require('../views/media/information')
   }, {
     path: '/information/detail',
-    name: 'detail',
-    component: require('../views/information/detail')
+    name: 'informationDetail',
+    component: require('../views/media/information-detail')
   },{
     path: '/health',
     name: 'main',
@@ -66,11 +66,15 @@ const router = new Router({
   }, {
     path: '/music',
     name: 'music',
-    component: require('../views/music')
+    component: require('../views/media/music')
   }, {
     path: '/movie',
     name: 'movie',
-    component: require('../views/movie')
+    component: require('../views/media/movie')
+  },{
+    path: '/movie/detail',
+    name: 'movieDetail',
+    component: require('../views/media/movie-detail')
   }, {
     path: '*',
     redirect: '/login'

@@ -62,3 +62,12 @@ export const loadMore = {
         }
     }
 }
+
+export const str2num = {
+    methods:{
+        str2num(value){
+             if (!value) return 0;
+            return Math.floor(value) / 10
+        }
+    }
+}

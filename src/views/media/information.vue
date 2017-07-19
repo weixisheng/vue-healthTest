@@ -145,7 +145,7 @@ export default {
         showDetail(item) {
             if(!item.video_duration){
                  this.$router.push({
-                name: 'detail',
+                name: 'informationDetail',
                 query: {
                     id: item.group_id
                 },

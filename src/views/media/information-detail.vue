@@ -20,7 +20,7 @@
         </div>
       </header>
       <main>
-        <div v-if="!detailInfo.video_play_count" v-html="detailInfo.content"></div>
+        <div v-html="detailInfo.content"></div>
       </main>
     </article>
 

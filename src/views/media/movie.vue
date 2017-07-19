@@ -1,19 +1,22 @@
 <template>
     <div class="movie-wrapper">
-        <a class="movie-item clearfix" v-for="(item,index) in movieList" :key="index" :href='item.alt'>
+        <router-link class="movie-item clearfix" v-for="(item,index) in movieList" :key="index" :to="{name:'movieDetail',query:{id:item.id},params:{title:item.title}}">
             <div class="movie-bg">
                 <img :src="item.images.large" class="bounce">
             </div>
             <div class="movie-title">{{item.title}}</div>
             <div class="movie-score">
                 <p v-if="item.rating.stars>0">
-                    <rater :value="item.rating.stars | str2num" :max="5" active-color="#ffbe00" :font-size="12" disabled></rater>
+                    <rater :value="str2num(item.rating.stars)" :max="5" active-color="#ffbe00" :font-size="12" disabled></rater>
                     <span>{{item.rating.average}}</span>
                 </p>
                 <span v-else>暂未评分</span>
             </div>
             <div class="movie-directors">
-                <span v-for="d in item.directors" :key='d.id'>{{d.name}}</span>
+                <div v-for="d in item.directors" :key='d.id' class="director-item">
+                    <img :src="d.avatars.small" alt="">
+                    <span>{{d.name}}</span>
+                </div>
             </div>
             <div class="movie-label">
                 <span v-for="(l,index) in item.genres" :key="`genres-${index}`">{{l}}</span>
@@ -25,12 +28,12 @@
                     <p>{{c.name}}</p>
                 </div>
             </div>
-        </a>
+        </router-link>
     </div>
 </template>
 <script>
 import Rater from 'vux/src/components/rater'
-
+import {str2num} from 'components/mixin'
 export default {
     name: 'movie',
     data() {
@@ -45,6 +48,7 @@ export default {
         this.$store.commit('setPageTitle', '电影');
         this.getMovie();
     },
+    mixins:[str2num],
     methods: {
         getMovie() {
             var vm = this;
@@ -81,6 +85,8 @@ export default {
 
 .movie-title {
     font-weight: bold;
+    color: #222;
+    font-size: 18px;
 }
 
 .movie-score {
@@ -95,10 +101,20 @@ export default {
     }
 }
 
-.movie-directors span {
-    margin-right: 10px;
-    color: #4d00ff;
-    font-size: 16px;
+.movie-directors {
+    .director-item {
+        img {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+        span {
+            margin-right: 10px;
+            color: #48474a;
+            font-size: 16px;
+        }
+    }
 }
 
 .movie-label {
@@ -130,20 +146,22 @@ export default {
     font-size: 14px;
     text-align: center;
 }
-.bounce{
+
+.bounce {
     animation: bounce 2s infinite;
 }
-@keyframes bounce{
-    0%{
+
+@keyframes bounce {
+    0% {
         transform: scale(.8);
     }
-    25%{
-        transform: scale(1);        
+    25% {
+        transform: scale(1);
     }
-    75%{
-        transform: scale(1);        
+    75% {
+        transform: scale(1);
     }
-    100%{
+    100% {
         transform: scale(.8);
     }
 }
