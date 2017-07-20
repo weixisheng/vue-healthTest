@@ -36,17 +36,24 @@
 </template>
 <script>
 import tonic from 'components/tonic'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
     name: "result",
     components: {
         tonic
     },
     computed: {
-        ...mapGetters(['cartCount']),
+        ...mapState(['cartList']),
         testResult() {
             const TEST_RESULT = { 'A': '油性肌肤', 'B': '混合性肌肤', 'C': '中性肌肤', 'D': '干性肌肤' };
             return TEST_RESULT[this.result];
+        },
+        cartCount(){
+            let num = 0;
+            Object.values(this.cartList).forEach((item)=>{
+                num += item;
+            })
+            return num;
         }
     },
     data() {
@@ -70,15 +77,15 @@ export default {
         getRecommend() {
             let self = this;
             this.axios.get('./static/recommend.json')
-                .then(function (response) {
+                .then((response) =>{
                     let result = response.data
-                    self.tonicList = result.data;
-                    self.tonicList.forEach((i) => {
+                    this.tonicList = result.data;
+                    this.tonicList.forEach((i) => {
                         if (i.appPhotoUrl)
                             i.appPhotoUrl += "&imageView/2/2/h/250"
                     });
-                    self.warmProduct = self.tonicList.slice(0, 9);
-                    self.dryProduct = self.tonicList.slice(9);
+                    this.warmProduct = this.tonicList.slice(0, 9);
+                    this.dryProduct = this.tonicList.slice(9);
                 });
         },
         changeTab(event) {
