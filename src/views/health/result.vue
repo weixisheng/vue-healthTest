@@ -18,10 +18,10 @@
             </div>
             <div class="tab-content">
                 <div class="warm" v-if="result=='B' || result=='A'">
-                    <tonic v-for="(w,index) in warmProduct" :code="w.productCode" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail"></tonic>
+                    <tonic v-for="(w,index) in warmProduct" :code="w.productCode" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail(w)"></tonic>
                 </div>
                 <div class="dry" v-if="result=='B' || result=='D'" :style="result=='B'?'transform:translateX(100%)':''">
-                    <tonic v-for="(d,index) in dryProduct" :code="d.productCode" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail"></tonic>
+                    <tonic v-for="(d,index) in dryProduct" :code="d.productCode" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail(d)"></tonic>
                 </div>
             </div>
         </div>
@@ -120,8 +120,8 @@ export default {
                 c.classList.remove('bounce');
             }, 1500);
         },
-        goDetail() {
-            console.log('产品详情略')
+        goDetail(product) {
+           this.$router.push({name:'productDetail',params:{product}})
         }
     },
     mounted() {

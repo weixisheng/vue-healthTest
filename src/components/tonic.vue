@@ -11,10 +11,10 @@
         </div>
         <div class="product-price clearfix">
             <div class="v-red">
-                <animated-integer :value="productPrice"></animated-integer>
+                ￥<animated-integer :value="productPrice"></animated-integer>
             </div>
             <div class="v-blue">
-                <animated-integer :value="productRetailPrice"></animated-integer>
+                <animated-integer :value="productRetailPrice"></animated-integer>点
             </div>
         </div>
         <div v-if="showCount">

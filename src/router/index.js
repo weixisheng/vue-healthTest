@@ -40,7 +40,11 @@ const router = new Router({
     path: '/health/distribution',
     name: 'distribution',
     component: require('../views/health/distribution')
-  }, {
+  },  {
+    path: '/product/detail',
+    name: 'productDetail',
+    component: require('../views/health/product-detail')
+  },{
     path: '/me',
     name: 'me',
     component: require('../views/me/me'),

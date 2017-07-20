@@ -51,7 +51,7 @@
             "usedSubCode": null,
             "productWikiUrl": "http://wechat.infinitus.com.cn/wechat-front/html5/build/saleAids/display.html?openId=&literatureId=927&staffNum=",
             "epc": false,
-            "hot": false,
+            "hot": true,
             "directSale": false,
             "prom": false,
             "lack": false,
@@ -110,13 +110,13 @@
             "usedSubCode": null,
             "productWikiUrl": null,
             "epc": false,
-            "hot": false,
+            "hot": true,
             "directSale": false,
-            "prom": false,
+            "prom": true,
             "lack": false,
             "bom": false,
             "old": true,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18121-02",
