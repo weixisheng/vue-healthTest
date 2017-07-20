@@ -94,10 +94,12 @@
         </main>
       </section>
     </transition>
+    <loading v-model="showLoading" text="人物资料加载中请稍后..."></loading>
   </div>
 </template>
 <script>
-import Rater from 'vux/src/components/rater'
+import {Loading, Rater} from 'vux'
+
 import { str2num } from 'components/mixin'
 export default {
   name: "movieDetail",
@@ -106,9 +108,10 @@ export default {
       mInfo: {},
       celebrity: {},
       showCelebrity: false,
+      showLoading:false
     }
   },
-  components: { Rater },
+  components: {Loading, Rater },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.getMovieInfo(vm.$route.query.id);
@@ -137,9 +140,11 @@ export default {
       this.celebrity = res.data;
     },
     getCelebrity(id) {   
+      this.showLoading = true;
       this.axios.get(`/movieAPI/v2/movie/celebrity/${id}`).then(res => {
           this.celebrity = res.data;
-          this.showCelebrity = true;       
+          this.showCelebrity = true;  
+          this.showLoading = false;     
       })
     },
     getImg(path) {
@@ -247,9 +252,9 @@ ul {
   position: fixed;
   left: 0;
   right: 0;
-  top: 44px;
-  bottom: 36px;
-  z-index: 5;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
   padding: 8px;
   background: #fff;
   overflow: scroll;

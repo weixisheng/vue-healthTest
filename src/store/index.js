@@ -7,7 +7,7 @@ const store = new Vuex.Store({
   state: {
     login: false,
     pageTitle: '',
-    cartCount: 0,
+    cartList: [],
     showMore: false,
     showBack: true,
     showModal: false,
@@ -25,7 +25,7 @@ const store = new Vuex.Store({
   getters: {
     getLoginStatus: state => state.login,
     pageTitle: state => state.pageTitle,
-    cartCount: state => state.cartCount,
+    cartCount: state => state.cartList.length,
     showMore: state => state.showMore,
     showBack: state => state.showBack,
     showModal: state => state.showModal,
@@ -40,11 +40,22 @@ const store = new Vuex.Store({
     setPageTitle(state, title) {
       state.pageTitle = title;
     },
-    setCartCount(state, cartCount) {
-      state.cartCount = cartCount;
-    },
-    addCartCount(state) {
-      state.cartCount++;
+    add2Cart(state, pItem) {
+      let cartList = state.cartList || [];
+      let i = 0,
+        len = cartList.length;
+      if (len > 0) {
+        for (; i < len; i++) {
+          if (cartList[i].code == pItem.code) {
+            cartList[i].count += pItem.count;
+          } else {
+            cartList.push(pItem);
+          }
+        }
+      } else {
+        cartList.push(pItem);
+      }
+      state.cartList = cartList;
     },
     showRight(state, r) {
       state.showMore = r;
@@ -128,7 +139,7 @@ const store = new Vuex.Store({
             };
           dispatch('getLrc', {
             hash,
-            songLength:songLength*1000
+            songLength: songLength * 1000
           });
           commit('setAudio', audio)
 

@@ -45,8 +45,8 @@ export default {
                 this.currentValue = this.max;
 
             this.$nextTick(() => {
-                this.$emit('on-change', this.currentValue);
-                this.$emit('on-input', this.currentValue);
+                this.$emit('pro-count', this.currentValue);
+                // this.$emit('on-input', this.currentValue);
             });
         },
         value(newValue) {

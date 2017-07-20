@@ -19,7 +19,7 @@
         </div>
         <div v-if="showCount">
             <count :min='1' :max='300'></count>
-            <div class="add2cart" @click="add2cart">
+            <div class="add2cart" @click="add2cart($event,code)">
                 <i class="fa fa-shopping-cart"></i>
             </div>
         </div>
@@ -31,6 +31,9 @@ import animatedInteger from './animatedInteger'
 import count from './count'
 export default {
     props: {
+        code:{
+            type: [Number,String]
+        },
         src: {
             type: String,
             default: "./static/default.png"
@@ -65,7 +68,7 @@ export default {
         }
     },
     methods: {
-        add2cart(event) {
+        add2cart(event,code) {
             // var ct = $(event.currentTarget);
             // var con = ct.parents('.tonic-item');
             // var $img = $(con.find('.product-img img'));
@@ -88,24 +91,25 @@ export default {
             var img = ct.parentNode.parentNode.firstChild.firstChild;
             var width = img.clientWidth;
             var height = img.clientHeight;
-            var bottom =window.innerHeight- img.getBoundingClientRect().bottom;
-            var right =window.innerWidth- img.getBoundingClientRect().right;
-            
-            var src= img.src;
+            var bottom = window.innerHeight - img.getBoundingClientRect().bottom;
+            var right = window.innerWidth - img.getBoundingClientRect().right;
+
+            var src = img.src;
             var m = document.createElement('img');
             m.id = 'imgMoive';
             var tt = `width:${width}px;height:${height}px;bottom:${bottom}px;right:${right}px;`;
             m.style = `position:fixed;z-index:1000;${tt}-webkit-animation:end 1s cubic-bezier(0.82, -0.39, 0.82, 0.12);animation:end 1s cubic-bezier(0.82, -0.39, 0.82, 0.12)`;
             m.src = src;
             document.body.appendChild(m);
-            
+
             setTimeout(() => {
                 m.remove();
             }, 1000);
-            this.$store.commit('addCartCount');
+            let count = +ct.previousElementSibling.querySelector('input').value;
+            this.$store.commit('add2Cart',{code,count});
             this.$emit('cart-num');
         },
-        clickImg(){
+        clickImg() {
             this.$emit('click-img');
         }
     }
@@ -120,7 +124,7 @@ export default {
     margin: 1%;
     position: relative;
     box-sizing: border-box;
-    .f-w(left,48%);
+    .f-w(left, 48%);
     display: block;
     border: 1px solid rgba(234, 234, 21, 0.47);
     box-shadow: 0 0 5px rgba(31, 208, 216, 0.63);
@@ -140,7 +144,7 @@ export default {
         line-height: 20px;
         height: 40px;
         overflow: hidden;
-       .multi-ellipsis(2);
+        .multi-ellipsis(2);
         word-wrap: break-word;
         .v-product-tag {
             width: 17px;
@@ -159,10 +163,10 @@ export default {
 
 .product-price {
     font-size: 16px;
-    >div:first-child{
+    >div:first-child {
         .fl;
     }
-    >div:last-child{
+    >div:last-child {
         .fr;
     }
 }
@@ -170,7 +174,7 @@ export default {
 .add2cart {
     height: 30px;
     line-height: 30px;
-    .f-w(right,30px);
+    .f-w(right, 30px);
     font-weight: bold;
     .text-center;
     background: #e4bb91;
