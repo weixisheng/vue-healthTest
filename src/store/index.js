@@ -7,7 +7,9 @@ const store = new Vuex.Store({
   state: {
     login: false,
     pageTitle: '',
+    testResult:'',
     cartList: {},
+    cartCount:0,
     showMore: false,
     showBack: true,
     showModal: false,
@@ -39,6 +41,9 @@ const store = new Vuex.Store({
     setPageTitle(state, title) {
       state.pageTitle = title;
     },
+    setTestResult(state,result){
+      state.testResult = result;
+    },
     add2Cart(state, pItem) {
       let cartList = state.cartList;
       if(cartList[pItem.code]){
@@ -48,6 +53,9 @@ const store = new Vuex.Store({
         cartList[pItem.code]= pItem.count; 
       }
       state.cartList = {...cartList};
+    },
+    setCartCount(state,count) {
+      state.cartCount = count;
     },
     showRight(state, r) {
       state.showMore = r;

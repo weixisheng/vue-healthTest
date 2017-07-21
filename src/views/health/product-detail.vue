@@ -41,13 +41,14 @@ export default {
       product: {}
     }
   },
-  // beforeRouteEnter(to, from, next) {
-  //   next(vm=>{
-  //     vm.product = to.params.product;
-  //   })
-  // },
+  beforeRouteEnter(to, from, next) {
+    next(vm=>{
+      vm.product = to.params.product;
+    })
+  },
   created() {
     this.$store.commit('showLeft', true);
+    this.$store.commit('showRight', false);
     this.$store.commit('setPageTitle', '产品详情');
     this.product = this.$route.params.product;
     this.$nextTick(() => {

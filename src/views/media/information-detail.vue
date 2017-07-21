@@ -47,7 +47,7 @@
         </div>
       </section>
     </article>
-    <footer @click="goTop">
+    <footer @click="goTop" v-show="showTop">
       <div class="top-icon">
         <span class="top-text">回到顶部</span>
       </div>
@@ -55,6 +55,7 @@
   </div>
 </template>
 <script>
+import throttle from 'lodash/throttle'
 export default {
   name: "detail",
   data() {
@@ -62,7 +63,8 @@ export default {
       status: false,
       detailInfo: {},
       otherInfo: [],
-      openIndex: -1
+      openIndex: -1,
+      showTop:false
     }
   },
   created() {
@@ -70,7 +72,16 @@ export default {
     this.$store.commit('setPageTitle', '资讯详情');
     this.getNewsDetail(this.$route.params.hash);
   },
-
+  computed:{
+     
+  },
+  mounted(){
+      const topWrapper = this.$refs.top;
+      topWrapper.addEventListener('scroll',throttle(()=>{
+        if(topWrapper.scrollTop>500) this.showTop = true;
+        else this.showTop = false;
+      },500),false)
+  },
   methods: {
     async getNewsDetail(hash) {
       let vm = this;
@@ -109,6 +120,7 @@ export default {
       }
       else this.openIndex = i;
     },
+
     goTop() {
       let w = this.$refs.top,
         timer = null;

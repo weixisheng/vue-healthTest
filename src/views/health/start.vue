@@ -117,7 +117,8 @@ export default {
       }
       else {
         const result = String.fromCharCode(Math.floor(Math.random()*4+65));//随机生成ABCD
-        this.$router.push({ name: 'result' ,params:{result}});
+        this.$store.commit('setTestResult',result);
+        this.$router.push({ name: 'result'});
       }
     }
   }

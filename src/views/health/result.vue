@@ -4,23 +4,23 @@
             <div class="circle-box test-active text-center v-bg-yellow v-white">
                 <div class="v-cen">
                     <p class="v-fz-11">您的肤质为</p>
-                    <h1 class="v-fz-18">{{testResult}}</h1>
+                    <h1 class="v-fz-18">{{getTestResult}}</h1>
                 </div>
             </div>
         </div>
     
-        <div class="tonic-container" v-if="result!=='C'">
+        <div class="tonic-container" v-if="testResult!=='C'">
             <h2 class="h2 v-fz-15 text-center">推荐商品</h2>
-            <div class="tonic-tabs flex space-between" v-if="result=='B'">
+            <div class="tonic-tabs flex space-between" v-if="testResult=='B'">
                 <div class="tab-item v-fz-14 active" @click="changeTab" data-index="0">暖湿环境方案</div>
                 <div class="tab-item v-fz-14" @click="changeTab" data-index="1">干冷环境方案</div>
                 <div class="underline"></div>
             </div>
             <div class="tab-content">
-                <div class="warm" v-if="result=='B' || result=='A'">
+                <div class="warm" v-if="testResult=='B' || testResult=='A'">
                     <tonic v-for="(w,index) in warmProduct" :code="w.productCode" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail(w)"></tonic>
                 </div>
-                <div class="dry" v-if="result=='B' || result=='D'" :style="result=='B'?'transform:translateX(100%)':''">
+                <div class="dry" v-if="testResult=='B' || testResult=='D'" :style="testResult=='B'?'transform:translateX(100%)':''">
                     <tonic v-for="(d,index) in dryProduct" :code="d.productCode" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail(d)"></tonic>
                 </div>
             </div>
@@ -43,31 +43,32 @@ export default {
         tonic
     },
     computed: {
-        ...mapState(['cartList']),
-        testResult() {
+        ...mapState(['testResult','cartList']),
+        getTestResult() {
             const TEST_RESULT = { 'A': '油性肌肤', 'B': '混合性肌肤', 'C': '中性肌肤', 'D': '干性肌肤' };
-            return TEST_RESULT[this.result];
+            return TEST_RESULT[this.testResult];
         },
         cartCount(){
             let num = 0;
             Object.values(this.cartList).forEach((item)=>{
                 num += item;
             })
+            this.$store.commit('setCartCount',num);
             return num;
         }
     },
     data() {
         return {
-            result: 'B',
             tonicList: [],
             warmProduct: [],
             dryProduct: []
         }
     },
-    // beforeRouteEnter(to, from, next) {
-
-    //     next(vm => vm.result = to.params.result);
-    // },
+    beforeRouteEnter(to, from, next){
+        next(vm=>{
+            vm.$store.commit('showRight',true);
+        })
+    },
     created() {
         this.$store.commit('setPageTitle', '测试结果')
         this.$store.commit('showLeft', true)
@@ -121,7 +122,7 @@ export default {
             }, 1500);
         },
         goDetail(product) {
-           this.$router.push({name:'productDetail',params:{product}})
+           this.$router.push({name:'productDetail',params:{product,result:this.result}})
         }
     },
     mounted() {

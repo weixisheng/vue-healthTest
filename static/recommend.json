@@ -230,7 +230,7 @@
             "epc": false,
             "hot": false,
             "directSale": false,
-            "prom": false,
+            "prom": true,
             "lack": false,
             "bom": false,
             "old": false,
@@ -287,11 +287,11 @@
             "usedSubCode": null,
             "productWikiUrl": "http://wechat.infinitus.com.cn/wechat-front/html5/build/saleAids/display.html?openId=&literatureId=941&staffNum=",
             "epc": false,
-            "hot": false,
+            "hot": true,
             "directSale": false,
             "prom": false,
             "lack": false,
-            "bom": false,
+            "bom": true,
             "old": false,
             "new": false
         },
@@ -346,13 +346,13 @@
             "usedSubCode": null,
             "productWikiUrl": "http://wechat.infinitus.com.cn/wechat-front/html5/build/saleAids/display.html?openId=&literatureId=532&staffNum=",
             "epc": false,
-            "hot": false,
+            "hot": true,
             "directSale": false,
             "prom": false,
             "lack": false,
             "bom": false,
             "old": false,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18138-01",
@@ -405,13 +405,13 @@
             "usedSubCode": null,
             "productWikiUrl": "http://wechat.infinitus.com.cn/wechat-front/html5/build/saleAids/display.html?openId=&literatureId=531&staffNum=",
             "epc": false,
-            "hot": false,
+            "hot": true,
             "directSale": false,
             "prom": false,
             "lack": false,
             "bom": false,
             "old": false,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18098-01",
@@ -466,7 +466,7 @@
             "epc": false,
             "hot": false,
             "directSale": false,
-            "prom": false,
+            "prom": true,
             "lack": false,
             "bom": false,
             "old": false,
@@ -525,7 +525,7 @@
             "epc": false,
             "hot": false,
             "directSale": false,
-            "prom": false,
+            "prom": true,
             "lack": false,
             "bom": false,
             "old": false,
@@ -584,11 +584,11 @@
             "epc": false,
             "old": false,
             "directSale": false,
-            "prom": false,
-            "hot": false,
+            "prom": true,
+            "hot": true,
             "lack": false,
             "bom": false,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18134-01",
@@ -643,11 +643,11 @@
             "epc": false,
             "old": true,
             "directSale": false,
-            "prom": false,
+            "prom": true,
             "hot": false,
             "lack": true,
             "bom": false,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18139-01",
@@ -706,7 +706,7 @@
             "hot": false,
             "lack": false,
             "bom": false,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18080-02",
@@ -824,7 +824,7 @@
             "hot": false,
             "lack": true,
             "bom": false,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18070-03",
@@ -883,7 +883,7 @@
             "hot": false,
             "lack": false,
             "bom": false,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18138-01",
@@ -938,11 +938,11 @@
             "epc": false,
             "old": false,
             "directSale": false,
-            "prom": false,
+            "prom": true,
             "hot": false,
             "lack": false,
             "bom": false,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18098-01",
@@ -1001,7 +1001,7 @@
             "hot": false,
             "lack": false,
             "bom": false,
-            "new": false
+            "new": true
         },
         {
             "productCode": "18144-01",
@@ -1056,11 +1056,11 @@
             "epc": false,
             "old": false,
             "directSale": false,
-            "prom": false,
+            "prom": true,
             "hot": false,
             "lack": false,
             "bom": false,
-            "new": false
+            "new": true
         }
   ]
 }

@@ -114,7 +114,7 @@ export default {
         }
       },16);*/
       var timer = null;
-      const m = document.querySelector('.main').firstChild;
+      const m = document.querySelector('.main').querySelector('div');
       window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
       window.cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAniamtionFrame;
       window.cancelAnimationFrame(timer);
