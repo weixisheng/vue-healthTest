@@ -40,14 +40,14 @@
         </li>
       </ul>
     </section>
-    <transition name="fade">
+    <transition name="slide-left">
       <section class='celebrity-container' v-show="showCelebrity">
         <header>
           <h3>
             <span>{{celebrity.name}}</span>
             <span v-if="celebrity.name_en">{{celebrity.name_en}}</span>
           </h3>
-          <div class="close" @click="showCelebrity = false">
+          <div class="close" @click="closeCelebrity">
             <span class="fa fa-power-off" style="color:red"></span>
           </div>
         </header>
@@ -56,7 +56,7 @@
             <div class="basic-cover" v-if="celebrity.aka_en[0]">
               <img :src="getImg(celebrity.avatars.medium)" :alt="celebrity.name">
             </div>
-             <div class="basic-cover" v-else>
+            <div class="basic-cover" v-else>
               <img :src="getImg(celebrity.avatars.small)" :alt="celebrity.name">
             </div>
             <ul class="basic-info">
@@ -81,8 +81,8 @@
                 <div>
                   <span v-for="(r,ri) in item.roles" :key="ri" style="color:#6de66b;">{{r}}</span>
                   <p class="subject-rating">
-                  <rater :value="str2num(item.subject.rating.stars)" :max="5" active-color="#F56D4C" :font-size="12" disabled></rater>
-                  <span :style="{color:'#333',marginRight:'10px'}">{{item.subject.rating.average}}</span>
+                    <rater :value="str2num(item.subject.rating.stars)" :max="5" active-color="#F56D4C" :font-size="12" disabled></rater>
+                    <span :style="{color:'#333',marginRight:'10px'}">{{item.subject.rating.average}}</span>
                   </p>
                 </div>
                 <div>({{item.subject.year}})
@@ -94,11 +94,11 @@
         </main>
       </section>
     </transition>
-    <loading v-model="showLoading" text="人物资料加载中请稍后..."></loading>
+    <loading v-model="showLoading" text="加载中请稍后..."></loading>
   </div>
 </template>
 <script>
-import {Loading, Rater} from 'vux'
+import { Loading, Rater } from 'vux'
 
 import { str2num } from 'components/mixin'
 export default {
@@ -108,10 +108,10 @@ export default {
       mInfo: {},
       celebrity: {},
       showCelebrity: false,
-      showLoading:false
+      showLoading: false
     }
   },
-  components: {Loading, Rater },
+  components: { Loading, Rater },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.getMovieInfo(vm.$route.query.id);
@@ -121,8 +121,8 @@ export default {
     this.$store.commit('setPageTitle', this.$route.params.title || this.mInfo.title);
     this.$store.commit('showLeft', true);
   },
-  updated(){
-    this.$store.commit('setPageTitle', this.mInfo.title);    
+  updated() {
+    this.$store.commit('setPageTitle', this.mInfo.title);
   },
   mixins: [str2num],
   methods: {
@@ -130,8 +130,7 @@ export default {
       this.$store.commit('updateLoading', { isLoading: true })
       let res = await this.axios.get(`/movieAPI/v2/movie/subject/${id}`)
       this.mInfo = res.data
-      // let res2 = await this.axios.get(`/movieAPI/v2/movie/subject/${id}/reviews`)
-      // this.mInfo = {...this.mInfo,...res.data}
+     
       this.$store.commit('updateLoading', { isLoading: false })
       this.initCelebrity(this.mInfo.casts[0].id);
     },
@@ -139,13 +138,16 @@ export default {
       let res = await this.axios.get(`/movieAPI/v2/movie/celebrity/${id}`)
       this.celebrity = res.data;
     },
-    getCelebrity(id) {   
+    getCelebrity(id) {
       this.showLoading = true;
       this.axios.get(`/movieAPI/v2/movie/celebrity/${id}`).then(res => {
-          this.celebrity = res.data;
-          this.showCelebrity = true;  
-          this.showLoading = false;     
+        this.celebrity = res.data;
+        this.showCelebrity = true;
+        this.showLoading = false;
       })
+    },
+    closeCelebrity(){
+      this.showCelebrity = false;
     },
     getImg(path) {
       return path ? path : '/static/head.png';
@@ -310,7 +312,7 @@ ul {
           }
         }
         .subject-info {
-        flex: 1;
+          flex: 1;
           h4 {
             font-size: .8rem;
             overflow: hidden;
@@ -320,10 +322,10 @@ ul {
           div {
             font-size: 12px;
             position: relative;
-            .subject-rating{
+            .subject-rating {
               position: absolute;
               right: 0;
-              top:0;
+              top: 0;
             }
             span {
               margin-left: 5px;
