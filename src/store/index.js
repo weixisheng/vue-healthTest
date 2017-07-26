@@ -7,9 +7,9 @@ const store = new Vuex.Store({
   state: {
     login: false,
     pageTitle: '',
-    testResult:'',
+    testResult: '',
     cartList: {},
-    cartCount:0,
+    cartCount: 0,
     showMore: false,
     showBack: true,
     showModal: false,
@@ -41,20 +41,27 @@ const store = new Vuex.Store({
     setPageTitle(state, title) {
       state.pageTitle = title;
     },
-    setTestResult(state,result){
+    setTestResult(state, result) {
       state.testResult = result;
     },
-    add2Cart(state, pItem) {
+    add2Cart(state, detail) {
       let cartList = state.cartList;
-      if(cartList[pItem.code]){
-        cartList[pItem.code] += pItem.count;
+      if (cartList[detail.productCode]) {
+        cartList[detail.productCode]['count'] += detail.count;
+      } else {
+        cartList[detail.productCode] = detail;
       }
-      else{
-        cartList[pItem.code]= pItem.count; 
-      }
-      state.cartList = {...cartList};
+      state.cartList = { ...cartList};
     },
-    setCartCount(state,count) {
+    updateCartList(state,detail){
+      let cartList = state.cartList;
+      if(detail.count)
+        cartList[detail.productCode]['count'] = detail.count;
+      else if(detail.checked)
+        cartList[detail.productCode]['checked'] = detail.checked;
+      state.cartList = { ...cartList};
+    },
+    setCartCount(state, count) {
       state.cartCount = count;
     },
     showRight(state, r) {

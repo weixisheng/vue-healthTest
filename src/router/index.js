@@ -43,7 +43,11 @@ const router = new Router({
   },  {
     path: '/product/detail',
     name: 'productDetail',
-    component: require('../views/health/product-detail')
+    component: require('../views/product/detail')
+  },{
+    path: '/product/balance',
+    name: 'balance',
+    component: require('../views/product/balance')  
   },{
     path: '/me',
     name: 'me',

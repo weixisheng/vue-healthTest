@@ -12,7 +12,7 @@
     </div>
   
     <div class="product-info">
-      <h3 class="product-name" :style="{color:product.displayColor}">
+      <h3 class="product-name" :style="{color:product.displayColor?product.displayColor.slice(0,7):'#222'}">
         {{product.productFullName}}
       </h3>
       <div class="product-price flex">
@@ -26,7 +26,7 @@
         <span>{{product.packageSpecifications}}</span>
       </div>
     </div>
-    <div class="product-desc" :style="{boxShadow:'0 0 5px '+product.displayColor}">
+    <div class="product-desc" :style="{boxShadow:'0 0 5px '+(product.displayColor?product.displayColor.slice(0,7):'#e1e2e7')}">
       <h3 class="text-center">产品描述</h3>
       <div v-html="product.productDesc01" v-if="product.productDesc01"></div>
       <div v-else class="text-center">-待添加-</div>
@@ -48,7 +48,6 @@ export default {
   },
   created() {
     this.$store.commit('showLeft', true);
-    this.$store.commit('showRight', false);
     this.$store.commit('setPageTitle', '产品详情');
     this.product = this.$route.params.product;
     this.$nextTick(() => {

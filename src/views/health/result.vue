@@ -18,17 +18,17 @@
             </div>
             <div class="tab-content">
                 <div class="warm" v-if="testResult=='B' || testResult=='A'">
-                    <tonic v-for="(w,index) in warmProduct" :code="w.productCode" :src="w.appPhotoUrl" :hot="w.hot" :prom="w.prom" :new1="w.new" :product-full-name="w.productFullName" :product-price="w.productPrice" :product-retail-price="w.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail(w)"></tonic>
+                    <tonic v-for="(w,index) in warmProduct" :detail="w" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail(w)"></tonic>
                 </div>
                 <div class="dry" v-if="testResult=='B' || testResult=='D'" :style="testResult=='B'?'transform:translateX(100%)':''">
-                    <tonic v-for="(d,index) in dryProduct" :code="d.productCode" :src="d.appPhotoUrl" :hot="d.hot" :prom="d.prom" :new1="d.new" :product-full-name="d.productFullName" :product-price="d.productPrice" :product-retail-price="d.productRetailPrice" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail(d)"></tonic>
+                    <tonic v-for="(d,index) in dryProduct" :detail="d" :show-count='true' @cart-num='cartNum' :key="index" @click-img="goDetail(d)"></tonic>
                 </div>
             </div>
         </div>
         <div v-else class="text-center">
             中性肌肤属于青少年，没有推荐商品
         </div>
-        <div class="shopping-cart-right">
+        <div class="shopping-cart-right" @click="goBalance">
             <i class="fa fa-cart-arrow-down"></i>
             <span class="cart-count" v-show="cartCount">{{cartCount}}</span>
         </div>
@@ -43,17 +43,17 @@ export default {
         tonic
     },
     computed: {
-        ...mapState(['testResult','cartList']),
+        ...mapState(['testResult', 'cartList']),
         getTestResult() {
             const TEST_RESULT = { 'A': '油性肌肤', 'B': '混合性肌肤', 'C': '中性肌肤', 'D': '干性肌肤' };
             return TEST_RESULT[this.testResult];
         },
-        cartCount(){
+        cartCount() {
             let num = 0;
-            Object.values(this.cartList).forEach((item)=>{
-                num += item;
+            Object.values(this.cartList).forEach((item) => {
+                num += item.count;
             })
-            this.$store.commit('setCartCount',num);
+            this.$store.commit('setCartCount', num);
             return num;
         }
     },
@@ -64,10 +64,15 @@ export default {
             dryProduct: []
         }
     },
-    beforeRouteEnter(to, from, next){
-        next(vm=>{
-            vm.$store.commit('showRight',true);
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.$store.commit('showRight', true);
+            vm.$store.commit('setTestResult', 'B')//测试
         })
+    },
+    beforeRouteLeave(to, from, next) {
+        this.$store.commit('showRight',false);
+        next()
     },
     created() {
         this.$store.commit('setPageTitle', '测试结果')
@@ -78,7 +83,7 @@ export default {
         getRecommend() {
             let self = this;
             this.axios.get('./static/recommend.json')
-                .then((response) =>{
+                .then((response) => {
                     let result = response.data
                     this.tonicList = result.data;
                     this.tonicList.forEach((i) => {
@@ -122,7 +127,12 @@ export default {
             }, 1500);
         },
         goDetail(product) {
-           this.$router.push({name:'productDetail',params:{product,result:this.result}})
+            this.$router.push({ name: 'productDetail', params: { product} })
+        },
+        goBalance() {
+            if (this.cartCount)
+                this.$router.push({ name: 'balance' })
+            else alert('请添加商品')
         }
     },
     mounted() {

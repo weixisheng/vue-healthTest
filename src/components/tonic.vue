@@ -1,25 +1,25 @@
 <template>
     <div class="tonic-item">
         <div class="product-img">
-            <img :src="src" class="hv-cen" onerror="src='/static/logo.jpg'" @click="clickImg">
+            <img :src="detail.appPhotoUrl" class="hv-cen" onerror="src='/static/logo.jpg'" @click="clickImg">
         </div>
         <div class="product-label">
-            <span :class="[hot?hotClass:'hidden']">热</span>
-            <span :class="[prom?promClass:'hidden']">促</span>
-            <span :class="[new1?newClass:'hidden']">新</span>
-            <span>{{productFullName}}</span>
+            <span :class="[detail.hot?hotClass:'hidden']">热</span>
+            <span :class="[detail.prom?promClass:'hidden']">促</span>
+            <span :class="[detail.new?newClass:'hidden']">新</span>
+            <span>{{detail.productFullName}}</span>
         </div>
         <div class="product-price clearfix">
             <div class="v-red">
-                ￥<animated-integer :value="productPrice"></animated-integer>
+                ￥<animated-integer :value="detail.productPrice"></animated-integer>
             </div>
             <div class="v-blue">
-                <animated-integer :value="productRetailPrice"></animated-integer>点
+                <animated-integer :value="detail.productRetailPrice"></animated-integer>点
             </div>
         </div>
         <div v-if="showCount">
             <count :min='1' :max='300'></count>
-            <div class="add2cart" @click="add2cart($event,code)">
+            <div class="add2cart" @click="add2cart($event,detail)">
                 <i class="fa fa-shopping-cart"></i>
             </div>
         </div>
@@ -31,28 +31,12 @@ import animatedInteger from './animatedInteger'
 import count from './count'
 export default {
     props: {
-        code:{
-            type: [Number,String]
+        detail:{
+            type:Object,
+            default:function(){
+                return {};
+            }
         },
-        src: {
-            type: String,
-            default: "./static/default.png"
-        },
-        hot: {
-            type: Boolean,
-            default: false
-        },
-        prom: {
-            type: Boolean,
-            default: false
-        },
-        new1: {
-            type: Boolean,
-            default: false
-        },
-        productFullName: String,
-        productPrice: Number,
-        productRetailPrice: Number,
         showCount: {
             type: Boolean,
             default: false
@@ -68,7 +52,7 @@ export default {
         }
     },
     methods: {
-        add2cart(event,code) {
+        add2cart(event,detail) {
             // var ct = $(event.currentTarget);
             // var con = ct.parents('.tonic-item');
             // var $img = $(con.find('.product-img img'));
@@ -106,7 +90,8 @@ export default {
                 m.remove();
             }, 1000);
             let count = +ct.previousElementSibling.querySelector('input').value;
-            this.$store.commit('add2Cart',{code,count});
+            detail = {...detail,...{count}};
+            this.$store.commit('add2Cart',detail);
             this.$emit('cart-num');
         },
         clickImg() {

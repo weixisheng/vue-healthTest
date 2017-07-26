@@ -66,7 +66,9 @@ export default {
 
 <style lang="less">
 .v-product-count {
-    float: left;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0;/*消除inline-block的3px间隙*/
     border: 1px solid #e4bb91;
     div {
         box-sizing: border-box;
@@ -74,13 +76,10 @@ export default {
         line-height: 2;
         text-align: center;
         font-weight: bold;
-        float: left;
+        display: inline-block;
         font-size: 15px;
         color: #e4bb91;
         border-left: none;
-        &:first-child {
-            border-left: none;
-        }
         &:last-child {
             border-left: 1px solid #e4bb91;
         }
@@ -89,7 +88,7 @@ export default {
         text-align: center;
         border-left: 1px solid #e4bb91;
         width: 40px;
-        float: left;
+        display: inline-block;
         line-height: 2;
         font-size: 15px;
         color: #888;
