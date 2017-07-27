@@ -2,9 +2,9 @@
   <div style="padding:0 10px">
     <section class="address-container">
       <group title="收货地址">
-        <x-address title="选择地址" :list="addressData">
+        <x-address title="选择地址" :list="addressData" v-model="add1">
         </x-address>
-        <x-input placeholder="请输入详细地址(街道门牌号)" v-model="add"></x-input>
+        <x-input placeholder="请输入详细地址(街道门牌号)" v-model="add2" :debounce="800" required></x-input>
       </group>
     </section>
     <section class="cart-list-container">
@@ -37,7 +37,7 @@
         合计：
         <span>￥{{total.sum}}</span>
       </div>
-      <div class="balance-btn">
+      <div class="balance-btn" @click="balance">
         <button>结算
           <span>({{total.num}})</span>
         </button>
@@ -48,12 +48,14 @@
 <script>
 import { mapState } from 'vuex'
 import { Group, XAddress, XInput, ChinaAddressData } from 'vux'
+import value2name from 'vux/src/filters/value2name'
 import Count from 'components/count'
 export default {
   name: "balance",
   data() {
     return {
-      add: '',
+      add1: [],
+      add2: '',
       addressData: ChinaAddressData,
       list: [],
       allCheck: true
@@ -63,24 +65,27 @@ export default {
     Group, XAddress, XInput, Count
   },
   computed: {
-   
+    address(){
+      return this.getAddressName(this.add1)+' '+this.add2;
+    },
     total() {
       let sum = 0, num = 0;
       // this.list = Object.values(this.cartList);
       this.list.forEach(e => {
-        if(e.checked){
-        sum += e.count * e.productPrice;
-        num += e.count;
+        
+        if (e.checked) {
+          sum += e.count * e.productPrice;
+          num += e.count;
         }
       })
       this.$store.commit('setCartCount', num);
       return { sum, num };
     }
   },
-  beforeRouteEnter(from,to,next){
-    next(vm=>{
+  beforeRouteEnter(from, to, next) {
+    next(vm => {
       vm.list = Object.values(vm.$store.state.cartList);
-      vm.list.forEach((e)=>{
+      vm.list.forEach((e) => {
         e.checked = true;
       })
     })
@@ -90,19 +95,22 @@ export default {
     this.$store.commit('showLeft', true);
   },
   methods: {
-
+    getAddressName(value){
+      return value2name(this.add1,this.addressData);
+    },
     countCheck(e, item) {
-      var ct = e.target, ctParent = ct.parentElement.parentElement;
-      var price = +ctParent.querySelector('.pro-price').innerHTML.slice(1),
-        count = +ctParent.querySelector('.v-product-count>input').value,
-        pro = price * count;
+      var ct = e.target;
+
       if (!ct.checked) {
         this.allCheck = false;
+        item.checked = false;
       }
       else {
         let checkList = document.querySelector('.cart-list').querySelectorAll(':checked');
         this.allCheck = checkList.length == this.list.length;
+        item.checked = true;
       }
+      this.$store.commit('updateCartList', item);
 
     },
     checkAll() {
@@ -110,17 +118,28 @@ export default {
       [...document.querySelector('.cart-list').querySelectorAll('input')].forEach(e => {
         e.checked = this.allCheck;
       })
-        if(!this.allCheck) {
+      if (!this.allCheck) {
         this.total.sum = 0;
       }
-      else{
+      else {
         this.list = Object.values(this.$store.state.cartList)
       }
-  
+
     },
     reCalc(detail, n) {
       detail = { ...detail, ...{ count: n } };
       this.$store.commit('updateCartList', detail);
+    },
+    balance() {
+      if (!this.add1||!this.add2) {
+        alert('地址不能为空')
+      }
+      else if(!this.total.sum ||!this.total.num){
+        alert('没有可结算商品')
+      }
+      else{
+        alert('结算成功')
+      }
     }
   }
 }
