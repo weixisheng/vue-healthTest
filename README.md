@@ -103,18 +103,18 @@ var app = express()
 
 ![健康测试-结果页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/result.png)
 
-![产品详情页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/product-detail.png)
+![产品详情页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/product-detail.png)
 
-![结算页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/balance.png)
+![结算页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/balance.png)
 
 ![音乐列表](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/music.png)
 
 ![音乐详情](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/music-detail.png)
 
-![电影-列表页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/movie.png)
+![电影-列表页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/movie.png)
 
-![电影-详情页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/movie-detail.png)
+![电影-详情页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/movie-detail.png)
 
-![人物页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/celebrity.png)
+![人物页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/celebrity.png)
 
 更多截图查看文件夹screenshot
