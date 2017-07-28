@@ -50,7 +50,7 @@
             </div>
             <span class="vux-close" @click="showHideOnBlur=false"></span>
         </x-dialog>
-        <alert v-model="showValue" title="提示" :content="alertCon"></alert>
+         <alert v-model="showAlert" title="提示" :content="alertCon"></alert> 
     </div>
 </template>
 
@@ -66,7 +66,7 @@ export default {
             username: '',
             password: '',
             showHideOnBlur: false,
-            showValue: false,
+            showAlert: false,
             alertCon: '登录信息有误，请重试！'
         }
     },
@@ -116,7 +116,8 @@ export default {
                     }
                     else {
                         vm.alertCon = '登录信息有误，请重试！';
-                        vm.showValue = true;
+                        vm.showAlert = true;
+                        
                     }
                 }
             };
@@ -146,9 +147,10 @@ export default {
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
+                        vm.showAlert = true;
                         vm.alertCon = '注册成功!';
+                       
                         vm.showHideOnBlur = false;
-                        vm.showValue = true;
                         //注册成功后把注册名填入登录页面的用户名，并聚焦密码栏
                         vm.username=regName;
                         vm.$refs.loginpwd.focus();

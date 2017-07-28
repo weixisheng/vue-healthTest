@@ -137,6 +137,8 @@ export default {
 }
 
 .movie-avator img {
+    max-width: 3rem;
+    max-height: 5rem;
     margin: 0 auto;
     display: block;
     box-shadow: 0 0 5px #00ffdb;

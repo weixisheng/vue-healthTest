@@ -45,15 +45,14 @@
 </template>
 
 <script>
-import { XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
+import {XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
 import { mapState, mapGetters } from 'vuex'
 import Modal from 'components/modal'
 import Loading from 'components/loading'
-import SimpleCell from 'components/simpleCell'
 
 export default {
   name: 'app',
-  components: { Loading, XHeader, Qrcode, Modal, Tabbar, TabbarItem, SimpleCell },
+  components: {Loading, XHeader, Qrcode, Modal, Tabbar, TabbarItem },
   computed: {
     ...mapState({
       isLoading: state => state.ajaxLoading.isLoading,

@@ -77,7 +77,7 @@
                 <img :src="item.subject.images.small" alt="">
               </div>
               <div class="subject-info">
-                <h4>{{item.subject.title}}</h4>
+                <h4 class="ellipsis">{{item.subject.title}}</h4>
                 <div>
                   <span v-for="(r,ri) in item.roles" :key="ri" style="color:#6de66b;">{{r}}</span>
                   <p class="subject-rating">
@@ -121,9 +121,7 @@ export default {
     this.$store.commit('setPageTitle', this.$route.params.title || this.mInfo.title);
     this.$store.commit('showLeft', true);
   },
-  updated() {
-    this.$store.commit('setPageTitle', this.mInfo.title);
-  },
+
   mixins: [str2num],
   methods: {
     async getMovieInfo(id) {
@@ -161,15 +159,9 @@ export default {
   padding: .5rem;
 }
 
-ul {
-  list-style: none;
-}
-
 .main-pic {
   margin-right: .5rem;
-  img {
-    width: 100%;
-  }
+  
 }
 
 .main-info {
@@ -282,9 +274,7 @@ ul {
       .basic-cover {
         float: left;
         margin-right: 5px;
-        img {
-          width: 100%;
-        }
+        
       }
       .basic-info {
         font-size: 14px;
@@ -307,7 +297,7 @@ ul {
           height: 3rem;
           margin-right: .5rem;
           img {
-            width: 100%;
+           
             height: inherit;
           }
         }
@@ -315,9 +305,6 @@ ul {
           flex: 1;
           h4 {
             font-size: .8rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
           }
           div {
             font-size: 12px;
