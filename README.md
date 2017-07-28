@@ -65,10 +65,7 @@ new HtmlWebpackPlugin({
 # 先启动mysql服务
 # src->config->nodeSql.js
 node nodeSql.js
-
-# 替代做法
-# 在console控制台输入
-window.sessionStorage.setItem("username","admin")
+/*只有在点击底栏【我的】才需要登录*/
 ```
 
 > 代理
@@ -106,8 +103,18 @@ var app = express()
 
 ![健康测试-结果页](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/result.png)
 
+![产品详情页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/product-detail.png)
+
+![结算页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/balance.png)
+
 ![音乐列表](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/music.png)
 
 ![音乐详情](https://github.com/weixisheng/vue-healthTest/blob/master/screenshot/music-detail.png)
+
+![电影-列表页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/movie.png)
+
+![电影-详情页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/movie-detail.png)
+
+![人物页](https://github.com/weixisheng/vue-healthTest/tree/master/screenshot/celebrity.png)
 
 更多截图查看文件夹screenshot
