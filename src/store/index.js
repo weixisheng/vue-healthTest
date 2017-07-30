@@ -218,18 +218,5 @@ store.registerModule('ajaxLoading', {
     }
   }
 })
-// store.registerModule('alert',{
-//   state:{
-//     showAlert:false,
-//     title:'提示',
-//     content:'提示内容'
-//   },
-//   mutations:{
-//     toggleAlert(state,payload){
-//       state.showAlert = payload.showAlert;
-//       state.title = payload.alertTitle;
-//       state.content = payload.alertContent;
-//     }
-//   }
-// })
+
 export default store;

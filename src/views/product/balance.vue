@@ -43,16 +43,19 @@
         </button>
       </div>
     </footer>
-    <alert v-model="showAlert" :title="alertTitle" :content="alertCon"></alert>
+     <alert v-model="showAlert" :title="alertTitle" :content="alertContent"></alert> 
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
-import {Alert, Group, XAddress, XInput, ChinaAddressData } from 'vux'
+import { Alert, Group, XAddress, XInput, ChinaAddressData } from 'vux'
 import value2name from 'vux/src/filters/value2name'
 import Count from 'components/count'
 export default {
   name: "balance",
+   components: {
+    Alert, Group, XAddress, XInput, Count
+  },
   data() {
     return {
       add1: [],
@@ -61,22 +64,20 @@ export default {
       list: [],
       allCheck: true,
       showAlert:false,
-      alertTitle:'提示',
-      alertCon:'提示内容'
+      alertTitle:'',
+      alertContent:''
     }
   },
-  components: {
-    Alert,Group, XAddress, XInput, Count
-  },
+ 
   computed: {
-    address(){
-      return this.getAddressName(this.add1)+' '+this.add2;
+    address() {
+      return this.getAddressName(this.add1) + ' ' + this.add2;
     },
     total() {
       let sum = 0, num = 0;
       // this.list = Object.values(this.cartList);
       this.list.forEach(e => {
-        
+
         if (e.checked) {
           sum += e.count * e.productPrice;
           num += e.count;
@@ -99,8 +100,8 @@ export default {
     this.$store.commit('showLeft', true);
   },
   methods: {
-    getAddressName(value){
-      return value2name(this.add1,this.addressData);
+    getAddressName(value) {
+      return value2name(this.add1, this.addressData);
     },
     countCheck(e, item) {
       var ct = e.target;
@@ -135,21 +136,21 @@ export default {
       this.$store.commit('updateCartList', detail);
     },
     balance() {
-      if (!this.add1||!this.add2) {
-        this.alertTitle='提示'
-        this.alertCon = '地址不能为空'
-        this.showAlert = true
+      var showAlert = false,alertTitle,alertContent;
+      if (!this.add1 || !this.add2) {
+        this.alertTitle = '提示'
+        this.alertContent = '地址不能为空'
       }
-      else if(!this.total.sum ||!this.total.num){
-        this.alertTitle='提示'        
-        this.alertCon = '没有可结算商品'
-        this.showAlert = true
+      else if (!this.total.sum || !this.total.num) {
+        this.alertTitle = '提示'
+        this.alertContent = '没有可结算商品'
       }
-      else{
-        this.alertTitle='恭喜'
-         this.alertCon = '结算成功'
-        this.showAlert = true
+      else {
+        this.alertTitle = '恭喜'
+        this.alertContent = '结算成功'
       }
+      this.showAlert=true
+
     }
   }
 }

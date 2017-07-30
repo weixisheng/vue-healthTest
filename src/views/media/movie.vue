@@ -36,12 +36,12 @@ import Rater from 'vux/src/components/rater'
 import {str2num} from 'components/mixin'
 export default {
     name: 'movie',
+    components: { Rater },
     data() {
         return {
             movieList: []
         }
     },
-    components: { Rater },
     created() {
         this.$store.commit('showLeft', false);
         this.$store.commit('showRight', false);

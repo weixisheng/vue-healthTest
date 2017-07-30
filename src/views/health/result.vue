@@ -32,15 +32,25 @@
             <i class="fa fa-cart-arrow-down"></i>
             <span class="cart-count" v-show="cartCount">{{cartCount}}</span>
         </div>
+        <alert v-model="showAlert" title="提示" content="请添加商品"></alert>
     </div>
 </template>
 <script>
 import tonic from 'components/tonic'
+import {Alert} from 'vux'
 import { mapState } from 'vuex'
 export default {
     name: "result",
     components: {
-        tonic
+        tonic,Alert
+    },
+    data() {
+        return {
+            showAlert:false,
+            tonicList: [],
+            warmProduct: [],
+            dryProduct: []
+        }
     },
     computed: {
         ...mapState(['testResult', 'cartList']),
@@ -57,23 +67,14 @@ export default {
             return num;
         }
     },
-    data() {
-        return {
-            tonicList: [],
-            warmProduct: [],
-            dryProduct: []
-        }
-    },
+    
     beforeRouteEnter(to, from, next) {
         next(vm => {
             vm.$store.commit('showRight', true);
             vm.$store.commit('setTestResult', 'B')//测试
         })
     },
-    beforeRouteLeave(to, from, next) {
-        this.$store.commit('showRight', false);
-        next()
-    },
+    
     created() {
         this.$store.commit('setPageTitle', '测试结果')
         this.$store.commit('showLeft', true)
@@ -136,7 +137,9 @@ export default {
         goBalance() {
             if (this.cartCount)
                 this.$router.push({ name: 'balance' })
-            else alert('请添加商品')
+            else {
+                this.showAlert = true;
+            }
         }
     },
     mounted() {
@@ -144,8 +147,6 @@ export default {
 
             const tabCon = document.querySelector(".tab-content"),
                 tabItems = document.querySelectorAll(".tab-item");
-            console.log(tabCon);
-            console.log(tabItems)
             if (this.result == 'D') {
                 tabCon.querySelector('.dry').style.transform = tabCon.querySelector('.dry').style.webkitTransform = 'translateX(0)'
             }
@@ -174,6 +175,10 @@ export default {
                 }
             }, false);
         }, 500)
+    }
+    beforeRouteLeave(to, from, next) {
+        this.$store.commit('showRight', false);
+        next()
     }
 }
 </script>

@@ -6,9 +6,9 @@
     <div class="main">
       <!--<transition mode="out-in" :name="transitionName">-->
       <transition>
-         <!-- <keep-alive>  -->
+        <!-- <keep-alive>  -->
         <router-view></router-view>
-         <!-- </keep-alive>    -->
+        <!-- </keep-alive>    -->
       </transition>
     </div>
   
@@ -45,25 +45,26 @@
 </template>
 
 <script>
-import {XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
+import {  XHeader, Qrcode, Tabbar, TabbarItem } from 'vux'
 import { mapState, mapGetters } from 'vuex'
 import Modal from 'components/modal'
 import Loading from 'components/loading'
 
 export default {
   name: 'app',
-  components: {Loading, XHeader, Qrcode, Modal, Tabbar, TabbarItem },
+  components: {  Loading, XHeader, Qrcode, Modal, Tabbar, TabbarItem },
+  
+  data() {
+    return {
+      transitionName: 'fade'
+    }
+  },
   computed: {
     ...mapState({
       isLoading: state => state.ajaxLoading.isLoading,
       text: state => state.ajaxLoading.text
     }),
     ...mapGetters(['showBack', 'showMore', 'pageTitle', 'showModal'])
-  },
-  data() {
-    return {
-      transitionName: 'fade'
-    }
   },
   created() {
     this.redirect();
@@ -82,7 +83,7 @@ export default {
   methods: {
     redirect() {
       this.$router.beforeEach((to, from, next) => {
-        
+
         if (to.matched.some(record => record.meta.requireAuth)) {
           // this route requires auth, check if logged in
           // if not, redirect to login page.

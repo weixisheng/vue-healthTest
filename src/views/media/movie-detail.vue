@@ -103,6 +103,7 @@ import { Loading, Rater } from 'vux'
 import { str2num } from 'components/mixin'
 export default {
   name: "movieDetail",
+  components: { Loading, Rater },
   data() {
     return {
       mInfo: {},
@@ -111,7 +112,6 @@ export default {
       showLoading: false
     }
   },
-  components: { Loading, Rater },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.getMovieInfo(vm.$route.query.id);
