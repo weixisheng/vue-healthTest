@@ -175,7 +175,7 @@ export default {
                 }
             }, false);
         }, 500)
-    }
+    },
     beforeRouteLeave(to, from, next) {
         this.$store.commit('showRight', false);
         next()
