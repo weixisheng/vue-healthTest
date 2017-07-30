@@ -1,50 +1,52 @@
 <template>
   <div id='start-wrapper'>
     <div class="test-home">
-      <section v-if="!i">
-        <div class="test-title v-yellow">
-          <p>干性皮肤（Dry - D）</p>
-          <p>VS.</p>
-          <p>油性皮肤（Oil - O）</p>
-        </div>
-        <p class="test-description v-fz-15 v-gray">
-          {{illustrate}}
-        </p>
-        <div class="btn-group flex">
-          <button class="v-bg-yellow v-white v-fz-15 start" @click="overview">测试分布</button>
-          <button class="v-bg-yellow v-white v-fz-15 start" @click="start">开始测试</button>
-        </div>
-      </section>
-      <section v-else>
-        <div class="pro">
-          <div class="progress progress-primary">
-            <div class="progress-bar  v-bg-yellow" :style="{width: percent+'%'}"></div>
-          </div>
-          <div class="progress-text v-fz-12">
-            第{{i}}题/共{{length}}题
-          </div>
-        </div>
+      <transition-group name="bounce-in">
   
-        <div class="test-cell v-gray v-fz-14" v-for="(paperItem,index) in paperItems" :class="{'is-current':index==i-1}" :data-index="index + 1" :data-id="paperItem.id" :key="index">
-          <h3 class="quest-title v-gray v-fz-16">
-            {{index + 1}}.{{paperItem.question}}
-          </h3>
-          <div v-for="(ele,j) in paperItem.items" class="quest-answer radio radio-primary clearfix" :key="j">
-            <input type="radio" :name="index" :data-code="ele.option" :id="'ques-'+index+j + ele.option">
-            <label :for="'ques-'+index+j + ele.option">
-              {{ele.content}}
-            </label>
+        <section v-if="!i" :key="1111">
+          <div class="test-title v-yellow">
+            <p>干性皮肤（Dry - D）</p>
+            <p>VS.</p>
+            <p>油性皮肤（Oil - O）</p>
           </div>
-          <img :src="paperItem.questionImg+'?imageView/2/2/h/250'" alt="" onerror="src='/static/logo.jpg'">
-        </div>
+          <p class="test-description v-fz-15 v-gray">
+            {{illustrate}}
+          </p>
+          <div class="btn-group flex">
+            <button class="v-bg-yellow v-white v-fz-15 start" @click="overview">测试分布</button>
+            <button class="v-bg-yellow v-white v-fz-15 start" @click="start">开始测试</button>
+          </div>
+        </section>
+        <section v-else :key="2222">
+          <div class="pro">
+            <div class="progress progress-primary">
+              <div class="progress-bar  v-bg-yellow" :style="{width: percent+'%'}"></div>
+            </div>
+            <div class="progress-text v-fz-12">
+              第{{i}}题/共{{length}}题
+            </div>
+          </div>
+          <div class="test-cell v-gray v-fz-14" v-for="(paperItem,index) in paperItems" :class="{'is-current':index==i-1}" :data-index="index + 1" :data-id="paperItem.id" :key="index">
+            <h3 class="quest-title v-gray v-fz-16">
+              {{index + 1}}.{{paperItem.question}}
+            </h3>
+            <div v-for="(ele,j) in paperItem.items" class="quest-answer radio radio-primary clearfix" :key="j">
+              <input type="radio" :name="index" :data-code="ele.option" :id="'ques-'+index+j + ele.option">
+              <label :for="'ques-'+index+j + ele.option">
+                {{ele.content}}
+              </label>
+            </div>
+            <img :src="paperItem.questionImg+'?imageView/2/2/h/250'" alt="" onerror="src='/static/logo.jpg'">
+          </div>
+          <div class="btn-groups">
+            <button class="btn prev v-bg-yellow v-white" v-if="i>1&&i<length" @click="prev">上一题</button>
+            <button class="btn v-bg-yellow v-white" v-if="i>=1&&i<length" @click="next">下一题</button>
+            <button class="btn v-bg-yellow v-white" v-if="i==length" @click="submit">提交测试</button>
+          </div>
+          <Toast :value="showToast" type="warn" is-show-mask>请选择答案</Toast>
+        </section>
   
-        <div class="btn-groups">
-          <button class="btn prev v-bg-yellow v-white" v-if="i>1&&i<length" @click="prev">上一题</button>
-          <button class="btn v-bg-yellow v-white" v-if="i>=1&&i<length" @click="next">下一题</button>
-          <button class="btn v-bg-yellow v-white" v-if="i==length" @click="submit">提交测试</button>
-        </div>
-        <Toast :value="showToast" type="warn" is-show-mask>请选择答案</Toast>
-      </section>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -63,8 +65,7 @@ export default {
       illustrate: '',
       paperItems: [],
       i: 0,
-      showToast: false,
-      length: 0
+      showToast: false
     }
   },
   created: function () {
@@ -76,12 +77,19 @@ export default {
         var result = response.data.returnObject;
         self.illustrate = result.illustrate || '通过回答这部分的问题可以准确分析皮肤的含水状况和出油程度。别让自己的那些成见或其他的想法影响你的回答，只要根据实际情况来选择就对了。';
         self.paperItems = result.paperItems;
-        self.length = self.paperItems.length;
+      }).catch((error) => {
+        self.axios.get('/static/detail.json').then(res => {
+          self.illustrate = res.data.data.desc;
+          self.paperItems = res.data.data.paperItems;
+        })
       });
 
   },
 
   computed: {
+    length() {
+      return this.paperItems.length;
+    },
     percent() {
       return (this.i / this.length) * 100;
     }
@@ -90,7 +98,7 @@ export default {
     start: function () {
       this.i++;
     },
-    overview(){
+    overview() {
       this.$router.push('distribution');
     },
     prev() {
@@ -116,9 +124,9 @@ export default {
         }, 1500);
       }
       else {
-        const result = String.fromCharCode(Math.floor(Math.random()*4+65));//随机生成ABCD
-        this.$store.commit('setTestResult',result);
-        this.$router.push({ name: 'result'});
+        const result = String.fromCharCode(Math.floor(Math.random() * 4 + 65));//随机生成ABCD
+        this.$store.commit('setTestResult', result);
+        this.$router.push({ name: 'result' });
       }
     }
   }
@@ -126,6 +134,14 @@ export default {
 </script>
 
 <style lang = "less">
+.bounce-in-enter {
+  transform: scale(0);
+}
+
+.bounce-in-enter-active {
+  transition: transform .4s;
+}
+
 .test-home {
   padding: 0 4% 4%;
 }

@@ -71,7 +71,7 @@ export default {
         })
     },
     beforeRouteLeave(to, from, next) {
-        this.$store.commit('showRight',false);
+        this.$store.commit('showRight', false);
         next()
     },
     created() {
@@ -95,7 +95,7 @@ export default {
                 });
         },
         changeTab(event) {
-
+            const tSF = 'transform' in document.createElement('div').style ? 'transform' : '-webkit-transform';
             const tabs = document.querySelectorAll('.tab-item');
             let tabsLength = tabs.length;
             const panels = document.querySelector('.tab-content').children;
@@ -107,17 +107,21 @@ export default {
             tabs[j].classList.remove('active');
 
             if (i == 1) {
-
-                panels[j].style.transform = panels[j].style.webkitTransform = `translateX(-100%)`;
-                panels[i].style.transform = panels[i].style.webkitTransform = `translateX(0)`;
+                panels[j].style[tSF] = `translateX(-100%)`;
+                panels[i].style[tSF] = `translateX(0)`;
+                // panels[j].style.transform = panels[j].style.webkitTransform = `translateX(-100%)`;
+                // panels[i].style.transform = panels[i].style.webkitTransform = `translateX(0)`;
             }
             else {
-                panels[j].style.transform = panels[j].style.webkitTransform = `translateX(100%)`;
-                panels[i].style.transform = panels[i].style.webkitTransform = `translateX(0)`;
+                // panels[j].style.transform = panels[j].style.webkitTransform = `translateX(100%)`;
+                // panels[i].style.transform = panels[i].style.webkitTransform = `translateX(0)`;
+                panels[j].style[tSF] = `translateX(100%)`;
+                panels[i].style[tSF] = `translateX(0)`;
             }
 
             let l = event.currentTarget.offsetLeft;
-            underline.style.transform = underline.style.webkitTransform = `translateX(${l}px)`;
+            // underline.style.transform = underline.style.webkitTransform = `translateX(${l}px)`;
+            underline.style[tSF] = `translateX(${l}px)`;
         },
         cartNum() {
             var c = document.querySelector('.cart-count');
@@ -127,7 +131,7 @@ export default {
             }, 1500);
         },
         goDetail(product) {
-            this.$router.push({ name: 'productDetail', params: { product} })
+            this.$router.push({ name: 'productDetail', params: { product } })
         },
         goBalance() {
             if (this.cartCount)
@@ -136,35 +140,40 @@ export default {
         }
     },
     mounted() {
-        const tabCon = document.querySelector(".tab-content"),
-            tabItems = document.querySelectorAll(".tab-item");
-        if (this.result == 'D') {
-            tabCon.querySelector('.dry').style.transform = tabCon.querySelector('.dry').style.webkitTransform = 'translateX(0)'
-        }
-        var startX, moveX, differ;
-        tabCon.addEventListener('touchstart', function (e) {
-            var touch = e.targetTouches[0];
-            startX = touch.pageX;
-        }, false);
-        tabCon.addEventListener('touchmove', function (e) {
-            var touch = e.targetTouches[0];
-            moveX = touch.pageX;
-            differ = moveX - startX;
-        }, false);
-        tabCon.addEventListener('touchend', function (e) {
-            //left-->right
-            if (differ > 0 && differ > 50) {
-                if (tabItems[1].classList.contains('active')) {
-                    tabItems[0].click();
-                }
+        setTimeout(() => {
+
+            const tabCon = document.querySelector(".tab-content"),
+                tabItems = document.querySelectorAll(".tab-item");
+            console.log(tabCon);
+            console.log(tabItems)
+            if (this.result == 'D') {
+                tabCon.querySelector('.dry').style.transform = tabCon.querySelector('.dry').style.webkitTransform = 'translateX(0)'
             }
-            //right-->left
-            else if (differ < 0 && differ < -50) {
-                if (tabItems[0].classList.contains('active')) {
-                    tabItems[1].click();
+            var startX, moveX, differ;
+            tabCon.addEventListener('touchstart', function (e) {
+                var touch = e.targetTouches[0];
+                startX = touch.pageX;
+            }, false);
+            tabCon.addEventListener('touchmove', function (e) {
+                var touch = e.targetTouches[0];
+                moveX = touch.pageX;
+                differ = moveX - startX;
+            }, false);
+            tabCon.addEventListener('touchend', function (e) {
+                //left-->right
+                if (differ > 0 && differ > 50) {
+                    if (tabItems[1].classList.contains('active')) {
+                        tabItems[0].click();
+                    }
                 }
-            }
-        }, false);
+                //right-->left
+                else if (differ < 0 && differ < -50) {
+                    if (tabItems[0].classList.contains('active')) {
+                        tabItems[1].click();
+                    }
+                }
+            }, false);
+        }, 500)
     }
 }
 </script>
