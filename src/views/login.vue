@@ -5,7 +5,7 @@
                 <div class="bg-head"></div>
                 <p class="username">{{username}}</p>
             </div>
-            <form class="login-form" autocomplete="off">
+            <form class="login-form" autocomplete="off" @focus="scrollIntoView" ref="loginForm">
                 <div class="input-group" :class="{'is-danger':errors.has('用户名')}">
                     <label for="login-username">
                         <span class="fa fa-user-o"></span>
@@ -100,6 +100,9 @@ export default {
         }
     },
     methods: {
+        scrollIntoView(){
+            this.$refs.loginForm.scrollIntoView()
+        },
         login: function () {
             var vm = this;
             if (!this.username) return;
