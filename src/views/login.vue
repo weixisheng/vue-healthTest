@@ -5,7 +5,7 @@
                 <div class="bg-head"></div>
                 <p class="username">{{username}}</p>
             </div>
-            <form class="login-form" autocomplete="off" @focus="scrollIntoView" ref="loginForm">
+            <form class="login-form" autocomplete="off">
                 <div class="input-group" :class="{'is-danger':errors.has('用户名')}">
                     <label for="login-username">
                         <span class="fa fa-user-o"></span>
@@ -18,7 +18,7 @@
                     <label for="login-password">
                         <span class="fa fa-unlock-alt"></span>
                     </label>
-                    <input type="password" name="密码" v-validate="'required'" class="login-password" placeholder="请输入密码" v-model="password" id="login-password" v-on:keyup.enter="login" ref="loginpwd">
+                    <input type="password" name="密码" v-validate="'required'" class="login-password" placeholder="请输入密码" v-model="password" id="login-password" v-on:keyup.enter="login" ref="loginpwd" @focus="scrollIntoView">
                 </div>
                 <p v-show="errors.has('密码')" class="v-red v-fz-12">{{errors.first('密码')}}</p>
             </form>
@@ -101,7 +101,7 @@ export default {
     },
     methods: {
         scrollIntoView(){
-            this.$refs.loginForm.scrollIntoView()
+            this.$refs.loginpwd.scrollIntoView()
         },
         login: function () {
             var vm = this;

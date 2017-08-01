@@ -23,7 +23,7 @@
         <div v-html="detailInfo.content"></div>
       </main>
     </article>
-
+  
     <article class="related-container" v-else>
       <h2 class="tips-header">这条资讯跑了，看看其他的吧...</h2>
       <section v-for="(item,index) in otherInfo" :key="index">
@@ -64,7 +64,7 @@ export default {
       detailInfo: {},
       otherInfo: [],
       openIndex: -1,
-      showTop:false
+      showTop: false
     }
   },
   created() {
@@ -72,19 +72,20 @@ export default {
     this.$store.commit('setPageTitle', '资讯详情');
     this.getNewsDetail(this.$route.params.hash);
   },
-  computed:{
-     
+  computed: {
+
   },
-  mounted(){
-      const topWrapper = this.$refs.top;
-      topWrapper.addEventListener('scroll',throttle(()=>{
-        if(topWrapper.scrollTop>500) this.showTop = true;
-        else this.showTop = false;
-      },500),false)
+  mounted() {
+    const topWrapper = this.$refs.top;
+    topWrapper.addEventListener('scroll', throttle(() => {
+      if (topWrapper.scrollTop > 500) this.showTop = true;
+      else this.showTop = false;
+    }, 500), false)
   },
   methods: {
     async getNewsDetail(hash) {
       let vm = this;
+      this.$store.commit('updateLoading', { isLoading: true })
       let res = await this.axios.get(`/toutiaoAPI/i${hash}/info/`);
       this.status = res.data.success;
       if (this.status) {
@@ -94,6 +95,7 @@ export default {
             e.style.width = '100%';
           })
         })
+        this.$store.commit('updateLoading', { isLoading: false })
       }
       else {
         this.axios.get(`https://m.toutiao.com/related/common/${hash}/`, {
@@ -111,6 +113,7 @@ export default {
           }
         }).then(res => {
           vm.otherInfo = res.data.data.related_article;
+          this.$store.commit('updateLoading', { isLoading: false })
         })
       }
     },

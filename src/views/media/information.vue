@@ -114,12 +114,14 @@ export default {
                         vm.$store.commit('updateLoading', { isLoading: false })
                     })
                 }).catch(() => {
-                    vm.news = [{
-                        title: '这是错误返回.....', image_list: [], media_name: 'hishion', comment_count: 0,
-                        datetime: '2017-01-01 00:00', image_url: '/static/news.png', article_url: ''
-                    }]
-                    vm.$store.commit('updateLoading', { isLoading: false })
-
+                    vm.axios.get('/static/information.json').then(res => {
+                        vm.news = res.data.data;
+                        vm.$nextTick(function () {
+                            vm.myscroll.refresh();
+                            vm.$store.commit('updateLoading', { isLoading: false })
+                        })
+                    })
+                    
                 })
         },
         getImgPath(img1, video, img2) {
@@ -143,21 +145,21 @@ export default {
             return `${min}:${sec}`;
         },
         showDetail(item) {
-            if(!item.video_duration){
-                 this.$router.push({
-                name: 'informationDetail',
-                query: {
-                    id: item.group_id
-                },
-                params: {
-                    hash: item.item_id,
-                    time: item.datetime
-                }
-            })
+            if (!item.video_duration) {
+                this.$router.push({
+                    name: 'informationDetail',
+                    query: {
+                        id: item.group_id
+                    },
+                    params: {
+                        hash: item.item_id,
+                        time: item.datetime
+                    }
+                })
             }
-           else{
-            go(item.url, this.$router);
-           }
+            else {
+                go(item.url, this.$router);
+            }
         }
     }
 }
