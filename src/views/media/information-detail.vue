@@ -47,11 +47,14 @@
         </div>
       </section>
     </article>
-    <footer @click="goTop" v-show="showTop">
-      <div class="top-icon">
-        <span class="top-text">回到顶部</span>
-      </div>
-    </footer>
+    <transition name="rotate">
+      <footer @click="goTop" v-show="showTop">
+        <div class="top-icon">
+          <span class="top-text">回到顶部</span>
+        </div>
+      </footer>
+    </transition>
+  
   </div>
 </template>
 <script>
@@ -262,7 +265,7 @@ footer {
       margin: 5px 0;
       .related-title {
         position: relative;
-        
+
         line-height: 1.2;
         font-size: 18px;
         font-weight: normal;
@@ -328,5 +331,18 @@ footer {
       transform: scaleY(.5);
     }
   }
+}
+
+.rotate-leave {
+  transform: translateX(100px);
+}
+
+.rotate-enter {
+  transform: rotate(1turn);
+}
+
+.rotate-enter-active,
+.rotate-leave-active {
+  transition: all .4s;
 }
 </style>
