@@ -58,8 +58,8 @@ export default {
   },
   data() {
     return {
-      add1: [],
-      add2: '',
+      add1: ["440000", "440100", "440106"],
+      add2: '珠江新城',
       addressData: ChinaAddressData,
       list: [],
       allCheck: true,
