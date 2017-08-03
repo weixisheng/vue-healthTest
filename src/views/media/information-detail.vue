@@ -28,7 +28,7 @@
       <h2 class="tips-header">这条资讯跑了，看看其他的吧...</h2>
       <section v-for="(item,index) in otherInfo" :key="index">
         <header class="related-header" @click="toggleCollapse(index)" :class="openIndex==index?'open':''">
-          <h3 class="related-title">{{item.title}}</h3>
+          <h3 class="related-title ellipsis2">{{item.title}}</h3>
           <span class="collapse-arrow"></span>
         </header>
         <div class="related-abstract" v-show="openIndex==index">{{item.abstract}}</div>
@@ -261,12 +261,8 @@ footer {
       align-items: center;
       margin: 5px 0;
       .related-title {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
         position: relative;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        
         line-height: 1.2;
         font-size: 18px;
         font-weight: normal;
@@ -296,7 +292,6 @@ footer {
     }
     .img-list {
       display: flex;
-      list-style: none;
       li {
         margin: 0 5px;
         img {

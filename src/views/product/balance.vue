@@ -12,7 +12,7 @@
       <ul class="cart-list">
         <li v-for="(item,index) in list" :key="index" class="cart-item flex">
           <div class="cart-check flex">
-            <input type="checkbox" name="cart-item" checked @change="countCheck($event,item)">
+            <input type="checkbox" name="cart-item" :checked="item.checked" @change="countCheck($event,item)">
           </div>
           <div class="cart-img">
             <img :src="item.appPhotoUrl" :alt="item.productFullName">
@@ -35,11 +35,11 @@
       </div>
       <div class="count-all">
         合计：
-        <span>￥{{total.sum}}</span>
+        <span>￥{{total().sum}}</span>
       </div>
       <div class="balance-btn" @click="balance">
         <button>结算
-          <span>({{total.num}})</span>
+          <span>({{total().num}})</span>
         </button>
       </div>
     </footer>
@@ -72,19 +72,6 @@ export default {
   computed: {
     address() {
       return this.getAddressName(this.add1) + ' ' + this.add2;
-    },
-    total() {
-      let sum = 0, num = 0;
-      // this.list = Object.values(this.cartList);
-      this.list.forEach(e => {
-
-        if (e.checked) {
-          sum += e.count * e.productPrice;
-          num += e.count;
-        }
-      })
-      this.$store.commit('setCartCount', num);
-      return { sum, num };
     }
   },
   beforeRouteEnter(from, to, next) {
@@ -98,10 +85,24 @@ export default {
   created() {
     this.$store.commit('setPageTitle', '结算');
     this.$store.commit('showLeft', true);
+    this.total();
   },
   methods: {
     getAddressName(value) {
       return value2name(this.add1, this.addressData);
+    },
+    total(){
+       let sum = 0, num = 0;
+      // this.list = Object.values(this.cartList);
+      this.list.forEach(e => {
+
+        if (e.checked) {
+          sum += e.count * e.productPrice;
+          num += e.count;
+        }
+      })
+      this.$store.commit('setCartCount', num);
+      return { sum, num };
     },
     countCheck(e, item) {
       var ct = e.target;
@@ -120,15 +121,19 @@ export default {
     },
     checkAll() {
       this.allCheck = !this.allCheck;
-      [...document.querySelector('.cart-list').querySelectorAll('input')].forEach(e => {
+      // [...document.querySelector('.cart-list').querySelectorAll('input')].forEach(e => {
+      //   e.checked = this.allCheck;
+      // })
+      this.list.forEach(e=>{
         e.checked = this.allCheck;
       })
-      if (!this.allCheck) {
-        this.total.sum = 0;
-      }
-      else {
-        this.list = Object.values(this.$store.state.cartList)
-      }
+      // if (!this.allCheck) {
+      //   this.total.sum = 0;
+      //   this.total.num = 0;
+      // }
+      // else {
+      //   this.list = Object.values(this.$store.state.cartList)
+      // }
 
     },
     reCalc(detail, n) {
@@ -141,7 +146,7 @@ export default {
         this.alertTitle = '提示'
         this.alertContent = '地址不能为空'
       }
-      else if (!this.total.sum || !this.total.num) {
+      else if (!this.total().sum || !this.total().num) {
         this.alertTitle = '提示'
         this.alertContent = '没有可结算商品'
       }
