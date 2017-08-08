@@ -14,21 +14,21 @@
       <main>
         <ul>
           <li>
-            <span>姓&emsp;&emsp;名：</span>
+            <span>姓&emsp;&emsp;名:</span>
             <span>张三</span>
           </li>
           <li>
-            <span>电&emsp;&emsp;话：</span>
+            <span>电&emsp;&emsp;话:</span>
             <span>13544445555</span>
           </li>
           <li>
-            <span>微&emsp;&emsp;信：</span>
+            <span>微&emsp;&emsp;信:</span>
             <span v-if="wechat" class="ellipsis" style="display: inline-block;width: 5.5rem;vertical-align: middle;">{{wechat}}</span>
             <span v-else class="v-red">请添加您的微信号</span>
             <span class="fa fa-pencil-square-o v-red v-fz-22" style="vertical-align: middle" @click="toggleModal"></span>
           </li>
           <li>
-            <span>店铺地址：</span>
+            <span>店铺地址:</span>
             <span>广州市天河区珠江新城无限极中心1506</span>
           </li>
         </ul>
@@ -343,7 +343,7 @@ input[type=file] {
         span {
           display: inline-block;
           vertical-align: middle;
-          padding: 2px 10px;
+          padding: 0 6px;
           border-radius: 10px;
           background: rgba(255, 51, 51, 1);
           color: #fff;
