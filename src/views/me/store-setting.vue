@@ -25,7 +25,7 @@
             <span>微&emsp;&emsp;信：</span>
             <span v-if="wechat" class="ellipsis" style="display: inline-block;width: 5.5rem;vertical-align: middle;">{{wechat}}</span>
             <span v-else class="v-red">请添加您的微信号</span>
-            <span class="fa fa-pencil-square-o v-red v-fz-22" style="vertical-align: middle"></span>
+            <span class="fa fa-pencil-square-o v-red v-fz-22" style="vertical-align: middle" @click="toggleModal"></span>
           </li>
           <li>
             <span>店铺地址：</span>
@@ -36,27 +36,33 @@
     </section>
     <section class="">
       <ul class="gallery f-wrap just-between">
-        <li>
+        <li class="list-item">
+          <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
           <p>门面全景</p>
         </li>
-        <li>
+        <li class="list-item">
+          <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
           <p>门头LOGO近景</p>
         </li>
-        <li>
+        <li class="list-item">
+          <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
           <p>营业区--全景</p>
         </li>
-        <li>
+        <li class="list-item">
+          <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
           <p>门面全景</p>
         </li>
-        <li>
+        <li class="list-item">
+          <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
           <p>门头LOGO近景</p>
         </li>
-        <li>
+        <li class="list-item">
+          <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
           <p>营业区--全景</p>
         </li>
@@ -64,9 +70,9 @@
     </section>
     <section>
       <ul class="information-list">
-        <li class="flex">
+        <li class="list-item flex" v-for="n in 3" :key="n">
           <div class="img-cover">
-            <img src="/static/1.jpg" alt="">
+            <img src="/static/u199.png" alt="">
           </div>
           <div class="information-head flex just-between">
             <h3>
@@ -74,88 +80,117 @@
             <p>2016年9月3日 21：30</p>
           </div>
         </li>
-        <li class="flex">
-          <div class="img-cover">
-            <img src="/static/1.jpg" alt="">
-          </div>
-          <div class="information-head flex just-between">
-            <h3>
-              <span>热门</span>2016年希望之旅：畅游曼谷 天使之城“泰”惊艳</h3>
-            <p>2016年9月3日 21：30</p>
-          </div>
-        </li>
-        <li class="flex">
-          <div class="img-cover">
-            <img src="/static/1.jpg" alt="">
-          </div>
-          <div class="information-head flex just-between">
-            <h3>
-              <span>热门</span>2016年希望之旅：畅游曼谷 天使之城“泰”惊艳</h3>
-            <p>2016年9月3日 21：30</p>
-          </div>
-        </li>
+  
       </ul>
       <router-link :to="{path:'/information'}" class="text-center more-information" tag='div'>更多资讯</router-link>
     </section>
-    <section>
-      <ul class="activity-list" v-for="item in activity" :key="item.id">
-        <li class="flex" v-for="(el,index) in item.detail" :key="el.id">
-          <div class="img-cover">
-            <img src="/static/1.jpg" alt="" class="hv-cen">
-          </div>
-          <div class="activity-info">
-            <h2>{{item.name}}</h2>
-            <div>
-              <p>主题：{{el.title}}</p>
-              <p>时间：{{el.time}}</p>
-              <p>地点：{{el.place}}</p>
-              <p>报名人数：{{el.people}}</p>
+    <section style="padding: .25rem .25rem .5rem;">
+      <div class="activity-list swiper-container" v-for="item in activity" :key="item.id">
+        <div v-if="item.detail.length" class="swiper-wrapper">
+          <div class="list-item flex swiper-slide" v-for="(el,index) in item.detail" :key="el.id">
+            <div class="img-cover">
+              <img :src="item.img" alt="" class="hv-cen">
+            </div>
+            <div class="activity-info">
+              <h2>{{item.name}}</h2>
+              <div>
+                <p class="ellipsis">主题：{{el.title}}</p>
+                <p class="ellipsis">时间：{{el.time}}</p>
+                <p class="ellipsis">地点：{{el.place}}</p>
+                <p class="ellipsis">报名人数：{{el.people}}</p>
+              </div>
             </div>
           </div>
-        </li>
-      </ul>
+        </div>
+        <div v-else class="swiper-wrapper">
+          <div class="list-item flex swiper-slide">
+            <div class="img-cover">
+              <img :src="item.img" alt="" class="hv-cen">
+            </div>
+            <div class="activity-info">
+              <h2>{{item.name}}</h2>
+              <div class="text-center">
+                暂无活动信息
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
     </section>
     <section>
       <ul class="product-list f-wrap just-around text-center">
         <li>
-          <div><img src="/static/1.jpg" alt=""></div>
+          <div class="img-cover">
+            <img src="/static/u213.png" alt="">
+          </div>
           <p>无限极健康产品</p>
         </li>
         <li>
-          <div><img src="/static/1.jpg" alt=""></div>
+          <div class="img-cover">
+            <img src="/static/u221.png" alt="">
+          </div>
           <p>心维雅护肤品</p>
         </li>
         <li>
-          <div><img src="/static/1.jpg" alt=""></div>
+          <div class="img-cover">
+            <img src="/static/u223.png" alt="">
+          </div>
           <p>萃雅护肤品</p>
         </li>
         <li>
-          <div><img src="/static/1.jpg" alt=""></div>
+          <div class="img-cover">
+            <img src="/static/u225.png" alt="">
+          </div>
           <p>享优乐养生用品</p>
         </li>
         <li>
-          <div><img src="/static/1.jpg" alt=""></div>
+          <div class="img-cover">
+            <img src="/static/u233.png" alt="">
+          </div>
           <p>帮得佳家居用品</p>
         </li>
         <li>
-          <div><img src="/static/1.jpg" alt=""></div>
+          <div class="img-cover">
+            <img src="/static/u235.png" alt="">
+          </div>
           <p>植雅个人护理品</p>
         </li>
       </ul>
     </section>
+    <modal v-model="md">
+      <h3 slot="header">添加微信号</h3>
+      <form action="" class="wechat-form">
+        <label for="" class="v-fz-16">请输入您的微信号</label>
+        <input type="text" v-model="newWechat" placeholder="请输入您的微信号...">
+      </form>
+      <div slot="footer" class="wechat-btns flex just-around">
+        <button class="btn v-fz-16" @click="toggleModal">取消</button>
+        <button class="btn v-fz-16" @click="confirmWechat">确认</button>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
 import { Rater } from 'vux'
+import Modal from 'components/modal'
+import '../../plugins/swiper.min.js'
+import '../../plugins/swiper.min.css'
 export default {
   name: "storeSetting",
-  components: { Rater },
+  components: { Rater, Modal },
   data() {
     return {
       rating: 0,
-      wechat: '656656565653',
-      activity: []
+      wechat: '',
+      newWechat: '',
+      activity: [],
+      md: false
     }
+  },
+  computed: {
+
   },
   created() {
     this.$store.commit('setPageTitle', '店铺设置')
@@ -164,19 +199,36 @@ export default {
   },
   methods: {
     showImg(event) {
-      let file = this.$refs.head.files[0]
+      let file = event.target.files[0]
       if (!/image\/\w+/.test(file.type)) {
         alert('请上传图片');
         return;
       }
       let img = URL.createObjectURL(file)
-      const head = document.querySelector('.head')
-      head.querySelector('p').style.display = 'none';
-      head.style.backgroundImage = `url(${img})`
+      const head = event.currentTarget.parentElement;
+      if(head.classList.contains('head'))
+        head.querySelector('p').style.display = 'none';
+      else 
+        head.querySelector('img').style.display = 'none';  
+      head.style.backgroundImage = `url(${img})`;
+    },
+    toggleModal() {
+      this.md = !this.md;
+    },
+    confirmWechat() {
+      this.wechat = this.newWechat;
+      this.toggleModal();
     },
     getActivity() {
       this.axios.get('/static/activity.json').then(res => {
         this.activity = res.data.data;
+      }).then(() => {
+        new Swiper('.swiper-container', {
+          loop: false,
+          prevButton: '.swiper-button-prev',
+          nextButton: '.swiper-button-next'
+        });
+
       })
     }
   }
@@ -186,6 +238,11 @@ export default {
 section {
   background-color: #fff;
   margin-bottom: 10px;
+}
+
+input[type=file] {
+  opacity: 0;
+  z-index: 20;
 }
 
 .basic-info {
@@ -201,8 +258,6 @@ section {
       background-color: #ccc;
       background-size: cover;
       input {
-        opacity: 0;
-        z-index: 20;
         width: 5rem;
         height: 5rem;
       }
@@ -239,13 +294,20 @@ section {
 .gallery {
   padding: 0 10px;
   width: 100%;
-  li {
+  .list-item {
     position: relative;
     overflow: hidden;
     margin: 10px 0;
     width: 30%;
     height: 4rem;
     border: 1px dashed #333;
+    background-size: cover;
+    background-position: center;
+    input {
+      width: 100%;
+      height: 100%;
+      vertical-align: 5px;
+    }
     img {
       position: absolute;
       width: 40px;
@@ -267,7 +329,7 @@ section {
 }
 
 .information-list {
-  li {
+  .list-item {
     padding: 8px;
     margin-bottom: 5px;
     .img-cover {
@@ -299,24 +361,25 @@ section {
 .more-information {
   position: relative;
   padding-bottom: 10px;
-  color: #ccc;
+  color: #0092db;
+  font-size: 16px;
   &::before {
     position: absolute;
     content: '';
-    right: 35%;
-    width: 15px;
-    height: 15px;
-    border-top: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    transform: skewX(0) rotate(45deg);
-    transform-origin: left;
+    right: 6.5rem;
+    top: .3rem;
+    width: 10px;
+    height: 10px;
+    border-top: 1px solid #0092db;
+    border-right: 1px solid #0092db;
+    transform: rotate(45deg);
   }
 }
 
 .activity-list {
   border: 1px dashed #ccc;
   color: #333;
-  li {
+  .list-item {
     padding: 10px 2rem;
     .img-cover {
       position: relative;
@@ -326,6 +389,7 @@ section {
     }
     .activity-info {
       flex: 1;
+      width: 1%;
       h2 {
         font-size: 14px;
         font-weight: normal;
@@ -335,13 +399,59 @@ section {
       }
     }
   }
+  .swiper-button-next,
+  .swiper-button-prev {
+    transform: scale(.5);
+    &.swiper-button-disabled {
+      opacity: 0;
+    }
+  }
 }
-.product-list{
+
+.product-list {
   font-size: 13px;
   color: #333;
-  li{
-    width:30%;
+  li {
+    width: 30%;
     margin: .8rem 0;
+    .img-cover {
+      height: 5rem;
+      img {
+        height: 100%;
+      }
+    }
+  }
+}
+
+.wechat-form {
+  margin: 0 1rem;
+  input {
+    border: 1px solid #ccc;
+    width: 95%;
+    font-size: 14px;
+    padding: .5rem;
+    border-radius: 5px;
+    &:focus {
+      border-color: #1AAD19;
+    }
+  }
+}
+
+.wechat-btns {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #ccc;
+  .btn {
+    width: 50%;
+    padding: .5rem 0;
+    &:first-child {
+      border-right: 1px solid #ccc;
+    }
+    &:active {
+      background: #ccc;
+    }
   }
 }
 </style>

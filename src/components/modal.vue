@@ -12,6 +12,7 @@
                 </header>
                 <main>
                     <slot name='main'></slot>
+                    <slot></slot>
                 </main>
                 <footer>
                     <slot name='footer'></slot>
@@ -72,12 +73,12 @@ export default {
 
 .v-modal {
     position: fixed;
-    width: 14rem;
+    width: 16rem;
     min-height: 12rem;
     left: 50%;
     top: 50%;
     margin-top: -6rem;
-    margin-left: -7rem;
+    margin-left: -8rem;
     background: #fff;
     border-radius: 5px;
     background: #fff;

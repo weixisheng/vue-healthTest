@@ -2,6 +2,7 @@
   "data": [{
       "id": 101,
       "name": "健康有约",
+      "img":"/static/u211.png",
       "detail": [{
           "id":1001,
           "title": "健康有约主题1",
@@ -27,6 +28,7 @@
     }, {
       "id": 102,
       "name": "美丽有约",
+      "img":"/static/u300.png",
       "detail": [{
           "id":1004,        
           "title": "美丽有约主题1",
@@ -46,7 +48,10 @@
     {
       "id": 103,
       "name": "成功有约",
-      "detail": []
+      "img":"/static/u308.png",
+      "detail": [
+        
+      ]
     }
   ]
 }
