@@ -48,6 +48,11 @@ const router = new Router({
     path: '/product/balance',
     name: 'balance',
     component: require('../views/product/balance')  
+  },
+  {
+    path:'/me/store/setting',
+    name:'storeSetting',
+    component:require('../views/me/store-setting')
   },{
     path: '/me',
     name: 'me',

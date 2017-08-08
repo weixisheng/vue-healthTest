@@ -95,7 +95,7 @@ export default {
                 ],
                 [
                     { iconClass: 'fa fa-credit-card v-red', label: '钱包', link: '/me/money' },
-                    { iconClass: 'fa fa-credit-card-alt v-green', label: '卡包' }
+                    { iconClass: 'fa fa-credit-card-alt v-green', label: '店铺',link:'/me/store/setting' }
                 ],
                 [
                     { iconClass: 'fa fa-smile-o v-yellow v-fz-18', label: '表情' }
