@@ -4,11 +4,11 @@
       <aside>
         <div class="head">
           <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)" ref="head">
-          <p class="hv-cen">点击上传你
+          <p class="hv-cen text-center">点击上传你
             <br>的个人头像</p>
         </div>
-        <div class="rating">
-          <rater v-model="rating" :max="5" active-color="#bc2826"></rater>
+        <div class="rating text-center">
+          <rater v-model="rating" :max="5" active-color="#bc2826" :margin="0" :font-size="20"></rater>
         </div>
       </aside>
       <main>
@@ -16,59 +16,64 @@
           <li>
             <span>姓&emsp;&emsp;名:</span>
             <span>张三</span>
+            <a class="icon fa fa-address-card v-red text-center"></a>
           </li>
           <li>
             <span>电&emsp;&emsp;话:</span>
             <span>13544445555</span>
+            <a class="icon fa fa-phone-square v-red text-center" href="tel:13544445555"></a>
           </li>
           <li>
             <span>微&emsp;&emsp;信:</span>
-            <span v-if="wechat" class="ellipsis" style="display: inline-block;width: 5.5rem;vertical-align: middle;">{{wechat}}</span>
+            <span v-if="wechat" class="ellipsis" style="display: inline-block;width: 60%;vertical-align: middle;padding-right: 2%;">{{wechat}}</span>
             <span v-else class="v-red">请添加您的微信号</span>
-            <span class="fa fa-pencil-square-o v-red v-fz-22" style="vertical-align: middle" @click="toggleModal"></span>
+            <a class="icon fa fa-pencil-square-o v-red text-center" @click="toggleModal"></a>
           </li>
           <li>
             <span>店铺地址:</span>
-            <span>广州市天河区珠江新城无限极中心1506</span>
+            <span style="display:inline-block;width:60%;vertical-align: middle;">广州市天河区珠江西路17号广晟国际大厦</span>
+            <router-link :to="{path:'/me/store/map',query:{lng:113.329257,lat:23.131119}}" class="icon fa fa-map-marker v-red text-center" style="width:20px;"></router-link>
           </li>
         </ul>
       </main>
     </section>
     <section class="">
+      <h3>店铺形象</h3>
       <ul class="gallery f-wrap just-between">
         <li class="list-item">
           <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
-          <p>门面全景</p>
+          <p class="ellipsis">门面全景</p>
         </li>
         <li class="list-item">
           <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
-          <p>门头LOGO近景</p>
+          <p class="ellipsis">门头LOGO近景</p>
         </li>
         <li class="list-item">
           <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
-          <p>营业区--全景</p>
+          <p class="ellipsis">营业区--全景</p>
         </li>
         <li class="list-item">
           <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
-          <p>门面全景</p>
+          <p class="ellipsis">门面全景</p>
         </li>
         <li class="list-item">
           <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
-          <p>门头LOGO近景</p>
+          <p class="ellipsis">门头LOGO近景</p>
         </li>
         <li class="list-item">
           <input type="file" accept="image/*" class="hv-cen" @change="showImg($event)">
           <img src="/static/plus.png" alt="">
-          <p>营业区--全景</p>
+          <p class="ellipsis">营业区--全景</p>
         </li>
       </ul>
     </section>
-    <section>
+    <section style="padding-bottom: 10px;">
+      <h3>店铺资讯</h3>
       <ul class="information-list">
         <li class="list-item flex" v-for="n in 3" :key="n">
           <div class="img-cover">
@@ -80,11 +85,11 @@
             <p>2016年9月3日 21：30</p>
           </div>
         </li>
-  
       </ul>
-      <router-link :to="{path:'/information'}" class="text-center more-information" tag='div'>更多资讯</router-link>
+      <router-link :to="{path:'/information'}" class="text-center more-information v-fz-16" tag='div'>更多资讯</router-link>
     </section>
     <section style="padding: .25rem .25rem .5rem;">
+      <h3>店铺活动</h3>
       <div class="activity-list swiper-container" v-for="item in activity" :key="item.id">
         <div v-if="item.detail.length" class="swiper-wrapper">
           <div class="list-item flex swiper-slide" v-for="(el,index) in item.detail" :key="el.id">
@@ -120,6 +125,7 @@
       </div>
     </section>
     <section>
+      <h3>热门产品</h3>
       <ul class="product-list f-wrap just-around text-center">
         <li>
           <div class="img-cover">
@@ -174,6 +180,7 @@
 </template>
 <script>
 import { Rater } from 'vux'
+
 import Modal from 'components/modal'
 import '../../plugins/swiper.min.js'
 import '../../plugins/swiper.min.css'
@@ -183,7 +190,7 @@ export default {
   data() {
     return {
       rating: 0,
-      wechat: '',
+      wechat: '就哈哈哈哈哈',
       newWechat: '',
       activity: [],
       md: false
@@ -194,7 +201,6 @@ export default {
   },
   created() {
     this.$store.commit('setPageTitle', '店铺设置')
-    this.$store.commit('showLeft', true)
     this.getActivity();
   },
   methods: {
@@ -206,10 +212,10 @@ export default {
       }
       let img = URL.createObjectURL(file)
       const head = event.currentTarget.parentElement;
-      if(head.classList.contains('head'))
+      if (head.classList.contains('head'))
         head.querySelector('p').style.display = 'none';
-      else 
-        head.querySelector('img').style.display = 'none';  
+      else
+        head.querySelector('img').style.display = 'none';
       head.style.backgroundImage = `url(${img})`;
     },
     toggleModal() {
@@ -238,6 +244,15 @@ export default {
 section {
   background-color: #fff;
   margin-bottom: 10px;
+  >h3{
+        color: #24bfe4;
+    font-weight: normal;
+    padding-left: .4rem;
+    font-size: 1rem;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 input[type=file] {
@@ -246,16 +261,16 @@ input[type=file] {
 }
 
 .basic-info {
-  padding: 15px 5px 5px;
+  padding: 15px 0 5px;
   aside {
-    width: 38%;
+    width: 6rem;
     .head {
       position: relative;
       width: 5rem;
       height: 5rem;
       border-radius: 50%;
       margin: 10px auto;
-      background-color: #ccc;
+      background-color: rgba(228, 223, 223, 0.8);
       background-size: cover;
       input {
         width: 5rem;
@@ -263,16 +278,17 @@ input[type=file] {
       }
       p {
         width: 100%;
-        text-align: center;
-        font-size: 14px;
-        color: #333;
+        color: #b1adad;
         padding: 5px;
+        font-size: .8rem;
       }
     }
   }
   main {
     flex: 1;
     li {
+      position: relative;
+      vertical-align: top;
       margin-top: 10px;
       font-size: 16px;
       color: #333;
@@ -281,12 +297,18 @@ input[type=file] {
           display: inline-block;
           color: #333;
           font-weight: bold;
-          text-align: justify;
+          vertical-align: top;
         }
         &:nth-child(2) {
           font-size: 14px;
         }
       }
+      .icon {
+          position: absolute;
+          right: .1rem;
+          top: .1rem;
+          font-size: 1.1rem;
+        }
     }
   }
 }
@@ -342,8 +364,8 @@ input[type=file] {
         font-size: 15px;
         span {
           display: inline-block;
-          vertical-align: middle;
-          padding: 0 6px;
+          vertical-align: 2px;
+          padding: 2px 6px 0;
           border-radius: 10px;
           background: rgba(255, 51, 51, 1);
           color: #fff;
@@ -360,19 +382,17 @@ input[type=file] {
 
 .more-information {
   position: relative;
-  padding-bottom: 10px;
   color: #0092db;
-  font-size: 16px;
   &::before {
     position: absolute;
     content: '';
-    right: 6.5rem;
-    top: .3rem;
+    right: 7rem;
+    top: 43%;
     width: 10px;
     height: 10px;
     border-top: 1px solid #0092db;
     border-right: 1px solid #0092db;
-    transform: rotate(45deg);
+    transform: rotate(45deg) translateY(-50%);
   }
 }
 
