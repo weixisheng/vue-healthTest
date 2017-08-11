@@ -191,6 +191,22 @@ input,button{
 .slide-right-leave-active {
   transform: translateX(100%);
 }
+
+.slide-up-down-enter,.slide-up-down-leave{
+    transform: translateY(100%);
+}
+.slide-up-down-enter-active,.slide-up-down-leave-active{
+    transition: transform .5s;
+}
+.slide-up-down-enter-active{
+    transform: translateY(0);
+}
+.scale-enter,.scale-leave{
+    transform: scale(0);
+}
+.scale-enter-active,.scale-leave-active{
+    transition: transform .5s;
+}
 ul{
     list-style: none;
 }

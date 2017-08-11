@@ -5,92 +5,118 @@ Vue.use(Router);
 
 /*const foo = resolve => { require.ensure(['../views/foo.vue'], () => {resolve(require('../views/foo.vue')); }); }; 
 {path:'/foo',compoennt:foo}*/
-/*const bar =resolve=>require(['../views/bar.vue'],resolve);
+/*const bar = resolve => require(['../views/bar.vue'], resolve);
 {path:'/bar',compoennt:bar}*/
+const Login = r => require.ensure([], () => r(require('../views/login')),'group-login')
+
+const Information = r => require.ensure([], () => r(require('../views/media/information')),'group-media')
+const InformationDetail = r => require.ensure([], () => r(require('../views/media/information-detail')),'group-media')
+const Music = r => require.ensure([], () => r(require('../views/media/music')),'group-media')
+const Movie = r => require.ensure([], () => r(require('../views/media/movie')),'group-media')
+const MovieDetail = r => require.ensure([], () => r(require('../views/media/movie-detail')),'group-media')
+
+const Health = r => require.ensure([], () => r(require('../views/health/main')),'group-health')
+const HealthStart = r => require.ensure([], () => r(require('../views/health/start')),'group-health')
+const HealthResult = r => require.ensure([], () => r(require('../views/health/result')),'group-health')
+const HealthDistribution = r => require.ensure([], () => r(require('../views/health/distribution')),'group-health')
+const HealthHistory = r => require.ensure([], () => r(require('../views/health/history')),'group-health')
+
+const Me  = r => require.ensure([], () => r(require('../views/me/me')),'group-me')
+const Money  = r => require.ensure([], () => r(require('../views/me/money')),'group-me')
+const Picture  = r => require.ensure([], () => r(require('../views/me/pictures')),'group-me')
+const Setting  = r => require.ensure([], () => r(require('../views/me/setting')),'group-me')
+const XSS  = r => require.ensure([], () => r(require('../views/me/xss')),'group-me')
+
+const StoreSetting  = r => require.ensure([], () => r(require('../views/me/store-setting')),'group-Store')
+const StoreMap  = r => require.ensure([], () => r(require('../views/me/store-map')),'group-Store')
+
+const ProductBalance  = r => require.ensure([], () => r(require('../views/product/balance')),'group-product')
+const ProductDetail  = r => require.ensure([], () => r(require('../views/product/detail')),'group-product')
+
 const router = new Router({
   routes: [{
       path: '/login',
       name: 'login',
-      component: require('../views/login')
+      component: Login
     }, {
       path: '/information',
       name: 'information',
-      component: require('../views/media/information')
+      component: Information
     }, {
       path: '/information/detail',
       name: 'informationDetail',
-      component: require('../views/media/information-detail')
+      component: InformationDetail
     }, {
       path: '/health',
-      name: 'main',
-      component: require('../views/health/main')
+      name: 'health',
+      component: Health
     }, {
       path: '/health/start',
       name: 'start',
-      component: require('../views/health/start')
+      component: HealthStart
     }, {
       path: '/health/history',
       name: 'history',
-      component: require('../views/health/history')
+      component: HealthHistory
     }, {
       path: '/health/result',
       name: 'result',
-      component: require('../views/health/result')
+      component: HealthResult
     }, {
       path: '/health/distribution',
       name: 'distribution',
-      component: require('../views/health/distribution')
+      component: HealthDistribution
     }, {
       path: '/product/detail',
       name: 'productDetail',
-      component: require('../views/product/detail')
+      component: ProductDetail
     }, {
       path: '/product/balance',
       name: 'balance',
-      component: require('../views/product/balance')
+      component: ProductBalance
     },{
       path: '/me/store/setting',
       name: 'storeSetting',
-      component: require('../views/me/store-setting')
+      component: StoreSetting
     }, {
       path: '/me/store/map',
       name: 'storeMap',
-      component: require('../views/me/store-map')
+      component: StoreMap
     }, {
       path: '/me',
       name: 'me',
-      component: require('../views/me/me'),
+      component: Me,
       meta: {
         requireAuth: true
       }
     }, {
       path: '/me/money',
       name: 'money',
-      component: require('../views/me/money')
+      component: Money
     }, {
       path: '/me/pictures',
       name: 'pictures',
-      component: require('../views/me/pictures')
+      component: Picture
     }, {
       path: '/me/setting',
       name: 'setting',
-      component: require('../views/me/setting')
+      component: Setting
     }, {
       path: '/me/xss',
       name: 'xss',
-      component: require('../views/me/xss')
+      component: XSS
     }, {
       path: '/music',
       name: 'music',
-      component: require('../views/media/music')
+      component: Music
     }, {
       path: '/movie',
       name: 'movie',
-      component: require('../views/media/movie')
+      component: Movie
     }, {
       path: '/movie/detail',
       name: 'movieDetail',
-      component: require('../views/media/movie-detail')
+      component: MovieDetail
     }, {
       path: '*',
       redirect: '/login'

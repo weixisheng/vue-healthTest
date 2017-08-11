@@ -2,10 +2,10 @@
     <div id='music-wrap'>
         <!--songList-->
         <div class="song-list">
-            <simple-cell v-for="(item,index) in songList" :data-hash="item.hash" :key='index' :data-index='index'  @click.native="playSong">
+            <simple-cell v-for="(item,index) in songList" :data-hash="item.hash" :key='index' :data-index='index' @click.native="playSong">
                 <span slot="icon" :class="[index<3?`index-${index+1}`:'']">{{index+1}}</span>
                 <label slot="label">{{item.title}}</label>
-                <span class="play-status fa fa-music m-blue hidden" slot="second"></span>
+                <span class="play-status fa fa-music m-blue" slot="second" v-if="index==playIndex"></span>
             </simple-cell>
             <audio :src="audio.songUrl" autoplay @timeupdate="change" @ended="endHandle" id="audio-play"></audio>
             <div class="audio-panel" v-if="audio.songUrl">
@@ -21,56 +21,56 @@
         </div>
     
         <!--player-->
-        <div class="audio-bg" :style="{'background-image': 'url('+audio.imgUrl.replace(/\/100\//,'/400/')+')'}"></div>
-        <div class="audio-player">
-            <div class="aduio-header">
-                <div class="audio-collapse" @click="togglePlayer">
-                    <span class='fa fa-angle-double-down'></span>
-                </div>
-                <div class="audio-info">
-                    <p class="audio-title">{{audio.title}}</p>
-                    <p class="audio-singer v-fz-16">
-                        <span class='line'>-</span>
-                        <span>{{audio.singer}}</span>
-                        <span class="line">-</span>
-                    </p>
-                </div>
-            </div>
-            <div class="audio-body">
-                <div class="audio-head">
-                    <img :src="audio.imgUrl.replace(/\/100\//,'/400/')" class="rotating">
-                </div>
-                <div class="audio-lrc">
-                    <div class="lrc-content" :style="{'margin-top':`${lrcOffset}px`}">
-                        <p v-for="(item,index) in songLrc" :class="{'isCurrentLrc':item.seconds>=audio.currentLength,'disCurrentLrc':item.seconds<audio.currentLength}" :key="index">
-                            {{item.lrcContent}}
+                <div class="audio-bg" :style="{'background-image': 'url('+audio.imgUrl.replace(/\/100\//,'/400/')+')'}"></div>
+                <div class="audio-player">
+                    <div class="aduio-header">
+                        <div class="audio-collapse text-center" @click="togglePlayer">
+                            <span class='fa fa-angle-double-down'></span>
+                        </div>
+                        <div class="audio-info text-center">
+                            <p class="audio-title">{{audio.title}}</p>
+                            <p class="audio-singer v-fz-16">
+                                <span class='line'>-</span>
+                                <span>{{audio.singer}}</span>
+                                <span class="line">-</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="audio-body">
+                        <div class="audio-head">
+                            <img :src="audio.imgUrl.replace(/\/100\//,'/400/')" class="rotating">
+                        </div>
+                        <div class="audio-lrc">
+                            <div class="lrc-content" :style="{'margin-top':`${lrcOffset}px`}">
+                                <p v-for="(item,index) in songLrc" :class="{'isCurrentLrc':item.seconds>=audio.currentLength,'disCurrentLrc':item.seconds<audio.currentLength}" :key="index">
+                                    {{item.lrcContent}}
+                                </p>
+                            </div>
+                        </div>
+    
+                    </div>
+                    <div class="audio-controls">
+                        <span>{{formatTime(audio.currentLength)}}</span>
+                        <p class='audio-progress'>
+                            <span class="progress-ball"></span>
                         </p>
+                        <span>{{formatTime(audio.songLength)}}</span>
+                        <div class="play-control flex just-center align-center">
+                            <span class="random-btn" @click="random()"></span>
+                            <span class="prev-btn" @click="prev()"></span>
+                            <span class="play-btn" @click="togglePlay()"></span>
+                            <span class="next-btn" @click="next()"></span>
+                        </div>
+                    </div>
+                    <div class="audio-footer">
+                        <canvas id="canvas"></canvas>
                     </div>
                 </div>
-    
-            </div>
-            <div class="audio-controls">
-                <span>{{formatTime(audio.currentLength)}}</span>
-                <p class='audio-progress'>
-                    <span class="progress-ball"></span>
-                </p>
-                <span>{{formatTime(audio.songLength)}}</span>
-                <div class="play-control">
-                    <span class="random-btn" @click="random()"></span>
-                    <span class="prev-btn" @click="prev()"></span>
-                    <span class="play-btn" @click="togglePlay()"></span>
-                    <span class="next-btn" @click="next()"></span>
-                </div>
-            </div>
-            <div class="audio-footer">
-                <canvas id="canvas"></canvas>
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import SimpleCell from 'components/simpleCell'
 
 export default {
@@ -82,7 +82,11 @@ export default {
             page: 1
         }
     },
+    components: {
+        SimpleCell
+    },
     computed: {
+        ...mapState(['playIndex']),
         ...mapGetters(['songList', 'audio']),
         songLrc() {
             if (this.audio.lrc) {
@@ -108,9 +112,6 @@ export default {
             }
         }
 
-    },
-    components: {
-        SimpleCell
     },
     created() {
         this.$store.commit('setPageTitle', '音乐')
@@ -167,29 +168,29 @@ export default {
             return `${m}:${s}`;
         },
         togglePlayer() {
+            let audioPlay = document.querySelector('.audio-player'),
+            audioBg = document.querySelector('.audio-bg');
+            const tSF = 'transform' in document.createElement('div').style ? 'transform' : '-webkit-transform';
             if (!this.lrcing) {
-                $('.audio-player,.audio-bg').css({ 'transform': 'translateY(0)' })
+                audioPlay.style[tSF]='translateY(0)';
+                audioBg.style[tSF]='translateY(0)';
                 this.lrcing = true;
             }
             else {
-                $('.audio-player,.audio-bg').css({ 'transform': 'translateY(100%)' })
+                audioPlay.style[tSF]='translateY(100%)';
+                audioBg.style[tSF]='translateY(100%)';
                 this.lrcing = false;
             }
         },
-         playSong(event) {
+        playSong(event) {
             var target = event.currentTarget;
             var hash = target.dataset['hash'];
             var playIndex = ~~target.dataset['index'];
             this.$store.commit('setPlayIndex', playIndex);
             this.$store.dispatch('getSong', hash);
-            
-            this.playStatus();
+
         },
-        playStatus() {
-            var index = this.$store.state.playIndex;
-            $(`.my-cell[data-index='${index}']`).find('.play-status').removeClass('hidden');
-            $(`.my-cell[data-index='${index}']`).siblings().find('.play-status').addClass('hidden');
-        },
+
         change() {
             var audioPlay = document.querySelector("#audio-play");
             var time = audioPlay.currentTime;
@@ -203,32 +204,33 @@ export default {
             this.next();
         },
         togglePlay() {
+            let playBtn = document.querySelector('.play-btn'),
+                audioPlay = document.querySelector('.audio-play');
             if (!this.playing) {
                 document.getElementById("audio-play").play();
-                $('.play-btn').removeClass('playing');
-                $(".audio-play").find('span').removeClass('fa-play').addClass('fa-pause');
+                playBtn.classList.remove('playing');
+                audioPlay.querySelector('span').classList.remove('fa-play');
+                audioPlay.querySelector('span').classList.add('fa-pause');
                 this.playing = true;
             }
             else {
                 document.getElementById("audio-play").pause();
-                $('.play-btn').addClass('playing');
-                $(".audio-play").find('span').removeClass('fa-pause').addClass('fa-play');
+                playBtn.classList.add('playing');
+                audioPlay.querySelector('span').classList.remove('fa-pause');
+                audioPlay.querySelector('span').classList.add('fa-play');
                 this.playing = false;
             }
         },
         next() {
             this.$store.dispatch('next');
-            this.playStatus();
         },
         prev() {
             this.$store.dispatch('prev');
-            this.playStatus();
         },
         random() {
             const songLength = this.songList.length;
             let r = Math.floor(Math.random() * songLength);
             this.$store.dispatch('random', r);
-            this.playStatus();
         },
         draw() {
             var audio = document.getElementById('audio-play');
@@ -274,7 +276,7 @@ export default {
                         capYPositionArray.push(value);//往帽子数组里面添加值，长度不能大于能量柱的个数
                     };
                     //设置画笔颜色，画能量柱帽子
-                    canvasContext.fillStyle =  "hsl( " + Math.round((i * 300) / meterNum) + ", 100%, 50%)";
+                    canvasContext.fillStyle = "hsl( " + Math.round((i * 300) / meterNum) + ", 100%, 50%)";
                     rectHeight = Math.max(cheight - value * 2, capHeight);
                     //能量柱过渡效果
                     if (value < capYPositionArray[i]) {
@@ -386,34 +388,32 @@ export default {
     right: 0;
     height: 100%;
     top: 0;
+    transform: translateY(100%);
     z-index: 501;
     filter: blur(5px);
     background-repeat: no-repeat;
     background-position: 50%;
-    transform: translateY(100%);
 }
 
 .audio-player {
-    transform: translateY(100%);
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
+    transform: translateY(100%);
+    transition: transform .3s;
     padding-top: 2rem;
     background: rgba(0, 0, 0, .8);
     color: #fff;
     z-index: 502;
-    transition: transform 0.5s;
     .audio-collapse {
         position: absolute;
         width: 2rem;
-        text-align: center;
     }
 }
 
 .audio-info {
-    text-align: center;
     .line {
         display: inline-block;
         transform: scaleX(3);
@@ -430,7 +430,6 @@ export default {
     border: 5px solid #aaa;
     border-radius: 50%;
     img {
-        width: 100%;
         border-radius: 50%;
     }
 }
@@ -481,9 +480,6 @@ export default {
     }
     .play-control {
         margin-top: 1rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         span {
             display: inline-block;
         }

@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     showBack: true,
     showModal: false,
     songList: [],
-    playIndex: 0,
+    playIndex: -1,
     audio: {
       songUrl: '',
       imgUrl: '/static/head.png',
