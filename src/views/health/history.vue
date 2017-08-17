@@ -15,9 +15,9 @@
 <script>
 import Vue from 'vue'
 import { Timeline, TimelineItem } from 'vux'
-import JRoll from '../../../node_modules/jroll/jroll.min'
-import Pulldown from '../../../node_modules/jroll/jroll-pulldown.min'
-import VueInfinite from '../../../node_modules/jroll/jroll-vue-infinite'
+import JRoll from 'jroll/build/jroll.min'
+import Pulldown from '../../../node_modules/jroll/build/jroll-pulldown.min.js'
+import VueInfinite from '../../../node_modules/jroll/build/jroll-vue-infinite.js'
 export default {
     name: 'history',
     components: {
