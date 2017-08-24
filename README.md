@@ -12,10 +12,18 @@
 
 ## 技术说明
 - vue2.x + Vuex + vue-router :Vue技术栈搭建基本功能模块并实现路由跳转。使用Vue实现基本页面、组件封装、混合(mixin)和指令编写。Vuex管理应用程序的状态模式，分发请求和修改state数据。vue-router创建SPA，做登录验证
+
 - webpack + Less + ES6/ES7 :webpack打包工具实现热重载(HRM)，同时合理使用ES6/ES7语言进行编码，简化代码。这里选用Less，其实无所谓Less、Sass、stylus，简单的CSS也是可以的
+
 - vee-validate + vue-lazyload + vueg:这里主要是一些插件，优化体验。vee-validate表单验证插件主要用在该WebAPP的登录注册；vue-lazyload用于图片懒加载，vueg用于转场过渡特效
+
 - Node + SQL:页面设置有登录注册，使用Node搭建简单后台服务器和MySQL交互，使之能够判断用户身份信息和注册用户信息用于登录
+
 - Vux + font-awesome:Vux主要是一些常用组件的使用，部分小图标使用  Font Awesome字体图标
+
+## vue-cli
+
+  详细介绍请查看 https://github.com/DDFE/DDFE-blog/issues/10
 
 ## Build Setup
 
