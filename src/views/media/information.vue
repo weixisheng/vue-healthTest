@@ -42,7 +42,7 @@
 </template>
 <script>
 
-import JRoll from 'jroll/build/jroll.min'
+import JRoll from 'jroll/jroll.min'
 import { go } from 'vux/src/libs/router'
 export default {
     name: 'information',
