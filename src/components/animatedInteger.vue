@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import TWEEN from 'tween.js/src/Tween'
+import TWEEN from 'tween/tween.min.js'
 
 export default {
     name: 'animatedInter',

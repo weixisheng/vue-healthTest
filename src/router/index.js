@@ -19,7 +19,6 @@ const Health = r => require.ensure([], () => r(require('../views/health/main')),
 const HealthStart = r => require.ensure([], () => r(require('../views/health/start')),'group-health')
 const HealthResult = r => require.ensure([], () => r(require('../views/health/result')),'group-health')
 const HealthDistribution = r => require.ensure([], () => r(require('../views/health/distribution')),'group-health')
-const HealthHistory = r => require.ensure([], () => r(require('../views/health/history')),'group-health')
 
 const Me  = r => require.ensure([], () => r(require('../views/me/me')),'group-me')
 const Money  = r => require.ensure([], () => r(require('../views/me/money')),'group-me')
@@ -54,10 +53,6 @@ const router = new Router({
       path: '/health/start',
       name: 'start',
       component: HealthStart
-    }, {
-      path: '/health/history',
-      name: 'history',
-      component: HealthHistory
     }, {
       path: '/health/result',
       name: 'result',
