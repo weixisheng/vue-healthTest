@@ -33,7 +33,12 @@ const ProductBalance  = r => require.ensure([], () => r(require('../views/produc
 const ProductDetail  = r => require.ensure([], () => r(require('../views/product/detail')),'group-product')
 
 const router = new Router({
-  routes: [{
+  routes: [
+    {
+      path: '/test',
+      name: 'Test',
+      component: require('../views/test')
+    },{
       path: '/login',
       name: 'login',
       component: Login
